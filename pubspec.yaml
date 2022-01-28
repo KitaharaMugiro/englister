@@ -39,6 +39,10 @@ dependencies:
   flutter_easyloading: ^3.0.3
   flutter_launcher_icons: ^0.9.2
   url_launcher: ^6.0.18
+  amplify_flutter: ^0.3.2
+  amplify_auth_cognito: ^0.3.2
+  flutter_login: ^3.1.0
+  flutter_signin_button: ^2.0.0
 
 dev_dependencies:
   flutter_test:
