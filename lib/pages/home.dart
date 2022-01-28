@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       Container(
         height: 20,
       ),
-      Text("無料で使い放題", style: Typography.dense2018.headline4),
+      Text("コンテンツ一覧", style: Typography.dense2018.headline4),
       Padding(padding: EdgeInsets.all(20), child: CategoryCard(_launchURL))
     ]));
   }

@@ -1,6 +1,10 @@
 import 'package:englister/pages/home.dart';
+import 'package:englister/pages/phrase.dart';
+import 'package:englister/pages/record.dart';
+import 'package:englister/route/setting.dart';
 import 'package:flutter/material.dart';
 
+import 'components/drawer/MyDrawer.dart';
 import 'components/navigation/MyBottomNavigationBar.dart';
 
 void main() {
@@ -18,6 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const IndexPage(title: 'Englister'),
+      routes: {'/settings': (BuildContext context) => new SettingPage()},
     );
   }
 }
@@ -40,12 +45,8 @@ class _IndexPageState extends State<IndexPage> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Text(
-      'Index 1: Record',
-    ),
-    Text(
-      'Index 2: Phrase',
-    ),
+    RecordPage(),
+    PhrasePage(),
   ];
 
   @override
@@ -69,7 +70,7 @@ class _IndexPageState extends State<IndexPage> {
               ))
         ],
       ),
-      drawer: const Drawer(child: Center(child: Text("No contents yet..."))),
+      drawer: MyDrawer(),
       bottomNavigationBar: MyBottomNavigationBar(_selectedIndex, _onItemTapped),
       body: _widgetOptions.elementAt(_selectedIndex),
       backgroundColor: Colors.grey[50],
