@@ -15,6 +15,7 @@ class LoginButton extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
+
     if (user.sub != null) {
       return const Text('');
     }

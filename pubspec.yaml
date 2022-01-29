@@ -46,11 +46,17 @@ dependencies:
   hooks_riverpod: ^1.0.3
   flutter_riverpod: ^1.0.3
   retrofit: ^3.0.1
+  logger: any
+  dio: ^4.0.4
+  curl_logger_dio_interceptor: ^0.0.2
+  graphql_flutter: ^5.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  retrofit_generator: ">=4.0.0"
+  build_runner: "^2.1.7"
+  json_serializable: ">4.4.0"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:dio/dio.dart';
 import 'package:englister/components/signin/LoginButton.dart';
 import 'package:englister/components/signin/SigninDialog.dart';
 import 'package:englister/models/auth/AuthService.dart';
+import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:englister/pages/home.dart';
 import 'package:englister/pages/phrase.dart';
 import 'package:englister/pages/record.dart';
@@ -11,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'amplifyconfiguration.dart';
+import 'api/rest/rest_client.dart';
 import 'components/drawer/MyDrawer.dart';
 import 'components/navigation/MyBottomNavigationBar.dart';
 
@@ -34,15 +39,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class IndexPage extends StatefulWidget {
+class IndexPage extends ConsumerStatefulWidget {
   const IndexPage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<IndexPage> createState() => _IndexPageState();
+  ConsumerState<IndexPage> createState() => _IndexPageState();
 }
 
-class _IndexPageState extends State<IndexPage> {
+class _IndexPageState extends ConsumerState<IndexPage> {
   //TODO: ここで管理したくない・・
   int _selectedIndex = 0;
 
@@ -61,7 +66,9 @@ class _IndexPageState extends State<IndexPage> {
       //TODO: 手動でSignInRedirectURIをenglister://に修正してる。まじ！？
       await Amplify.configure(amplifyconfig);
 
-      AuthService.getCurrentUserAttribute();
+      //ここでログイン状況を確認したい
+      var userNotifier = ref.read(userProvider.notifier);
+      userNotifier.setUser(await AuthService.getCurrentUserAttribute());
     } on Exception catch (e) {
       print('An error occurred configuring Amplify: $e');
     }
