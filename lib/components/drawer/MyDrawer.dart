@@ -33,10 +33,12 @@ class MyDrawer extends StatelessWidget {
             "https://docs.google.com/forms/d/e/1FAIpQLSdiBErG8O7zFEZYlODFk4p27GjwbFjV4ehp9SO8OZ3cffuMcA/viewform?usp=sf_link"),
       ),
       ListTile(
-        leading: Icon(Icons.settings),
-        title: Text('設定'),
-        onTap: () => Navigator.of(context).pushNamed('/settings'),
-      ),
+          leading: Icon(Icons.settings),
+          title: Text('設定'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).pushNamed('/settings');
+          }),
     ]));
   }
 }

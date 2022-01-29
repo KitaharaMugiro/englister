@@ -43,6 +43,9 @@ dependencies:
   amplify_auth_cognito: ^0.3.2
   flutter_login: ^3.1.0
   flutter_signin_button: ^2.0.0
+  hooks_riverpod: ^1.0.3
+  flutter_riverpod: ^1.0.3
+  retrofit: ^3.0.1
 
 dev_dependencies:
   flutter_test:

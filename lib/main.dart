@@ -1,18 +1,21 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:englister/components/signin/LoginButton.dart';
 import 'package:englister/components/signin/SigninDialog.dart';
+import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/pages/home.dart';
 import 'package:englister/pages/phrase.dart';
 import 'package:englister/pages/record.dart';
 import 'package:englister/route/setting.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'amplifyconfiguration.dart';
 import 'components/drawer/MyDrawer.dart';
 import 'components/navigation/MyBottomNavigationBar.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -55,7 +58,10 @@ class _IndexPageState extends State<IndexPage> {
       await Amplify.addPlugin(AmplifyAuthCognito());
 
       // call Amplify.configure to use the initialized categories in your app
+      //TODO: 手動でSignInRedirectURIをenglister://に修正してる。まじ！？
       await Amplify.configure(amplifyconfig);
+
+      AuthService.getCurrentUserAttribute();
     } on Exception catch (e) {
       print('An error occurred configuring Amplify: $e');
     }
@@ -65,10 +71,6 @@ class _IndexPageState extends State<IndexPage> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  void _onPressedLogin(BuildContext context) async {
-    await openSigninDialog(context);
   }
 
   static const List<Widget> _widgetOptions = <Widget>[
@@ -88,16 +90,7 @@ class _IndexPageState extends State<IndexPage> {
         titleTextStyle: const TextStyle(
             color: Colors.black, fontSize: 23, fontWeight: FontWeight.w500),
         actions: [
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 15)),
-                onPressed: () {
-                  _onPressedLogin(context);
-                },
-                child: const Text('Log in'),
-              ))
+          Padding(padding: const EdgeInsets.all(10), child: LoginButton())
         ],
       ),
       drawer: MyDrawer(),

@@ -1,15 +1,11 @@
 import 'package:englister/components/card/CategoryCard.dart';
+import 'package:englister/models/auth/AuthService.dart';
+import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SettingPage extends StatefulWidget {
-  const SettingPage({Key? key}) : super(key: key);
-
-  @override
-  _SettingPageState createState() => _SettingPageState();
-}
-
-class _SettingPageState extends State<SettingPage> {
+class SettingPage extends HookConsumerWidget {
   final listItems = [
     {
       "title": "お問い合わせ",
@@ -28,7 +24,9 @@ class _SettingPageState extends State<SettingPage> {
     if (!await launch(url)) throw 'Could not launch $url';
   }
 
-  List<Widget> _makeWidgets() {
+  List<Widget> _makeWidgets(BuildContext context, WidgetRef ref) {
+    var user = ref.watch(userProvider);
+    var userNotifier = ref.watch(userProvider.notifier);
     var contentWidgets = <Widget>[];
 
     for (var item in listItems) {
@@ -47,11 +45,28 @@ class _SettingPageState extends State<SettingPage> {
       ));
     }
 
+    contentWidgets.add(SizedBox(height: 20));
+
+    if (user.sub != null) {
+      contentWidgets.add(Container(
+          decoration: new BoxDecoration(
+              color: Colors.white,
+              border: new Border(
+                  bottom: BorderSide(width: 1.0, color: Colors.grey.shade300))),
+          child: ListTile(
+            title: Text("ログアウト"),
+            onTap: () async {
+              await AuthService.signOut();
+              userNotifier.setUser(new UserAttribute());
+              Navigator.pop(context);
+            },
+          )));
+    }
     return contentWidgets;
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: AppBar(
           title: Text("設定"),
@@ -59,6 +74,6 @@ class _SettingPageState extends State<SettingPage> {
         backgroundColor: Colors.grey[300],
         body: Container(
             margin: EdgeInsets.only(top: 20),
-            child: ListView(children: _makeWidgets())));
+            child: ListView(children: _makeWidgets(context, ref))));
   }
 }
