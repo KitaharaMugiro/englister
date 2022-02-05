@@ -43,8 +43,14 @@ PODS:
   - AWSPluginsCore (1.19.0):
     - Amplify (= 1.19.0)
     - AWSCore (~> 2.27.0)
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - Reachability
   - Flutter (1.0.0)
   - ObjectMapper (4.2.0)
+  - path_provider_ios (0.0.1):
+    - Flutter
+  - Reachability (3.2)
   - SwiftFormat/CLI (0.49.3)
   - SwiftLint (0.46.2)
   - url_launcher_ios (0.0.1):
@@ -54,7 +60,9 @@ DEPENDENCIES:
   - amplify_auth_cognito (from `.symlinks/plugins/amplify_auth_cognito/ios`)
   - amplify_core (from `.symlinks/plugins/amplify_core/ios`)
   - amplify_flutter (from `.symlinks/plugins/amplify_flutter/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - Flutter (from `Flutter`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
@@ -68,6 +76,7 @@ SPEC REPOS:
     - AWSMobileClient
     - AWSPluginsCore
     - ObjectMapper
+    - Reachability
     - SwiftFormat
     - SwiftLint
 
@@ -78,8 +87,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/amplify_core/ios"
   amplify_flutter:
     :path: ".symlinks/plugins/amplify_flutter/ios"
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/ios"
   Flutter:
     :path: Flutter
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
@@ -95,12 +108,15 @@ SPEC CHECKSUMS:
   AWSCore: f859f6955a8e52dcb3e79fac95fef058639d1049
   AWSMobileClient: 9c1edcbe7088b3c9b910aaf6faf2db43a8f1568d
   AWSPluginsCore: a74522db575247a0156f97d868713627099f3297
+  connectivity_plus: 5f0eb61093bec56935f21a1699dd2758bc895587
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
+  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SwiftFormat: a3b79e8b5f8ecdec7a716b998aee230d08512894
   SwiftLint: 6bc52a21f0fd44cab9aa2dc8e534fb9f5e3ec507
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
 
-PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
+PODFILE CHECKSUM: 7368163408c647b7eb699d0d788ba6718e18fb8d
 
 COCOAPODS: 1.11.2

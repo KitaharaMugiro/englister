@@ -13,13 +13,16 @@ import 'package:englister/pages/record.dart';
 import 'package:englister/route/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'amplifyconfiguration.dart';
+import 'api/graphql/client_provider.dart';
 import 'api/rest/rest_client.dart';
 import 'components/drawer/MyDrawer.dart';
 import 'components/navigation/MyBottomNavigationBar.dart';
 
-void main() {
+Future<void> main() async {
+  await initHiveForFlutter();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -27,7 +30,8 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ClientProvider(
+        child: MaterialApp(
       title: 'Englister',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -35,7 +39,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const IndexPage(title: 'Englister'),
       routes: {'/settings': (BuildContext context) => new SettingPage()},
-    );
+    ));
   }
 }
 

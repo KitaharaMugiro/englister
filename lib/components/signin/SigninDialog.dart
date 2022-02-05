@@ -56,6 +56,18 @@ class SigninDialog extends HookConsumerWidget {
             },
           ),
         ),
+        SizedBox(height: 10),
+        Container(
+          child: SignInButton(
+            Buttons.Apple,
+            padding: EdgeInsets.all(12),
+            elevation: 5,
+            onPressed: () async {
+              await AuthService.signInWithApple(context);
+              userNotifier.setUser(await AuthService.getCurrentUserAttribute());
+            },
+          ),
+        ),
         Divider(
           color: Colors.grey.shade500,
         ),

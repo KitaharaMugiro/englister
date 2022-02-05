@@ -1,3 +1,4 @@
+import 'package:englister/models/auth/AuthService.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,11 @@ ValueNotifier<GraphQLClient> clientFor() {
   );
 
   // Github tokens
-  final AuthLink _authLink = AuthLink(getToken: () => 'aaa', headerKey: 'aaa');
+  final AuthLink _authLink = AuthLink(
+      getToken: () async {
+        return "Bearer ${await AuthService.getJwt()}";
+      },
+      headerKey: 'authorization');
 
   var _link = _authLink.concat(_httpLink);
 
@@ -17,9 +22,14 @@ ValueNotifier<GraphQLClient> clientFor() {
     // final websocketLink = WebSocketLink('ws://localhost:8080/v1/graphql',
     final websocketLink =
         WebSocketLink('wss://adequate-guinea-56.hasura.app/v1/graphql',
-            config: SocketClientConfig(initialPayload: {
-              "headers": {"content-type": "application/json"}
-            }));
+            config: SocketClientConfig(initialPayload: () async {
+      return {
+        "headers": {
+          "content-type": "application/json",
+          "authorization": "Bearer ${await AuthService.getJwt()}"
+        }
+      };
+    }));
 
     _link = Link.split(
       (request) => request.isSubscription,
@@ -40,7 +50,7 @@ ValueNotifier<GraphQLClient> clientFor() {
 /// We use the cache for all state management.
 class ClientProvider extends StatelessWidget {
   ClientProvider({
-    @required this.child,
+    required this.child,
   }) : client = clientFor();
 
   final Widget child;

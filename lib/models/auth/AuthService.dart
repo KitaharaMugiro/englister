@@ -5,7 +5,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
 class UserAttribute {
-  String? sub;
+  String? sub; //WARN: subがnullかどうかでログイン状態を判定している
   String? email;
   String? emailVerified;
   String? identities;
@@ -87,14 +87,26 @@ class AuthService {
     }
   }
 
+  static Future<void> signInWithApple(BuildContext context) async {
+    try {
+      var res = await Amplify.Auth.signInWithWebUI(
+        provider: AuthProvider.apple,
+      );
+      if (res.isSignedIn) {
+        Navigator.pop(context);
+      }
+    } on AmplifyException catch (e) {
+      print(e.message);
+    }
+  }
+
   static Future<String?> getJwt() async {
     final resp = await Amplify.Auth.fetchAuthSession(
       options: CognitoSessionOptions(getAWSCredentials: true),
     );
     if (resp.isSignedIn) {
       final sess = resp as CognitoAuthSession;
-      inspect(sess);
-      return sess.userPoolTokens?.accessToken;
+      return sess.userPoolTokens?.idToken;
     }
     return null;
   }
