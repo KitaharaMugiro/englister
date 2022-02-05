@@ -50,6 +50,7 @@ dependencies:
   dio: ^4.0.4
   curl_logger_dio_interceptor: ^0.0.2
   graphql_flutter: ^5.0.0
+  pretty_diff_text: ^1.0.0
 
 dev_dependencies:
   flutter_test:

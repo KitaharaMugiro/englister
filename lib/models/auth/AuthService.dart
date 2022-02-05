@@ -38,6 +38,7 @@ class AuthService {
         userAttribute.identities = attribute.value;
       }
     }
+    inspect(userAttribute);
     return userAttribute;
   }
 

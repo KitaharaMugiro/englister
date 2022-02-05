@@ -10,22 +10,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _url = "https://english.yunomy.com/q/free";
-
-  void _launchURL() async {
-    print(_url);
-    if (!await launch(_url)) throw 'Could not launch $_url';
-  }
-
   @override
   Widget build(BuildContext context) {
+    void onTapCard(String category) {
+      Navigator.pushNamed(context, '/study', arguments: category);
+    }
+
     return Container(
         child: Column(children: <Widget>[
       Container(
         height: 20,
       ),
       Text("コンテンツ一覧", style: Typography.dense2018.headline4),
-      Padding(padding: EdgeInsets.all(20), child: CategoryCard(_launchURL))
+      Padding(
+          padding: EdgeInsets.all(20),
+          child: CategoryCard(
+            onTap: onTapCard,
+          )),
     ]));
   }
 }

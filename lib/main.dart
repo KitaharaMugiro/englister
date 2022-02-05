@@ -1,23 +1,19 @@
-import 'dart:developer';
-
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:dio/dio.dart';
 import 'package:englister/components/signin/LoginButton.dart';
-import 'package:englister/components/signin/SigninDialog.dart';
 import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:englister/pages/home.dart';
 import 'package:englister/pages/phrase.dart';
 import 'package:englister/pages/record.dart';
 import 'package:englister/route/setting.dart';
+import 'package:englister/route/study.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'amplifyconfiguration.dart';
 import 'api/graphql/client_provider.dart';
-import 'api/rest/rest_client.dart';
 import 'components/drawer/MyDrawer.dart';
 import 'components/navigation/MyBottomNavigationBar.dart';
 
@@ -38,7 +34,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const IndexPage(title: 'Englister'),
-      routes: {'/settings': (BuildContext context) => new SettingPage()},
+      routes: {
+        '/settings': (BuildContext context) => new SettingPage(),
+        '/study': (BuildContext context) => new StudyPage(),
+      },
     ));
   }
 }
@@ -68,6 +67,7 @@ class _IndexPageState extends ConsumerState<IndexPage> {
 
       // call Amplify.configure to use the initialized categories in your app
       //TODO: 手動でSignInRedirectURIをenglister://に修正してる。まじ！？
+      // WARN: pushしたらWebサービスのログイン障害に繋がる危険な状態
       await Amplify.configure(amplifyconfig);
 
       //ここでログイン状況を確認したい

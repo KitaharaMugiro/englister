@@ -59,7 +59,8 @@ const amplifyconfig = ''' {
                         ],
                         "socialProviders": [
                             "FACEBOOK",
-                            "GOOGLE"
+                            "GOOGLE",
+                            "APPLE"
                         ],
                         "usernameAttributes": [
                             "EMAIL"

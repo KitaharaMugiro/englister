@@ -12,6 +12,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class RecordPage extends HookConsumerWidget {
   const RecordPage({Key? key}) : super(key: key);
 
+  //TODO: RESTの処理は流石に隠蔽すべき
   Future<List<Dashboard>> getDashboard() async {
     final dio = Dio(); // Provide a dio instance
     //dio.interceptors.add(CurlLoggerDioInterceptor());

@@ -2,16 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
-  const CategoryCard(void Function() this.launchURL, {Key? key})
-      : super(key: key);
-  final launchURL;
+  CategoryCard({Key? key, required this.onTap}) : super(key: key);
+
+  //Confirm: もう少し正確な型をつけたい
+  Function onTap;
+
   @override
   Widget build(BuildContext context) {
     return Container(
         child: Card(
             elevation: 3,
             child: InkWell(
-                onTap: launchURL,
+                onTap: () {
+                  onTap("free");
+                },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
