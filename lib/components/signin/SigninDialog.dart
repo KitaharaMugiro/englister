@@ -40,7 +40,7 @@ class SigninDialog extends HookConsumerWidget {
             elevation: 5,
             onPressed: () async {
               await AuthService.signInWithGoogle(context);
-              userNotifier.setUser(await AuthService.getCurrentUserAttribute());
+              userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
         ),
@@ -52,7 +52,7 @@ class SigninDialog extends HookConsumerWidget {
             elevation: 5,
             onPressed: () async {
               await AuthService.signInWithFacebook(context);
-              userNotifier.setUser(await AuthService.getCurrentUserAttribute());
+              userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
         ),
@@ -64,7 +64,7 @@ class SigninDialog extends HookConsumerWidget {
             elevation: 5,
             onPressed: () async {
               await AuthService.signInWithApple(context);
-              userNotifier.setUser(await AuthService.getCurrentUserAttribute());
+              userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
         ),
@@ -74,7 +74,7 @@ class SigninDialog extends HookConsumerWidget {
         TextButton(
             onPressed: () async {
               await AuthService.signInWithEmail(context);
-              userNotifier.setUser(await AuthService.getCurrentUserAttribute());
+              userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
             child: Text("メールアドレス認証")),
         SizedBox(height: 20),

@@ -1,21 +1,25 @@
+import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var user = ref.watch(userProvider);
+    var userEmail = user.email;
     return Drawer(
         child: ListView(children: [
       DrawerHeader(
           child: Center(
         child: Column(children: [
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           CircleAvatar(
-            child: const Text('A'),
+            child: Text(userEmail?.substring(0, 1) ?? 'A'),
             radius: 40,
           ),
-          SizedBox(height: 15),
-          Text('Anon', style: TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 15),
+          Text(userEmail ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
         ]),
       )),
       ListTile(

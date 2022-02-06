@@ -1,5 +1,6 @@
 import 'package:englister/components/card/CategoryCard.dart';
 import 'package:englister/models/auth/AuthService.dart';
+import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -57,7 +58,7 @@ class SettingPage extends HookConsumerWidget {
             title: Text("ログアウト"),
             onTap: () async {
               await AuthService.signOut();
-              userNotifier.setUser(new UserAttribute());
+              userNotifier.set(new UserAttribute());
               Navigator.pop(context);
             },
           )));

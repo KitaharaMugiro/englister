@@ -51,6 +51,10 @@ dependencies:
   curl_logger_dio_interceptor: ^0.0.2
   graphql_flutter: ^5.0.0
   pretty_diff_text: ^1.0.0
+  shared_preferences: ^2.0.13
+  uuid: ^3.0.5
+  freezed: ^1.1.1
+  freezed_annotation: ^1.1.0
 
 dev_dependencies:
   flutter_test:

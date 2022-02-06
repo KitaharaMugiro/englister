@@ -63,7 +63,6 @@ class PhraseInput extends StatelessWidget {
                     String phrase = phraseController.text;
                     String description = descriptionController.text;
                     bool valid = (phrase.isNotEmpty && description.isNotEmpty);
-                    print(valid);
                     if (valid) {
                       // mutation呼ぶ
                       action(phrase, description);

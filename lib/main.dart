@@ -9,13 +9,16 @@ import 'package:englister/pages/record.dart';
 import 'package:englister/route/setting.dart';
 import 'package:englister/route/study.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'amplifyconfiguration.dart';
 import 'api/graphql/client_provider.dart';
+import 'api/rest/UserApi.dart';
 import 'components/drawer/MyDrawer.dart';
 import 'components/navigation/MyBottomNavigationBar.dart';
+import 'models/localstorage/LocalStorageHelper.dart';
 
 Future<void> main() async {
   await initHiveForFlutter();
@@ -33,6 +36,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      builder: EasyLoading.init(),
       home: const IndexPage(title: 'Englister'),
       routes: {
         '/settings': (BuildContext context) => new SettingPage(),
@@ -72,7 +76,10 @@ class _IndexPageState extends ConsumerState<IndexPage> {
 
       //ここでログイン状況を確認したい
       var userNotifier = ref.read(userProvider.notifier);
-      userNotifier.setUser(await AuthService.getCurrentUserAttribute());
+      userNotifier.set(await AuthService.getCurrentUserAttribute());
+
+      await LocalStorageHelper.initializeUserId();
+      await UserApi.signin();
     } on Exception catch (e) {
       print('An error occurred configuring Amplify: $e');
     }

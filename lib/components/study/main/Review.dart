@@ -1,3 +1,5 @@
+import 'package:englister/api/rest/RecordApi.dart';
+import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,20 +11,42 @@ class Review extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var visibleDiff = useState(true);
+    var visibleDiff = useState(false);
+    var studyState = ref.watch(studyProvider);
+    var studyNotifier = ref.watch(studyProvider.notifier);
 
     Widget renderDiffOrReview() {
       if (visibleDiff.value) {
-        //TODO: 見せ方
         return PrettyDiffText(
-          oldText: "Your old text",
-          newText: "Your new text",
+          oldText: studyState.english,
+          newText: studyState.translation,
         );
       } else {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("お手本の英語を暗記して復習しよう", style: Typography.dense2018.headline6)
+            Text("お手本の英語を暗記して復習しよう", style: Typography.dense2018.headline6),
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Container(
+                  margin: EdgeInsets.only(top: 15, bottom: 15),
+                  color: Colors.grey[300],
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Text(studyState.english,
+                        style: Typography.englishLike2018.bodyText1),
+                  )),
+              Text("↓ お手本の英語",
+                  textAlign: TextAlign.center,
+                  style: Typography.dense2018.bodyText1),
+              Container(
+                  margin: EdgeInsets.only(top: 15, bottom: 15),
+                  color: Colors.green[100],
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Text(studyState.translation,
+                        style: Typography.englishLike2018.bodyText1),
+                  )),
+            ])
           ],
         );
       }
@@ -30,9 +54,8 @@ class Review extends HookConsumerWidget {
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       DetailScoreBoard(
-          text: "I want to be a king", translation: "I wanna be a king"),
-      Text("English Score: XX", style: Typography.englishLike2018.headline5),
-      const SizedBox(height: 10),
+          text: studyState.english, translation: studyState.translation),
+      const SizedBox(height: 30),
       renderDiffOrReview(),
     ]);
   }

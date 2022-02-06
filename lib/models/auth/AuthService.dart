@@ -38,7 +38,6 @@ class AuthService {
         userAttribute.identities = attribute.value;
       }
     }
-    inspect(userAttribute);
     return userAttribute;
   }
 
@@ -108,6 +107,14 @@ class AuthService {
     if (resp.isSignedIn) {
       final sess = resp as CognitoAuthSession;
       return sess.userPoolTokens?.idToken;
+    }
+    return null;
+  }
+
+  static Future<Object?> getHeader() async {
+    var jwt = await getJwt();
+    if (jwt != null) {
+      return {'Authorization': 'Bearer $jwt'};
     }
     return null;
   }

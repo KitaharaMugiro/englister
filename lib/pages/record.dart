@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:englister/api/rest/response_type/dashboard.dart';
 import 'package:englister/api/rest/rest_client.dart';
+import 'package:englister/components/record/StudyRecordCard.dart';
 import 'package:englister/models/auth/AuthService.dart';
-import 'package:englister/models/record/StudyRecordCard.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -20,7 +20,7 @@ class RecordPage extends HookConsumerWidget {
     try {
       var it = await client.getDashboard({
         "data": {"userId": "USER_ID_FOR_MOBILE"},
-        "headers": {"Authorization": "Bearer ${await AuthService.getJwt()}"}
+        "headers": await AuthService.getHeader()
       });
       return it;
     } catch (e) {
