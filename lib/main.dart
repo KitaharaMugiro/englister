@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:englister/components/signin/LoginButton.dart';
@@ -12,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 import 'amplifyconfiguration.dart';
 import 'api/graphql/client_provider.dart';
@@ -19,6 +23,7 @@ import 'api/rest/UserApi.dart';
 import 'components/drawer/MyDrawer.dart';
 import 'components/navigation/MyBottomNavigationBar.dart';
 import 'models/localstorage/LocalStorageHelper.dart';
+import 'models/subscriptions/listenToPurchaseUpdated.dart';
 
 Future<void> main() async {
   await initHiveForFlutter();
@@ -57,11 +62,30 @@ class IndexPage extends ConsumerStatefulWidget {
 class _IndexPageState extends ConsumerState<IndexPage> {
   //TODO: ここで管理したくない・・
   int _selectedIndex = 0;
+  late StreamSubscription<dynamic> _subscription;
 
   @override
   void initState() {
     super.initState();
+    _subscribePurchaseUpdate();
     _configureAmplify();
+  }
+
+  void _subscribePurchaseUpdate() async {
+    final bool available = await InAppPurchase.instance.isAvailable();
+    if (!available) {
+      // The store cannot be reached or accessed. Update the UI accordingly.
+      inspect("The store cannot be reached or accessed");
+      return;
+    }
+    final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
+    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
+      listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      _subscription.cancel();
+    }, onError: (error) {
+      // handle error here.
+    });
   }
 
   Future<void> _configureAmplify() async {

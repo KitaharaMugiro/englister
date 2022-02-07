@@ -1,4 +1,5 @@
 import 'package:englister/models/riverpod/UserRiverpod.dart';
+import 'package:englister/pages/plan.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,6 +28,18 @@ class MyDrawer extends HookConsumerWidget {
         title: Text('勉強する'),
         onTap: () {
           Navigator.pop(context);
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.local_library),
+        title: Text('プラン'),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PlanPage(),
+                fullscreenDialog: true,
+              ));
         },
       ),
       Divider(),
