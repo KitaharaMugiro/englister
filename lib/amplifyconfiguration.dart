@@ -30,7 +30,7 @@ const amplifyconfig = ''' {
                             "WebDomain": "slideshare23669af5-23669af5-dev.auth.ap-northeast-1.amazoncognito.com",
                             "AppClientId": "1290bopn7lnj3rui8il5hpfeks",
                             "SignInRedirectURI": "englister://",
-                            "SignOutRedirectURI": "englister://",
+                            "SignOutRedirectURI": "https://english.yunomy.com/",
                             "Scopes": [
                                 "phone",
                                 "email",

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/components/card/CategoryCard.dart';
+import 'package:englister/components/dialog/showHeartShortError.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,8 +20,14 @@ class _HomePageState extends State<HomePage> {
     void onTapCard(String category) async {
       EasyLoading.show(status: 'loading...');
       print("onTapCard: $category");
-      await StudyApi.studyStart(category);
-      Navigator.pushNamed(context, '/study', arguments: category);
+      try {
+        await StudyApi.studyStart(category);
+        Navigator.pushNamed(context, '/study', arguments: category);
+      } catch (e) {
+        print(e);
+        showHeartShortError(context);
+      }
+
       EasyLoading.dismiss();
     }
 
