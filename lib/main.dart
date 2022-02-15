@@ -8,6 +8,7 @@ import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:englister/pages/home.dart';
 import 'package:englister/pages/phrase.dart';
+import 'package:englister/pages/plan.dart';
 import 'package:englister/pages/record.dart';
 import 'package:englister/route/setting.dart';
 import 'package:englister/route/study.dart';
@@ -44,8 +45,9 @@ class MyApp extends StatelessWidget {
       builder: EasyLoading.init(),
       home: const IndexPage(title: 'Englister'),
       routes: {
-        '/settings': (BuildContext context) => new SettingPage(),
-        '/study': (BuildContext context) => new StudyPage(),
+        '/settings': (BuildContext context) => SettingPage(),
+        '/study': (BuildContext context) => const StudyPage(),
+        '/plan': (BuildContext context) => const PlanPage(),
       },
     ));
   }
@@ -85,6 +87,7 @@ class _IndexPageState extends ConsumerState<IndexPage> {
       _subscription.cancel();
     }, onError: (error) {
       // handle error here.
+      debugPrint("payment error: $error");
     });
   }
 

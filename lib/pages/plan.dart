@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:englister/components/plan/PlanCard.dart';
+import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,10 +12,15 @@ class PlanPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var user = ref.watch(userProvider);
     var products = useState<List<ProductDetails>>([]);
     useEffect(() {
       Future<void> _loadData() async {
-        const Set<String> _kIds = <String>{'plan_1', 'plan_2', 'plan_3'};
+        const Set<String> _kIds = <String>{
+          'heart_10',
+          'heart_100',
+          'heart_300'
+        };
         final ProductDetailsResponse response =
             await InAppPurchase.instance.queryProductDetails(_kIds);
         if (response.notFoundIDs.isNotEmpty) {
@@ -39,56 +45,53 @@ class PlanPage extends HookConsumerWidget {
       var productDetails = products.value[index];
       final PurchaseParam purchaseParam =
           PurchaseParam(productDetails: productDetails);
-      InAppPurchase.instance.buyNonConsumable(purchaseParam: purchaseParam);
+      InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
     }
 
     Widget _renderPlan() {
-      // var plan1 = products.value.firstWhere(
-      //   (element) => element.id == "plan_1",
-      // );
-      // var plan2 = products.value.firstWhere(
-      //   (element) => element.id == "plan_2",
-      // );
-      // var plan3 = products.value.firstWhere(
-      //   (element) => element.id == "plan_3",
-      // );
-
       return Column(
         children: [
           PlanCard(
-            title: "Unlimitedプラン",
-            price: "3000円/月",
-            description: "問題解き放題",
+            title: "ハート300個",
+            price: "8500円",
+            description: "ほとんど解き放題",
             onTap: () {
-              buyPlan("plan_3");
+              buyPlan("heart_300");
             },
           ),
           PlanCard(
-            title: "がっつりプラン",
-            price: "1500円/月",
-            description: "10問/日まで",
+            title: "ハート100個",
+            price: "5500円",
+            description: "がっつり解きたいとき",
             onTap: () {
-              buyPlan("plan_2");
+              buyPlan("heart_100");
             },
           ),
           PlanCard(
-            title: "継続プラン",
-            price: "500円/月",
-            description: "3問/日まで",
+            title: "ハート10個",
+            price: "1100円",
+            description: "ちょっとハートを追加したいとき",
             onTap: () {
-              buyPlan("plan_1");
+              buyPlan("heart_10");
             },
           )
         ],
       );
     }
 
-    // if (products.value.isEmpty) {
-    //   return const CircularProgressIndicator();
-    // }
+    if (user.sub == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("プラン"),
+        ),
+        body: Center(
+          child: Text("ログインするとハートを購入できるようになります"),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text('遷移後のページ'),
+        title: Text('プラン'),
       ),
       body: Center(
         child: Column(

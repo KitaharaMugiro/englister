@@ -1,5 +1,7 @@
 import 'package:englister/api/rest/response_type/dashboard.dart';
+import 'package:englister/api/rest/response_type/get_purchased_heart_response.dart';
 import 'package:englister/api/rest/response_type/get_topic_response.dart';
+import 'package:englister/api/rest/response_type/purchase_heart_response.dart';
 import 'package:englister/api/rest/response_type/send_english_response.dart';
 import 'package:englister/api/rest/response_type/send_japanese_response.dart';
 import 'package:englister/api/rest/response_type/signin_response.dart';
@@ -60,6 +62,16 @@ abstract class RestClient {
 
   @POST("/study/record/submit_dashboard")
   Future<SubmitDashboardResponse> submitDashboard(
+    @Body() Map<String, dynamic> map,
+  );
+
+  @POST("/subscription/purchased_heart")
+  Future<GetPurchasedHeartResponse> getPurchasedHeart(
+    @Body() Map<String, dynamic> map,
+  );
+
+  @POST("/subscription/purchase_heart")
+  Future<PurchaseHeartResponse> purchaseHeart(
     @Body() Map<String, dynamic> map,
   );
 }
