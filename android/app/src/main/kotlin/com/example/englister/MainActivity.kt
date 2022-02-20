@@ -1,4 +1,4 @@
-package com.example.englister
+package com.yunomy.english
 
 import io.flutter.embedding.android.FlutterActivity
 

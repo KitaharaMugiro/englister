@@ -67,3 +67,5 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 
 key.properties
+
+.fvm/flutter_sdk
