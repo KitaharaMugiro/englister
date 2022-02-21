@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:englister/components/card/MyCard.dart';
 
 class CategoryCard extends StatelessWidget {
   CategoryCard({Key? key, required this.onTap}) : super(key: key);
@@ -10,23 +11,23 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Card(
-            elevation: 3,
-            child: InkWell(
-                onTap: () {
-                  onTap("free");
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const Image(
-                      image: NetworkImage(
-                          'https://assets.media-platform.com/bi/dist/images/2021/03/19/black-w960.jpeg'),
-                    ),
-                    ListTile(
-                        title: Text('Englister Free',
-                            style: Typography.material2018().dense.headline5))
-                  ],
-                ))));
+        child: Column(
+      children: [
+        MyCard(
+          onTap: onTap,
+          imageURL:
+              'https://assets.media-platform.com/bi/dist/images/2021/03/19/black-w960.jpeg',
+          title: 'Englister Free',
+          category: 'free',
+        ),
+        MyCard(
+          onTap: onTap,
+          imageURL:
+              'https://english.yunomy.com/static/category/it-interview.png',
+          title: 'IT企業面接対策',
+          category: 'it_interview',
+        ),
+      ],
+    ));
   }
 }

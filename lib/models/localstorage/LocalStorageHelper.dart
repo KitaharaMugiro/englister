@@ -23,6 +23,8 @@ class LocalStorageHelper {
     var uuid = const Uuid();
     var userId = await getUserId() ?? uuid.v4();
     final prefs = await SharedPreferences.getInstance();
+    print('aaaa');
+    print(userId);
     await prefs.setString("UserId", userId);
   }
 
