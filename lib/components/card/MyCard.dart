@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CategoryCard extends StatelessWidget {
-  CategoryCard(
+class MyCard extends StatelessWidget {
+  MyCard(
       {Key? key,
       required this.onTap,
       required this.imageURL,

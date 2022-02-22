@@ -92,24 +92,24 @@ class _IndexPageState extends ConsumerState<IndexPage> {
   }
 
   Future<void> _configureAmplify() async {
+    // Add the following line to add Auth plugin to your app.
+    await Amplify.addPlugin(AmplifyAuthCognito());
+
+    // call Amplify.configure to use the initialized categories in your app
+    //TODO: 手動でSignInRedirectURIをenglister://に修正してる。まじ！？
+    // WARN: pushしたらWebサービスのログイン障害に繋がる危険な状態
+    await Amplify.configure(amplifyconfig);
+
+    //ここでログイン状況を確認したい
+    var userNotifier = ref.read(userProvider.notifier);
     try {
-      // Add the following line to add Auth plugin to your app.
-      await Amplify.addPlugin(AmplifyAuthCognito());
-
-      // call Amplify.configure to use the initialized categories in your app
-      //TODO: 手動でSignInRedirectURIをenglister://に修正してる。まじ！？
-      // WARN: pushしたらWebサービスのログイン障害に繋がる危険な状態
-      await Amplify.configure(amplifyconfig);
-
-      //ここでログイン状況を確認したい
-      var userNotifier = ref.read(userProvider.notifier);
       userNotifier.set(await AuthService.getCurrentUserAttribute());
-
-      await LocalStorageHelper.initializeUserId();
-      await UserApi.signin();
-    } on Exception catch (e) {
-      print('An error occurred configuring Amplify: $e');
+    } catch (e) {
+      print(e);
     }
+
+    await LocalStorageHelper.initializeUserId();
+    await UserApi.signin();
   }
 
   void _onItemTapped(int index) {
