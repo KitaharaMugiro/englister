@@ -65,9 +65,7 @@ class HomePage extends HookConsumerWidget {
               var category = categoryList.value!.popular![index];
               return CategoryCard(
                 onTap: onTapCard,
-                imageURL: category.categorySlug == 'free'
-                    ? 'https://assets.media-platform.com/bi/dist/images/2021/03/19/black-w960.jpeg'
-                    : (BASE_URL + category.categoryImageUrl), //判定微妙かも
+                imageURL: BASE_URL + category.categoryImageUrl, //判定微妙かも
                 title: category.categoryName,
                 category: category.categorySlug,
               );
