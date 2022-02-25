@@ -15,6 +15,7 @@ class TopicApi {
       "data": {"userId": userId, "categorySlug": categorySlug},
       "headers": await AuthService.getHeader()
     });
+    return it;
   }
 
   static getAllTopicIds(String categorySlug) async {
@@ -24,6 +25,7 @@ class TopicApi {
       "data": {"categorySlug": categorySlug},
       "headers": await AuthService.getHeader()
     });
+    return it;
   }
 
   static submitDoneTopic(String topicId) async {

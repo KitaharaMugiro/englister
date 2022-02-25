@@ -242,19 +242,19 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<GetCategoryDetailResponse> getCategoryDetail(map) async {
+  Future<Category> getCategoryDetail(map) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(map);
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<GetCategoryDetailResponse>(
+        _setStreamType<Category>(
             Options(method: 'POST', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/category/detail',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GetCategoryDetailResponse.fromJson(_result.data!);
+    final value = Category.fromJson(_result.data!);
     return value;
   }
 
