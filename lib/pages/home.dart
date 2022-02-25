@@ -3,6 +3,7 @@ import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/api/rest/response_type/get_category_list_response.dart';
 import 'package:englister/components/card/CategoryCard.dart';
 import 'package:englister/components/dialog/showHeartShortError.dart';
+import 'package:englister/route/studyStart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -33,13 +34,11 @@ class HomePage extends HookConsumerWidget {
 
     void onTapCard(String category) async {
       EasyLoading.show(status: 'loading...');
-      print("onTapCard: $category");
       try {
-        await StudyApi.studyStart(category);
-        Navigator.pushNamed(context, '/study', arguments: category);
+        Navigator.pushNamed(context, '/study/start',
+            arguments: StudyStartPageArguments(category));
       } catch (e) {
         print(e);
-        showHeartShortError(context);
       }
 
       EasyLoading.dismiss();

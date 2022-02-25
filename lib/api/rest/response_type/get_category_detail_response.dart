@@ -5,10 +5,10 @@ part 'get_category_detail_response.g.dart';
 
 @JsonSerializable()
 class GetCategoryDetailResponse {
-  Category? category;
+  Category category;
 
   GetCategoryDetailResponse({
-    this.category,
+    required this.category,
   });
 
   factory GetCategoryDetailResponse.fromJson(Map<String, dynamic> json) =>

@@ -12,6 +12,7 @@ import 'package:englister/api/rest/response_type/submit_dashboard_response.dart'
 import 'package:englister/api/rest/response_type/submit_done_topic_response.dart';
 import 'package:englister/api/rest/response_type/translate_response.dart';
 import 'package:englister/api/rest/rest_constants.dart';
+import 'package:englister/models/study/Category.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -62,6 +63,16 @@ abstract class RestClient {
     @Body() Map<String, dynamic> map,
   );
 
+  @POST("/study/topic/done_topic")
+  Future<List<String>> getDoneTopicIds(
+    @Body() Map<String, dynamic> map,
+  );
+
+  @POST("/study/topic/all")
+  Future<List<String>> getAllTopicId(
+    @Body() Map<String, dynamic> map,
+  );
+
   @POST("/study/record/submit_dashboard")
   Future<SubmitDashboardResponse> submitDashboard(
     @Body() Map<String, dynamic> map,
@@ -79,7 +90,7 @@ abstract class RestClient {
 
   //category系
   @POST("/category/detail")
-  Future<GetCategoryDetailResponse> getCategoryDetail(
+  Future<Category> getCategoryDetail(
     @Body() Map<String, dynamic> map,
   );
 
