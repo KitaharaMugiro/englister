@@ -62,6 +62,16 @@ abstract class RestClient {
     @Body() Map<String, dynamic> map,
   );
 
+  @POST("/study/topic/done_topic")
+  Future<List<String>> getDoneTopicIds(
+    @Body() Map<String, dynamic> map,
+  );
+
+  @POST("/study/topic/all")
+  Future<List<String>> getAllTopicId(
+    @Body() Map<String, dynamic> map,
+  );
+
   @POST("/study/record/submit_dashboard")
   Future<SubmitDashboardResponse> submitDashboard(
     @Body() Map<String, dynamic> map,

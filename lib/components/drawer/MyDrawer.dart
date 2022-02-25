@@ -42,19 +42,20 @@ class MyDrawer extends HookConsumerWidget {
           Navigator.pop(context);
         },
       ),
-      ListTile(
-        leading: Icon(Icons.local_library),
-        title: Text('プラン'),
-        onTap: () {
-          Navigator.pop(context);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PlanPage(),
-                fullscreenDialog: true,
-              ));
-        },
-      ),
+      if (user.sub != null)
+        ListTile(
+          leading: Icon(Icons.local_library),
+          title: Text('プラン'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PlanPage(),
+                  fullscreenDialog: true,
+                ));
+          },
+        ),
       Divider(),
       ListTile(
         leading: Icon(Icons.people),

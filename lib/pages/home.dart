@@ -35,11 +35,11 @@ class HomePage extends HookConsumerWidget {
       EasyLoading.show(status: 'loading...');
       print("onTapCard: $category");
       try {
-        await StudyApi.studyStart(category);
-        Navigator.pushNamed(context, '/study', arguments: category);
+        //await StudyApi.studyStart(category);
+        Navigator.pushNamed(context, '/study/start', arguments: category);
       } catch (e) {
         print(e);
-        showHeartShortError(context);
+        //showHeartShortError(context);
       }
 
       EasyLoading.dismiss();

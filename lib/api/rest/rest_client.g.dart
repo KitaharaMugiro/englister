@@ -157,6 +157,40 @@ class _RestClient implements RestClient {
   }
 
   @override
+  Future<List<String>> getDoneTopicIds(map) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(map);
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<List<String>>(
+            Options(method: 'POST', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/study/topic/done_topic',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data!.cast<String>();
+    return value;
+  }
+
+  @override
+  Future<List<String>> getAllTopicId(map) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(map);
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<List<String>>(
+            Options(method: 'POST', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/study/topic/all',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data!.cast<String>();
+    return value;
+  }
+
+  @override
   Future<SubmitDashboardResponse> submitDashboard(map) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
