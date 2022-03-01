@@ -79,16 +79,6 @@ class PlanPage extends HookConsumerWidget {
       );
     }
 
-    if (user.sub == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text("プラン"),
-        ),
-        body: Center(
-          child: Text("ログインするとハートを購入できるようになります"),
-        ),
-      );
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text('プラン'),
