@@ -15,8 +15,10 @@ class MyDrawer extends HookConsumerWidget {
 
     useEffect(() {
       SubscriptionApi.getPurchasedHeart().then((value) {
+        debugPrint(value.count.toString());
         heart.value = value.count;
       }).catchError((e) {
+        debugPrint(e);
         heart.value = 0;
       });
     }, []);
@@ -42,20 +44,19 @@ class MyDrawer extends HookConsumerWidget {
           Navigator.pop(context);
         },
       ),
-      if (user.sub != null)
-        ListTile(
-          leading: Icon(Icons.local_library),
-          title: Text('プラン'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PlanPage(),
-                  fullscreenDialog: true,
-                ));
-          },
-        ),
+      ListTile(
+        leading: Icon(Icons.local_library),
+        title: Text('プラン'),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PlanPage(),
+                fullscreenDialog: true,
+              ));
+        },
+      ),
       Divider(),
       ListTile(
         leading: Icon(Icons.people),
