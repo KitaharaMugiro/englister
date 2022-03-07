@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/components/dialog/showHeartShortError.dart';
 import 'package:englister/components/study/start/CategoryStartFrame.dart';
+import 'package:englister/route/study.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 //import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
@@ -18,7 +19,7 @@ class StudyStartPage extends HookConsumerWidget {
       try {
         await StudyApi.studyStart(args.categorySlug);
         Navigator.pushNamed(context, '/study',
-            arguments: StudyStartPageArguments(args.categorySlug));
+            arguments: StudyPageArguments(args.categoryTitle));
       } catch (e) {
         print(e);
         showHeartShortError(context);
@@ -27,7 +28,7 @@ class StudyStartPage extends HookConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(args.categorySlug),
+          title: Text(args.categoryTitle),
         ),
         body: CategoryStartFrame(
           categorySlug: args.categorySlug,
@@ -38,6 +39,7 @@ class StudyStartPage extends HookConsumerWidget {
 
 class StudyStartPageArguments {
   final String categorySlug;
+  final String categoryTitle;
 
-  StudyStartPageArguments(this.categorySlug);
+  StudyStartPageArguments(this.categorySlug, this.categoryTitle);
 }

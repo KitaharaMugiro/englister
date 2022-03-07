@@ -8,10 +8,18 @@ class StudyPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final StudyPageArguments args =
+        ModalRoute.of(context)?.settings.arguments as StudyPageArguments;
     return Scaffold(
         appBar: AppBar(
-          title: Text('Englister Free'),
+          title: Text(args.categoryTitle),
         ),
         body: const StudyMainFrame());
   }
+}
+
+class StudyPageArguments {
+  final String categoryTitle;
+
+  StudyPageArguments(this.categoryTitle);
 }

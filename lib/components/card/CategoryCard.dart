@@ -21,7 +21,7 @@ class CategoryCard extends StatelessWidget {
         elevation: 3,
         child: InkWell(
             onTap: () {
-              onTap(category);
+              onTap(category, title);
             },
             child: Column(
               mainAxisSize: MainAxisSize.min,

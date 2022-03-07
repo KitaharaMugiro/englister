@@ -32,11 +32,11 @@ class HomePage extends HookConsumerWidget {
       });
     }, []);
 
-    void onTapCard(String category) async {
+    void onTapCard(String category, String title) async {
       EasyLoading.show(status: 'loading...');
       try {
         Navigator.pushNamed(context, '/study/start',
-            arguments: StudyStartPageArguments(category));
+            arguments: StudyStartPageArguments(category, title));
       } catch (e) {
         print(e);
       }
@@ -64,7 +64,7 @@ class HomePage extends HookConsumerWidget {
               var category = categoryList.value!.popular![index];
               return CategoryCard(
                 onTap: onTapCard,
-                imageURL: BASE_URL + category.categoryImageUrl, //判定微妙かも
+                imageURL: BASE_URL + category.categoryImageUrl,
                 title: category.categoryName,
                 category: category.categorySlug,
               );
