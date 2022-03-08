@@ -14,7 +14,10 @@ class StudyPage extends HookConsumerWidget {
         appBar: AppBar(
           title: Text(args.categoryTitle),
         ),
-        body: const StudyMainFrame());
+        body: GestureDetector(
+            //画面タップでキーボードを閉じる処理
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: const StudyMainFrame()));
   }
 }
 
