@@ -38,6 +38,8 @@ class StudyStepper extends HookConsumerWidget {
 
     void handleNext() async {
       EasyLoading.show(status: 'loading...');
+      //キーボードを閉じる
+      FocusScope.of(context).unfocus();
       if (activeStep.value == 2) {
         //最後のステップ
         //初期化
@@ -96,6 +98,8 @@ class StudyStepper extends HookConsumerWidget {
     }
 
     void handleBack() {
+      //キーボードを閉じる（一応戻る時も）
+      FocusScope.of(context).unfocus();
       studyNotifier.set(studyState.copyWith(english: ""));
       activeStep.value -= 1;
     }
