@@ -75,7 +75,8 @@ class StudyStepper extends HookConsumerWidget {
           EasyLoading.dismiss();
           return;
         }
-        var resTranslation = await StudyApi.translate(studyState.japanese);
+        var resTranslation = await StudyApi.translate(
+            studyState.japanese, studyState.activeQuestion.title);
         studyNotifier.set(
             studyState.copyWith(translation: resTranslation.translation ?? ""));
 

@@ -84,7 +84,8 @@ class StudyApi {
     return it;
   }
 
-  static Future<TranslateResponse> translate(String japanese) async {
+  static Future<TranslateResponse> translate(
+      String japanese, String contextualText) async {
     var userId = await LocalStorageHelper.getUserId();
     var studySessionId = await LocalStorageHelper.getStudySessionId();
     if (userId == null || studySessionId == null) {
@@ -97,7 +98,8 @@ class StudyApi {
       "data": {
         "userId": userId,
         "studySessionId": studySessionId,
-        "japanese": japanese
+        "japanese": japanese,
+        "contextualText": contextualText,
       },
       "headers": await AuthService.getHeader()
     });
