@@ -1,8 +1,10 @@
 import 'package:englister/api/rest/response_type/dashboard.dart';
 import 'package:englister/api/rest/response_type/get_category_detail_response.dart';
 import 'package:englister/api/rest/response_type/get_category_list_response.dart';
+import 'package:englister/api/rest/response_type/get_current_plan_response.dart';
 import 'package:englister/api/rest/response_type/get_purchased_heart_response.dart';
 import 'package:englister/api/rest/response_type/get_topic_response.dart';
+import 'package:englister/api/rest/response_type/left_heart_response.dart';
 import 'package:englister/api/rest/response_type/purchase_heart_response.dart';
 import 'package:englister/api/rest/response_type/send_english_response.dart';
 import 'package:englister/api/rest/response_type/send_japanese_response.dart';
@@ -21,6 +23,16 @@ part 'rest_client.g.dart';
 @RestApi(baseUrl: REST_API_BASE_URL)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
+
+  @POST("/subscription/plan")
+  Future<GetCurrentPlanResponse> getCurrentPlan(
+    @Body() Map<String, dynamic> map,
+  );
+
+  @POST("/study/left_heart")
+  Future<LeftHeartResponse> leftHeart(
+    @Body() Map<String, dynamic> map,
+  );
 
   @POST("/study/record/list_dashboard")
   Future<List<Dashboard>> getDashboard(

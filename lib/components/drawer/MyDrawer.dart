@@ -1,4 +1,7 @@
+import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/api/rest/SubscriptionApi.dart';
+import 'package:englister/components/drawer/LeftPlanHearts.dart';
+import 'package:englister/models/riverpod/LeftHeartsRiverpod.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:englister/pages/plan.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +14,10 @@ class MyDrawer extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var heart = useState<num>(0);
     var user = ref.watch(userProvider);
+    var leftHearts = ref.watch(leftHeartsProvider);
+    var leftHeartsNotifier = ref.watch(leftHeartsProvider.notifier);
+    var maxHearts = ref.watch(maxHeartsProvider);
+    var maxHeartsNotifier = ref.watch(maxHeartsProvider.notifier);
     var userEmail = user.email;
 
     useEffect(() {
@@ -21,6 +28,26 @@ class MyDrawer extends HookConsumerWidget {
         debugPrint(e);
         heart.value = 0;
       });
+
+      StudyApi.leftHeart().then((value) {
+        debugPrint(value.leftHeart.toString());
+        leftHeartsNotifier.set(value.leftHeart);
+      }).catchError((e) {
+        debugPrint(e);
+        leftHeartsNotifier.set(0);
+      });
+
+      SubscriptionApi.getCurrentPlan().then((plan) {
+        if (plan.plan == "3" && plan.status == "active") {
+          maxHeartsNotifier.set(3);
+        } else if (plan.plan == "10" && plan.status == "active") {
+          maxHeartsNotifier.set(10);
+        } else if (plan.plan == "unlimited" && plan.status == "active") {
+          maxHeartsNotifier.set(300);
+        } else {
+          maxHeartsNotifier.set(0);
+        }
+      });
     }, []);
 
     return Drawer(
@@ -28,12 +55,16 @@ class MyDrawer extends HookConsumerWidget {
       DrawerHeader(
           child: Center(
         child: Column(children: [
-          CircleAvatar(
-            child: Text(userEmail?.substring(0, 1) ?? 'A'),
-            radius: 40,
-          ),
+          // CircleAvatar(
+          //   child: Text(userEmail?.substring(0, 1) ?? 'A'),
+          //   radius: 20,
+          // ),
           const SizedBox(height: 10),
           Text(userEmail ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 5),
+          const Text("残りライフ"),
+          LeftPlanHearts(
+              hearts: leftHearts, maxHearts: maxHearts, showText: true),
           Text("❤️ × ${heart.value}"),
         ]),
       )),

@@ -19,6 +19,40 @@ class _RestClient implements RestClient {
   String? baseUrl;
 
   @override
+  Future<GetCurrentPlanResponse> getCurrentPlan(map) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(map);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetCurrentPlanResponse>(
+            Options(method: 'POST', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/subscription/plan',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetCurrentPlanResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<LeftHeartResponse> leftHeart(map) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(map);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<LeftHeartResponse>(
+            Options(method: 'POST', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/study/left_heart',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = LeftHeartResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<List<Dashboard>> getDashboard(map) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

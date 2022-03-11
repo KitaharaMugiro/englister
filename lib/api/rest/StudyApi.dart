@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:englister/api/rest/response_type/get_topic_response.dart';
+import 'package:englister/api/rest/response_type/left_heart_response.dart';
 import 'package:englister/api/rest/response_type/send_english_response.dart';
 import 'package:englister/api/rest/response_type/send_japanese_response.dart';
 import 'package:englister/api/rest/response_type/translate_response.dart';
@@ -8,6 +9,21 @@ import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/localstorage/LocalStorageHelper.dart';
 
 class StudyApi {
+  static Future<LeftHeartResponse> leftHeart() async {
+    var userId = await LocalStorageHelper.getUserId();
+    if (userId == null) {
+      throw Exception('UserId is null');
+    }
+
+    final dio = Dio(); // Provide a dio instance
+    final client = RestClient(dio);
+    var it = await client.leftHeart({
+      "data": {"userId": userId},
+      "headers": await AuthService.getHeader()
+    });
+    return it;
+  }
+
   static Future<GetTopicResponse> getTopic() async {
     var userId = await LocalStorageHelper.getUserId();
     var studySessionId = await LocalStorageHelper.getStudySessionId();
