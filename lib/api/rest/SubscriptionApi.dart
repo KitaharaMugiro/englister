@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:englister/api/rest/response_type/get_current_plan_response.dart';
 import 'package:englister/api/rest/response_type/get_purchased_heart_response.dart';
 import 'package:englister/api/rest/response_type/purchase_heart_response.dart';
 import 'package:englister/api/rest/rest_client.dart';
@@ -6,6 +7,15 @@ import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/localstorage/LocalStorageHelper.dart';
 
 class SubscriptionApi {
+  static Future<GetCurrentPlanResponse> getCurrentPlan() async {
+    final dio = Dio(); // Provide a dio instance
+    final client = RestClient(dio);
+    var header = await AuthService.getHeader();
+
+    var it = await client.getCurrentPlan({"data": {}, "headers": header});
+    return it;
+  }
+
   static Future<GetPurchasedHeartResponse> getPurchasedHeart() async {
     var header = await AuthService.getHeader();
     var userId = await LocalStorageHelper.getUserId();
