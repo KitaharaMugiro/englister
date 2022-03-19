@@ -24,6 +24,19 @@ final studyProvider = StateNotifierProvider<StudyNotifier, StudyState>(
   (ref) => StudyNotifier(),
 );
 
+//今日の英語年齢診断の名前
+class NameNotifier extends StateNotifier<String> {
+  NameNotifier() : super(_initialValue);
+  static const String _initialValue = '';
+  void set(String name) {
+    state = name;
+  }
+}
+
+final nameProvider = StateNotifierProvider<NameNotifier, String>(
+  (ref) => NameNotifier(),
+);
+
 //使い方
 //var value = ref.watch(xxxProvider);
 // → value

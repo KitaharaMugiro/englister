@@ -4,6 +4,7 @@ import 'package:englister/api/rest/response_type/get_category_list_response.dart
 import 'package:englister/components/card/CategoryCard.dart';
 import 'package:englister/components/dialog/showHeartShortError.dart';
 import 'package:englister/route/studyStart.dart';
+import 'package:englister/route/todayStudy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -35,6 +36,13 @@ class HomePage extends HookConsumerWidget {
     void onTapCard(String category, String title) async {
       EasyLoading.show(status: 'loading...');
       try {
+        if (category == 'today') {
+          Navigator.pushNamed(context, '/today',
+              arguments: TodayStudyPageArguments(title));
+          EasyLoading.dismiss();
+          return;
+        }
+
         Navigator.pushNamed(context, '/study/start',
             arguments: StudyStartPageArguments(category, title));
       } catch (e) {
@@ -59,9 +67,17 @@ class HomePage extends HookConsumerWidget {
       Expanded(
         child: ListView.builder(
             padding: const EdgeInsets.all(8),
-            itemCount: categoryList.value!.popular!.length,
+            itemCount: categoryList.value!.popular!.length + 1,
             itemBuilder: (BuildContext context, int index) {
-              var category = categoryList.value!.popular![index];
+              if (index == 0) {
+                return CategoryCard(
+                  onTap: onTapCard,
+                  imageURL: 'https://english.yunomy.com/static/ogp/slide_6.png',
+                  title: '今日の英語年齢診断',
+                  category: 'today',
+                );
+              }
+              var category = categoryList.value!.popular![index - 1];
               return CategoryCard(
                 onTap: onTapCard,
                 imageURL: BASE_URL + category.categoryImageUrl,

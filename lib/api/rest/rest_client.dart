@@ -3,8 +3,10 @@ import 'package:englister/api/rest/response_type/get_category_detail_response.da
 import 'package:englister/api/rest/response_type/get_category_list_response.dart';
 import 'package:englister/api/rest/response_type/get_current_plan_response.dart';
 import 'package:englister/api/rest/response_type/get_purchased_heart_response.dart';
+import 'package:englister/api/rest/response_type/get_today_topic_response.dart';
 import 'package:englister/api/rest/response_type/get_topic_response.dart';
 import 'package:englister/api/rest/response_type/left_heart_response.dart';
+import 'package:englister/api/rest/response_type/list_today_topic_result_response.dart';
 import 'package:englister/api/rest/response_type/purchase_heart_response.dart';
 import 'package:englister/api/rest/response_type/send_english_response.dart';
 import 'package:englister/api/rest/response_type/send_japanese_response.dart';
@@ -12,6 +14,7 @@ import 'package:englister/api/rest/response_type/signin_response.dart';
 import 'package:englister/api/rest/response_type/study_start_response.dart';
 import 'package:englister/api/rest/response_type/submit_dashboard_response.dart';
 import 'package:englister/api/rest/response_type/submit_done_topic_response.dart';
+import 'package:englister/api/rest/response_type/submit_today_topic_result_response.dart';
 import 'package:englister/api/rest/response_type/translate_response.dart';
 import 'package:englister/api/rest/rest_constants.dart';
 import 'package:englister/models/study/Category.dart';
@@ -108,6 +111,27 @@ abstract class RestClient {
 
   @POST("/category/list")
   Future<GetCategoryListResponse> getCategoryList(
+    @Body() Map<String, dynamic> map,
+  );
+
+  //today系
+  @POST("/today/get_topic")
+  Future<GetTodayTopicResponse> getTodayTopic(
+    @Body() Map<String, dynamic> map,
+  );
+
+  @POST("/today/get_result")
+  Future<GetTodayTopicResponse> getResult(
+    @Body() Map<String, dynamic> map,
+  );
+
+  @POST("/today/submit_result")
+  Future<SubmitTodayTopicResultResponse> submitTodayTopicResult(
+    @Body() Map<String, dynamic> map,
+  );
+
+  @POST("/today/list_result")
+  Future<ListTodayTopicResultResponse> listTodayTopicResult(
     @Body() Map<String, dynamic> map,
   );
 }
