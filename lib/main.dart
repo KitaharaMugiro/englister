@@ -14,7 +14,6 @@ import 'package:englister/route/setting.dart';
 import 'package:englister/route/study.dart';
 import 'package:englister/route/studyStart.dart';
 import 'package:englister/route/todayStudy.dart';
-import 'package:englister/route/todayStudyReview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,7 +52,6 @@ class MyApp extends StatelessWidget {
         '/study/start': (BuildContext context) => StudyStartPage(),
         '/plan': (BuildContext context) => const PlanPage(),
         '/today': (BuildContext context) => const TodayStudyPage(),
-        '/today/review': (BuildContext context) => const TodayStudyReviewPage(),
       },
     ));
   }

@@ -23,11 +23,11 @@ class _$TodayAnswerTearOff {
   const _$TodayAnswerTearOff();
 
   _TodayAnswer call(
-      {@JsonKey(name: 'japanese') String? japanese,
-      @JsonKey(name: 'english') String? english,
-      @JsonKey(name: 'translation') String? translation,
+      {@JsonKey(name: 'japanese') required String japanese,
+      @JsonKey(name: 'english') required String english,
+      @JsonKey(name: 'translation') required String translation,
       @JsonKey(name: 'age') required num age,
-      @JsonKey(name: 'resultId') String? resultId,
+      @JsonKey(name: 'resultId') required String resultId,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'userId') String? userId}) {
     return _TodayAnswer(
@@ -52,15 +52,15 @@ const $TodayAnswer = _$TodayAnswerTearOff();
 /// @nodoc
 mixin _$TodayAnswer {
   @JsonKey(name: 'japanese')
-  String? get japanese => throw _privateConstructorUsedError;
+  String get japanese => throw _privateConstructorUsedError;
   @JsonKey(name: 'english')
-  String? get english => throw _privateConstructorUsedError;
+  String get english => throw _privateConstructorUsedError;
   @JsonKey(name: 'translation')
-  String? get translation => throw _privateConstructorUsedError;
+  String get translation => throw _privateConstructorUsedError;
   @JsonKey(name: 'age')
   num get age => throw _privateConstructorUsedError;
   @JsonKey(name: 'resultId')
-  String? get resultId => throw _privateConstructorUsedError;
+  String get resultId => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'userId')
@@ -78,11 +78,11 @@ abstract class $TodayAnswerCopyWith<$Res> {
           TodayAnswer value, $Res Function(TodayAnswer) then) =
       _$TodayAnswerCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'japanese') String? japanese,
-      @JsonKey(name: 'english') String? english,
-      @JsonKey(name: 'translation') String? translation,
+      {@JsonKey(name: 'japanese') String japanese,
+      @JsonKey(name: 'english') String english,
+      @JsonKey(name: 'translation') String translation,
       @JsonKey(name: 'age') num age,
-      @JsonKey(name: 'resultId') String? resultId,
+      @JsonKey(name: 'resultId') String resultId,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'userId') String? userId});
 }
@@ -109,15 +109,15 @@ class _$TodayAnswerCopyWithImpl<$Res> implements $TodayAnswerCopyWith<$Res> {
       japanese: japanese == freezed
           ? _value.japanese
           : japanese // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       english: english == freezed
           ? _value.english
           : english // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       translation: translation == freezed
           ? _value.translation
           : translation // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       age: age == freezed
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
@@ -125,7 +125,7 @@ class _$TodayAnswerCopyWithImpl<$Res> implements $TodayAnswerCopyWith<$Res> {
       resultId: resultId == freezed
           ? _value.resultId
           : resultId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -146,11 +146,11 @@ abstract class _$TodayAnswerCopyWith<$Res>
       __$TodayAnswerCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'japanese') String? japanese,
-      @JsonKey(name: 'english') String? english,
-      @JsonKey(name: 'translation') String? translation,
+      {@JsonKey(name: 'japanese') String japanese,
+      @JsonKey(name: 'english') String english,
+      @JsonKey(name: 'translation') String translation,
       @JsonKey(name: 'age') num age,
-      @JsonKey(name: 'resultId') String? resultId,
+      @JsonKey(name: 'resultId') String resultId,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'userId') String? userId});
 }
@@ -179,15 +179,15 @@ class __$TodayAnswerCopyWithImpl<$Res> extends _$TodayAnswerCopyWithImpl<$Res>
       japanese: japanese == freezed
           ? _value.japanese
           : japanese // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       english: english == freezed
           ? _value.english
           : english // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       translation: translation == freezed
           ? _value.translation
           : translation // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       age: age == freezed
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
@@ -195,7 +195,7 @@ class __$TodayAnswerCopyWithImpl<$Res> extends _$TodayAnswerCopyWithImpl<$Res>
       resultId: resultId == freezed
           ? _value.resultId
           : resultId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -212,11 +212,11 @@ class __$TodayAnswerCopyWithImpl<$Res> extends _$TodayAnswerCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TodayAnswer implements _TodayAnswer {
   const _$_TodayAnswer(
-      {@JsonKey(name: 'japanese') this.japanese,
-      @JsonKey(name: 'english') this.english,
-      @JsonKey(name: 'translation') this.translation,
+      {@JsonKey(name: 'japanese') required this.japanese,
+      @JsonKey(name: 'english') required this.english,
+      @JsonKey(name: 'translation') required this.translation,
       @JsonKey(name: 'age') required this.age,
-      @JsonKey(name: 'resultId') this.resultId,
+      @JsonKey(name: 'resultId') required this.resultId,
       @JsonKey(name: 'name') this.name,
       @JsonKey(name: 'userId') this.userId});
 
@@ -225,19 +225,19 @@ class _$_TodayAnswer implements _TodayAnswer {
 
   @override
   @JsonKey(name: 'japanese')
-  final String? japanese;
+  final String japanese;
   @override
   @JsonKey(name: 'english')
-  final String? english;
+  final String english;
   @override
   @JsonKey(name: 'translation')
-  final String? translation;
+  final String translation;
   @override
   @JsonKey(name: 'age')
   final num age;
   @override
   @JsonKey(name: 'resultId')
-  final String? resultId;
+  final String resultId;
   @override
   @JsonKey(name: 'name')
   final String? name;
@@ -289,11 +289,11 @@ class _$_TodayAnswer implements _TodayAnswer {
 
 abstract class _TodayAnswer implements TodayAnswer {
   const factory _TodayAnswer(
-      {@JsonKey(name: 'japanese') String? japanese,
-      @JsonKey(name: 'english') String? english,
-      @JsonKey(name: 'translation') String? translation,
+      {@JsonKey(name: 'japanese') required String japanese,
+      @JsonKey(name: 'english') required String english,
+      @JsonKey(name: 'translation') required String translation,
       @JsonKey(name: 'age') required num age,
-      @JsonKey(name: 'resultId') String? resultId,
+      @JsonKey(name: 'resultId') required String resultId,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'userId') String? userId}) = _$_TodayAnswer;
 
@@ -302,19 +302,19 @@ abstract class _TodayAnswer implements TodayAnswer {
 
   @override
   @JsonKey(name: 'japanese')
-  String? get japanese;
+  String get japanese;
   @override
   @JsonKey(name: 'english')
-  String? get english;
+  String get english;
   @override
   @JsonKey(name: 'translation')
-  String? get translation;
+  String get translation;
   @override
   @JsonKey(name: 'age')
   num get age;
   @override
   @JsonKey(name: 'resultId')
-  String? get resultId;
+  String get resultId;
   @override
   @JsonKey(name: 'name')
   String? get name;

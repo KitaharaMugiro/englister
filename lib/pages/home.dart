@@ -37,8 +37,7 @@ class HomePage extends HookConsumerWidget {
       EasyLoading.show(status: 'loading...');
       try {
         if (category == 'today') {
-          Navigator.pushNamed(context, '/today',
-              arguments: TodayStudyPageArguments(title));
+          Navigator.pushNamed(context, '/today');
           EasyLoading.dismiss();
           return;
         }

@@ -8,11 +8,11 @@ part of 'TodayAnswer.dart';
 
 _$_TodayAnswer _$$_TodayAnswerFromJson(Map<String, dynamic> json) =>
     _$_TodayAnswer(
-      japanese: json['japanese'] as String?,
-      english: json['english'] as String?,
-      translation: json['translation'] as String?,
+      japanese: json['japanese'] as String,
+      english: json['english'] as String,
+      translation: json['translation'] as String,
       age: json['age'] as num,
-      resultId: json['resultId'] as String?,
+      resultId: json['resultId'] as String,
       name: json['name'] as String?,
       userId: json['userId'] as String?,
     );

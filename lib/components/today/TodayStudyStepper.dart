@@ -6,12 +6,11 @@ import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/api/rest/TodayApi.dart';
 import 'package:englister/api/rest/TopicApi.dart';
 import 'package:englister/api/rest/response_type/get_today_topic_response.dart';
-import 'package:englister/components/study/main/Review.dart';
 import 'package:englister/components/study/main/WriteEnglish.dart';
 import 'package:englister/components/study/main/WriteJapanese.dart';
 import 'package:englister/components/today/TodayStudyTop.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
-import 'package:englister/models/study/Question.dart';
+import 'package:englister/models/riverpod/TodayStudyRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -27,21 +26,8 @@ class TodayStudyStepper extends HookConsumerWidget {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
     var nameState = ref.watch(nameProvider);
-    var todayTopic = useState<GetTodayTopicResponse?>(null);
-
-    useEffect(() {
-      TodayApi.getTodayTopic().then((res) {
-        todayTopic.value = res;
-        var topic = res.question;
-        var q = Question(
-            topicId: topic.topicId,
-            title: topic.title,
-            description: topic.description);
-        studyNotifier.set(studyState.copyWith(activeQuestion: q));
-        print(res.question);
-        print(res.answer);
-      });
-    }, []);
+    var showReviewNotifier = ref.watch(showReviewProvider.notifier);
+    var todayTopic = ref.watch(todayTopicProvider);
 
     void handleNext() async {
       EasyLoading.show(status: 'loading...');
@@ -92,7 +78,7 @@ class TodayStudyStepper extends HookConsumerWidget {
 
         //結果の保存
         var result = await TodayApi.submitTodayTopicResult(
-          todayTopic.value!.question.todayTopicId,
+          todayTopic!.question.todayTopicId,
           resScore.score_num,
           studyState.english,
           resTranslation.translation ?? "",
@@ -117,7 +103,7 @@ class TodayStudyStepper extends HookConsumerWidget {
             studyState.activeQuestion.topicId);
 
         EasyLoading.dismiss();
-        Navigator.pushNamed(context, '/today/review');
+        showReviewNotifier.set(true);
         //初期化
         activeStep.value = 0;
         studyNotifier.set(studyState.copyWith(
