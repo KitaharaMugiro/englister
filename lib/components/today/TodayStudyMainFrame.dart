@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:englister/api/rest/TodayApi.dart';
 import 'package:englister/components/today/TodayStudyReview.dart';
 import 'package:englister/components/today/TodayStudyStepper.dart';
@@ -15,28 +17,27 @@ class TodayStudyMainFrame extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
-    var showReview = ref.watch(showReviewProvider);
+    var todayResultId = ref.watch(TodayResultIdProvider);
+    var todayResultIdNotifier = ref.watch(TodayResultIdProvider.notifier);
     var todayTopicNotifier = ref.watch(todayTopicProvider.notifier);
     var todayTopic = ref.watch(todayTopicProvider);
-    var showReviewNotifier = ref.watch(showReviewProvider.notifier);
-
-    // Widgetのビルド後に実行される
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      //ビルド後に状態を変更しないとエラーになるためここで初期化
-      showReviewNotifier.set(false);
-    });
 
     useEffect(() {
       TodayApi.getTodayTopic().then((res) {
         todayTopicNotifier.set(res);
         var topic = res.question;
+        var answer = res.answer;
         var q = Question(
             topicId: topic.topicId,
             title: topic.title,
             description: topic.description);
         studyNotifier.set(studyState.copyWith(activeQuestion: q));
-        debugPrint(res.question.toString());
-        debugPrint(res.answer.toString());
+
+        if (answer != null) {
+          todayResultIdNotifier.set(answer.resultId);
+        } else {
+          todayResultIdNotifier.set(null);
+        }
       });
     }, []);
 
@@ -44,10 +45,10 @@ class TodayStudyMainFrame extends HookConsumerWidget {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (showReview || todayTopic.answer != null) {
-      return Container(child: const TodayStudyReview());
+    if (todayResultId != null) {
+      return const TodayStudyReview();
     }
 
-    return Container(child: const TodayStudyStepper());
+    return const TodayStudyStepper();
   }
 }

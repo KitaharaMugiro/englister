@@ -81,7 +81,6 @@ class _IndexPageState extends ConsumerState<IndexPage> {
     final bool available = await InAppPurchase.instance.isAvailable();
     if (!available) {
       // The store cannot be reached or accessed. Update the UI accordingly.
-      inspect("The store cannot be reached or accessed");
       return;
     }
     final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;

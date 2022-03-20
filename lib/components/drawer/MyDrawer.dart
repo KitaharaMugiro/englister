@@ -25,14 +25,15 @@ class MyDrawer extends HookConsumerWidget {
         debugPrint(value.count.toString());
         heart.value = value.count;
       }).catchError((e) {
+        debugPrint("Error on MyDrawer↓");
         debugPrint(e);
         heart.value = 0;
       });
 
       StudyApi.leftHeart().then((value) {
-        debugPrint(value.leftHeart.toString());
         leftHeartsNotifier.set(value.leftHeart);
       }).catchError((e) {
+        debugPrint("Error on MyDrawer↓");
         debugPrint(e);
         leftHeartsNotifier.set(0);
       });

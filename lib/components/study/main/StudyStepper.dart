@@ -27,7 +27,6 @@ class StudyStepper extends HookConsumerWidget {
     useEffect(() {
       //API getTopic
       StudyApi.getTopic().then((topic) {
-        inspect(topic);
         var q = Question(
             topicId: topic.topicId!,
             title: topic.topicTitle!,

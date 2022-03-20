@@ -25,7 +25,7 @@ class TodayStudyStepper extends HookConsumerWidget {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
     var nameState = ref.watch(nameProvider);
-    var showReviewNotifier = ref.watch(showReviewProvider.notifier);
+    var todayResultIdNotifier = ref.watch(TodayResultIdProvider.notifier);
     var todayTopic = ref.watch(todayTopicProvider);
 
     void handleNext() async {
@@ -100,7 +100,7 @@ class TodayStudyStepper extends HookConsumerWidget {
             studyState.activeQuestion.topicId);
 
         EasyLoading.dismiss();
-        showReviewNotifier.set(true);
+        todayResultIdNotifier.set(result.resultId);
         //初期化
         activeStep.value = 0;
         studyNotifier.set(studyState.copyWith(

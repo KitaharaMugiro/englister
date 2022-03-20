@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:englister/api/rest/response_type/get_today_topic_response.dart';
 import 'package:englister/api/rest/response_type/list_today_topic_result_response.dart';
@@ -5,6 +7,7 @@ import 'package:englister/api/rest/response_type/submit_today_topic_result_respo
 import 'package:englister/api/rest/rest_client.dart';
 import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/localstorage/LocalStorageHelper.dart';
+import 'package:flutter/foundation.dart';
 
 class TodayApi {
   static Future<GetTodayTopicResponse> getTodayTopic() async {
@@ -48,10 +51,9 @@ class TodayApi {
     if (userId == null) {
       throw Exception('UserId is null');
     }
-    print(userId);
-    print(name);
 
     var dio = Dio();
+    dio.interceptors.add(LogInterceptor());
     var client = RestClient(dio);
     var it = await client.submitTodayTopicResult({
       "data": {

@@ -29,17 +29,18 @@ final nameProvider = StateNotifierProvider<NameNotifier, String>(
   (ref) => NameNotifier(),
 );
 
-//今日の英語年齢診断の結果を見せるかどうか
-class ShowReviewNotifier extends StateNotifier<bool> {
-  ShowReviewNotifier() : super(_initialValue);
-  static const bool _initialValue = false;
-  void set(bool showReview) {
+//今日の英語年齢診断の結果ID
+class TodayResultIdNotifier extends StateNotifier<String?> {
+  TodayResultIdNotifier() : super(_initialValue);
+  static const String? _initialValue = null;
+  void set(String? showReview) {
     state = showReview;
   }
 }
 
-final showReviewProvider = StateNotifierProvider<ShowReviewNotifier, bool>(
-  (ref) => ShowReviewNotifier(),
+final TodayResultIdProvider =
+    StateNotifierProvider<TodayResultIdNotifier, String?>(
+  (ref) => TodayResultIdNotifier(),
 );
 
 //使い方

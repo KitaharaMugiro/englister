@@ -1,3 +1,4 @@
+import 'package:englister/api/rest/TodayApi.dart';
 import 'package:englister/components/today/TodayShareButton.dart';
 import 'package:englister/models/localstorage/LocalStorageHelper.dart';
 import 'package:englister/models/riverpod/TodayStudyRiverpod.dart';
@@ -11,15 +12,21 @@ class TodayStudyReview extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var todayTopic = ref.watch(todayTopicProvider);
-    var nameNotifier = ref.watch(nameProvider.notifier);
-    //todayTopic.answer.nameがなぜかnullになるので代替する
-    var name = ref.watch(nameProvider);
+    var todayTopicNotifier = ref.watch(todayTopicProvider.notifier);
+    var todayResultId = ref.watch(TodayResultIdProvider);
+    var name = useState("");
 
     useEffect(() {
-      LocalStorageHelper.getTodayName().then((name) {
-        nameNotifier.set(name);
+      if (todayResultId == null) {
+        //トップに戻す
+        Navigator.pop(context);
+        return;
+      }
+      TodayApi.getResult(todayResultId).then((res) {
+        todayTopicNotifier.set(res);
+        name.value = res.answer?.name ?? "";
       });
-    }, []);
+    }, [todayResultId]);
 
     Widget renderReview() {
       return Column(
@@ -33,9 +40,9 @@ class TodayStudyReview extends HookConsumerWidget {
             Text(todayTopic.question.description,
                 style: Typography.dense2018.bodyText2),
             const SizedBox(height: 20),
-            name.isEmpty
+            name.value.isEmpty
                 ? Text("日本語で書いた意見", style: Typography.dense2018.bodyText1)
-                : Text("$nameさんが日本語で書いた意見",
+                : Text("${name.value}さんが日本語で書いた意見",
                     style: Typography.dense2018.bodyText1),
             Container(
                 margin: EdgeInsets.only(top: 15, bottom: 15),
@@ -45,9 +52,9 @@ class TodayStudyReview extends HookConsumerWidget {
                   child: Text(todayTopic.answer!.japanese,
                       style: Typography.englishLike2018.bodyText1),
                 )),
-            name.isEmpty
+            name.value.isEmpty
                 ? Text("英語で書いた意見", style: Typography.dense2018.bodyText1)
-                : Text("$nameさんが英語で書いた意見",
+                : Text("${name.value}さんが英語で書いた意見",
                     style: Typography.dense2018.bodyText1),
             Container(
                 margin: EdgeInsets.only(top: 15, bottom: 15),
