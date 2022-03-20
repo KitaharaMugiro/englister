@@ -9,10 +9,12 @@ class TodayShareButton extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var todayTopic = ref.watch(todayTopicProvider);
+    var name = ref.watch(nameProvider);
+    var text = name.isEmpty ? "回答はこちら↓" : "$nameさんの回答はこちら↓";
     return TwitterShareButton(
       label: '結果をツイートする',
-      text: '今日の英語年齢の診断結果',
-      url: 'https://english.yunomy.com/today/${todayTopic!.answer?.resultId}',
+      text: 'Q.${todayTopic!.question.title}\n\n$text',
+      url: 'https://english.yunomy.com/today/${todayTopic.answer?.resultId}',
       hashtags: const ["Englister", "英語力診断", "毎日英語年齢診断"],
     );
   }

@@ -1,6 +1,8 @@
+import 'package:englister/models/localstorage/LocalStorageHelper.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:englister/models/riverpod/TodayStudyRiverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TodayStudyTop extends HookConsumerWidget {
@@ -10,6 +12,21 @@ class TodayStudyTop extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var nameNotifier = ref.watch(nameProvider.notifier);
+    var name = ref.watch(nameProvider);
+
+    final TextEditingController _textEditingController =
+        TextEditingController(text: name);
+
+    // TextFieldのカーソル位置を末尾に設定する(なぜか入力するとカーソル位置が先頭になるため)
+    _textEditingController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _textEditingController.text.length),
+    );
+
+    useEffect(() {
+      LocalStorageHelper.getTodayName().then((name) {
+        nameNotifier.set(name);
+      });
+    }, []);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,10 +37,12 @@ class TodayStudyTop extends HookConsumerWidget {
           height: 15,
         ),
         TextField(
+          autofocus: true,
           maxLines: 1,
           onChanged: (value) {
             nameNotifier.set(value);
           },
+          controller: _textEditingController,
           decoration: InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'お名前を入力してください',

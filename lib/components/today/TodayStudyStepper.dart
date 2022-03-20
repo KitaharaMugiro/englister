@@ -4,11 +4,10 @@ import 'package:englister/api/rest/RecordApi.dart';
 import 'package:englister/api/rest/SpecialApi.dart';
 import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/api/rest/TodayApi.dart';
-import 'package:englister/api/rest/TopicApi.dart';
-import 'package:englister/api/rest/response_type/get_today_topic_response.dart';
 import 'package:englister/components/study/main/WriteEnglish.dart';
 import 'package:englister/components/study/main/WriteJapanese.dart';
 import 'package:englister/components/today/TodayStudyTop.dart';
+import 'package:englister/models/localstorage/LocalStorageHelper.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:englister/models/riverpod/TodayStudyRiverpod.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +37,7 @@ class TodayStudyStepper extends HookConsumerWidget {
           EasyLoading.dismiss();
           return;
         }
+        await LocalStorageHelper.saveTodayName(nameState);
         activeStep.value = 1;
         EasyLoading.dismiss();
       } else if (activeStep.value == 1) {
@@ -89,9 +89,6 @@ class TodayStudyStepper extends HookConsumerWidget {
         );
 
         //TODO submitPublicAnswer
-
-        //必要？
-        TopicApi.submitDoneTopic(studyState.activeQuestion.topicId);
 
         //WARN: WebではReviewのuseEffectで呼んでいるが、Flutterではスコアを算出しないことと、ライフサイクルの観点からここで実行する
 

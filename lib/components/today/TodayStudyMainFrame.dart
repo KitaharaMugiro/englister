@@ -1,5 +1,4 @@
 import 'package:englister/api/rest/TodayApi.dart';
-import 'package:englister/api/rest/response_type/get_today_topic_response.dart';
 import 'package:englister/components/today/TodayStudyReview.dart';
 import 'package:englister/components/today/TodayStudyStepper.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
@@ -17,9 +16,15 @@ class TodayStudyMainFrame extends HookConsumerWidget {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
     var showReview = ref.watch(showReviewProvider);
-    var showReviewNotifier = ref.watch(showReviewProvider.notifier);
     var todayTopicNotifier = ref.watch(todayTopicProvider.notifier);
     var todayTopic = ref.watch(todayTopicProvider);
+    var showReviewNotifier = ref.watch(showReviewProvider.notifier);
+
+    // Widgetのビルド後に実行される
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      //ビルド後に状態を変更しないとエラーになるためここで初期化
+      showReviewNotifier.set(false);
+    });
 
     useEffect(() {
       TodayApi.getTodayTopic().then((res) {
@@ -30,8 +35,8 @@ class TodayStudyMainFrame extends HookConsumerWidget {
             title: topic.title,
             description: topic.description);
         studyNotifier.set(studyState.copyWith(activeQuestion: q));
-        print(res.question);
-        print(res.answer);
+        debugPrint(res.question.toString());
+        debugPrint(res.answer.toString());
       });
     }, []);
 
@@ -40,9 +45,6 @@ class TodayStudyMainFrame extends HookConsumerWidget {
     }
 
     if (showReview || todayTopic.answer != null) {
-      //初期化する
-      showReviewNotifier.set(false);
-
       return Container(child: const TodayStudyReview());
     }
 
