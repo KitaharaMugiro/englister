@@ -63,65 +63,67 @@ class CategoryStartFrame extends HookConsumerWidget {
     }
 
     return Container(
-        child: Card(
-      elevation: 3,
-      margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
-      child: Column(
-        children: [
-          Image(
-            image: NetworkImage(imageUrl),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(category.value?.categoryName ?? "",
-                      style: Typography.dense2018.headline4!
-                          .apply(fontWeightDelta: 2)),
-                  Divider(
-                    thickness: 1,
-                  ),
-                  Text(category.value?.categoryDescription ?? "",
-                      textAlign: TextAlign.center,
-                      style: Typography.dense2018.subtitle1),
-                  const HowToPlayEnglister(),
-                  const SizedBox(height: 10),
-                  LinearPercentIndicator(
-                    lineHeight: 30,
-                    animation: true,
-                    animationDuration: 1000,
-                    percent: doneTopicNum.value / allTopicNum.value,
-                    center: Text(
-                      "${doneTopicNum.value}/${allTopicNum.value}",
-                      style: new TextStyle(fontSize: 15.0),
+        child: SingleChildScrollView(
+      child: Card(
+        elevation: 3,
+        margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
+        child: Column(
+          children: [
+            Image(
+              image: NetworkImage(imageUrl),
+            ),
+            const SizedBox(height: 10),
+            Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Text(category.value?.categoryName ?? "",
+                        style: Typography.dense2018.headline4!
+                            .apply(fontWeightDelta: 2)),
+                    Divider(
+                      thickness: 1,
                     ),
-                    backgroundColor: Colors.grey[100],
-                    progressColor: Colors.blue,
-                  ),
-                  const SizedBox(height: 10),
-                  if (doneTopicNum.value < 3)
-                    Text("最初の3問はハートを消費しません",
+                    Text(category.value?.categoryDescription ?? "",
                         textAlign: TextAlign.center,
-                        style: Typography.dense2018.subtitle2),
-                  if (doneTopicNum.value >= 3 && categorySlug != "free")
-                    Text("1問ごとにハートを1つ消費します",
-                        textAlign: TextAlign.center,
-                        style: Typography.dense2018.subtitle2),
-                  const SizedBox(height: 10),
-                  if (!noMore.value)
-                    ElevatedButton(
-                        onPressed: () {
-                          onClick!();
-                        },
-                        child: const Text("スタート")),
-                  if (noMore.value)
-                    Text("全ての問題を解き終わりました",
-                        textAlign: TextAlign.center,
-                        style: Typography.dense2018.bodyText1),
-                ],
-              ))
-        ],
+                        style: Typography.dense2018.subtitle1),
+                    const HowToPlayEnglister(),
+                    const SizedBox(height: 10),
+                    LinearPercentIndicator(
+                      lineHeight: 30,
+                      animation: true,
+                      animationDuration: 1000,
+                      percent: doneTopicNum.value / allTopicNum.value,
+                      center: Text(
+                        "${doneTopicNum.value}/${allTopicNum.value}",
+                        style: new TextStyle(fontSize: 15.0),
+                      ),
+                      backgroundColor: Colors.grey[100],
+                      progressColor: Colors.blue,
+                    ),
+                    const SizedBox(height: 10),
+                    if (doneTopicNum.value < 3)
+                      Text("最初の3問はハートを消費しません",
+                          textAlign: TextAlign.center,
+                          style: Typography.dense2018.subtitle2),
+                    if (doneTopicNum.value >= 3 && categorySlug != "free")
+                      Text("1問ごとにハートを1つ消費します",
+                          textAlign: TextAlign.center,
+                          style: Typography.dense2018.subtitle2),
+                    const SizedBox(height: 10),
+                    if (!noMore.value)
+                      ElevatedButton(
+                          onPressed: () {
+                            onClick!();
+                          },
+                          child: const Text("スタート")),
+                    if (noMore.value)
+                      Text("全ての問題を解き終わりました",
+                          textAlign: TextAlign.center,
+                          style: Typography.dense2018.bodyText1),
+                  ],
+                ))
+          ],
+        ),
       ),
     ));
   }

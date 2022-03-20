@@ -1,3 +1,4 @@
+import 'package:englister/components/today/TodayShareButton.dart';
 import 'package:englister/models/riverpod/TodayStudyRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -10,7 +11,7 @@ class TodayStudyReview extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var todayTopic = ref.watch(todayTopicProvider);
 
-    Widget renderDiffOrReview() {
+    Widget renderReview() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,7 +38,7 @@ class TodayStudyReview extends HookConsumerWidget {
                 color: Colors.grey[300],
                 child: Padding(
                   padding: EdgeInsets.all(20),
-                  child: Text(todayTopic!.answer!.english,
+                  child: Text(todayTopic.answer!.english,
                       style: Typography.englishLike2018.bodyText1),
                 )),
             Text("↓ お手本の英語",
@@ -51,19 +52,52 @@ class TodayStudyReview extends HookConsumerWidget {
                   child: Text(todayTopic.answer!.translation,
                       style: Typography.englishLike2018.bodyText1),
                 )),
+            Text("結果と答えをシェア！！",
+                textAlign: TextAlign.center,
+                style: Typography.dense2018.bodyText1),
+            Container(
+                margin: const EdgeInsets.only(top: 15, bottom: 15),
+                child: const SizedBox(height: 60, child: TodayShareButton()))
           ])
         ],
       );
     }
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const SizedBox(height: 20),
-      Image(
-        image: NetworkImage(
-            'https://english.yunomy.com/static/ogp/slide_${todayTopic!.answer!.age + 1}.png'),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Card(
+              elevation: 3,
+              margin: const EdgeInsets.only(right: 10, left: 10, top: 5),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      Image(
+                        image: NetworkImage(
+                            'https://english.yunomy.com/static/ogp/slide_${todayTopic!.answer!.age + 1}.png'),
+                      ),
+                      const SizedBox(height: 30),
+                      renderReview(),
+                    ]),
+              ),
+            ),
+            const SizedBox(height: 70),
+          ],
+        ),
       ),
-      const SizedBox(height: 30),
-      renderDiffOrReview(),
-    ]);
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        margin: const EdgeInsets.only(bottom: 10.0),
+        child: FloatingActionButton.extended(
+          backgroundColor: Colors.grey,
+          onPressed: () {},
+          label: const Text('次回の英語年齢診断18時スタート！'),
+        ),
+      ),
+    );
   }
 }

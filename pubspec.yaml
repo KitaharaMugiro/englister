@@ -57,6 +57,7 @@ dependencies:
   freezed_annotation: ^1.1.0
   in_app_purchase: ^2.0.1
   percent_indicator: ^4.0.0
+  material_design_icons_flutter: ^5.0.6595
 
 dev_dependencies:
   flutter_test:
