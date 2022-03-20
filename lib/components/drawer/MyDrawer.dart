@@ -77,6 +77,11 @@ class MyDrawer extends HookConsumerWidget {
       ),
       ListTile(
         leading: Icon(Icons.local_library),
+        title: Text('ダッシュボード'),
+        onTap: () => launch("https://english.yunomy.com/dashboard"),
+      ),
+      ListTile(
+        leading: Icon(Icons.local_library),
         title: Text('プラン'),
         onTap: () {
           Navigator.pop(context);
