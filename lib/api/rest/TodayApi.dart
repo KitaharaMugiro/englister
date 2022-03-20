@@ -17,7 +17,6 @@ class TodayApi {
     }
 
     final dio = Dio(); // Provide a dio instance
-    dio.interceptors.add(LogInterceptor());
     final client = RestClient(dio);
     var it = await client.getTodayTopic({
       "data": {"userId": userId},
@@ -53,7 +52,6 @@ class TodayApi {
     }
 
     var dio = Dio();
-    dio.interceptors.add(LogInterceptor());
     var client = RestClient(dio);
     var it = await client.submitTodayTopicResult({
       "data": {
