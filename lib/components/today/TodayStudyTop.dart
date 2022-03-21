@@ -12,19 +12,12 @@ class TodayStudyTop extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var nameNotifier = ref.watch(nameProvider.notifier);
-    var name = ref.watch(nameProvider);
-
-    final TextEditingController _textEditingController =
-        TextEditingController(text: name);
-
-    // TextFieldのカーソル位置を末尾に設定する(なぜか入力するとカーソル位置が先頭になるため)
-    _textEditingController.selection = TextSelection.fromPosition(
-      TextPosition(offset: _textEditingController.text.length),
-    );
+    final _textEditingController = useTextEditingController();
 
     useEffect(() {
       LocalStorageHelper.getTodayName().then((name) {
         nameNotifier.set(name);
+        _textEditingController.text = name;
       });
     }, []);
 
