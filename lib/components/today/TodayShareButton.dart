@@ -12,7 +12,7 @@ class TodayShareButton extends HookConsumerWidget {
     var name = ref.watch(nameProvider);
     var text = name.isEmpty ? "回答はこちら↓" : "$nameさんの回答はこちら↓";
     return TwitterShareButton(
-      label: '結果をツイートする',
+      label: '結果を共有する',
       text: 'Q.${todayTopic!.question.title}\n\n$text',
       url: 'https://english.yunomy.com/today/${todayTopic.answer?.resultId}',
       hashtags: const ["Englister", "英語力診断", "毎日英語年齢診断"],

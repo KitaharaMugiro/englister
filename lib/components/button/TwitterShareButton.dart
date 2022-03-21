@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class TwitterShareButton extends StatelessWidget {
   final String text;
@@ -21,23 +22,9 @@ class TwitterShareButton extends StatelessWidget {
       : super(key: key);
 
   void _tweet() async {
-    final Map<String, dynamic> tweetQuery = {
-      "text": this.text,
-      "url": this.url,
-      "hashtags": this.hashtags.join(","),
-      "via": this.via,
-      "related": this.related,
-    };
+    var finalText = text + "\n#" + hashtags.join(" #") + "\n" + url;
 
-    final Uri tweetScheme =
-        Uri(scheme: "twitter", host: "post", queryParameters: tweetQuery);
-
-    final Uri tweetIntentUrl =
-        Uri.https("twitter.com", "/intent/tweet", tweetQuery);
-
-    await canLaunch(tweetScheme.toString())
-        ? await launch(tweetScheme.toString())
-        : await launch(tweetIntentUrl.toString());
+    Share.share(finalText);
   }
 
   @override
@@ -46,7 +33,7 @@ class TwitterShareButton extends StatelessWidget {
       onPressed: () {
         _tweet();
       },
-      icon: const Icon(MdiIcons.twitter),
+      icon: const Icon(MdiIcons.shareVariantOutline),
       label: Text(label, style: Typography.dense2018.bodyText1),
     );
   }

@@ -45,7 +45,7 @@ class TodayStudyReview extends HookConsumerWidget {
                 : Text("${name.value}さんが日本語で書いた意見",
                     style: Typography.dense2018.bodyText1),
             Container(
-                margin: EdgeInsets.only(top: 15, bottom: 15),
+                margin: EdgeInsets.only(top: 5, bottom: 10),
                 color: Colors.grey[300],
                 child: Padding(
                   padding: EdgeInsets.all(20),
@@ -57,7 +57,7 @@ class TodayStudyReview extends HookConsumerWidget {
                 : Text("${name.value}さんが英語で書いた意見",
                     style: Typography.dense2018.bodyText1),
             Container(
-                margin: EdgeInsets.only(top: 15, bottom: 15),
+                margin: EdgeInsets.only(top: 5, bottom: 15),
                 color: Colors.grey[300],
                 child: Padding(
                   padding: EdgeInsets.all(20),
@@ -77,9 +77,10 @@ class TodayStudyReview extends HookConsumerWidget {
                 )),
             Text("結果と答えをシェア！！",
                 textAlign: TextAlign.center,
-                style: Typography.dense2018.bodyText1),
+                style:
+                    Typography.dense2018.bodyText1!.apply(fontWeightDelta: 3)),
             Container(
-                margin: const EdgeInsets.only(top: 15, bottom: 15),
+                margin: const EdgeInsets.only(top: 1, bottom: 15),
                 child: const SizedBox(height: 60, child: TodayShareButton()))
           ])
         ],
@@ -108,7 +109,7 @@ class TodayStudyReview extends HookConsumerWidget {
                     ]),
               ),
             ),
-            const SizedBox(height: 70),
+            const SizedBox(height: 100),
           ],
         ),
       ),

@@ -22,7 +22,7 @@ class MyDrawer extends HookConsumerWidget {
 
     useEffect(() {
       SubscriptionApi.getPurchasedHeart().then((value) {
-        debugPrint(value.count.toString());
+        debugPrint("購入したハート数: ${value.count.toString()}");
         heart.value = value.count;
       }).catchError((e) {
         debugPrint("Error on MyDrawer↓");
