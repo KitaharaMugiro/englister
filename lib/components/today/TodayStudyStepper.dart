@@ -1,21 +1,22 @@
 import 'dart:developer';
 
 import 'package:englister/api/rest/RecordApi.dart';
+import 'package:englister/api/rest/SpecialApi.dart';
 import 'package:englister/api/rest/StudyApi.dart';
-import 'package:englister/api/rest/TopicApi.dart';
-import 'package:englister/components/study/main/Review.dart';
+import 'package:englister/api/rest/TodayApi.dart';
+import 'package:englister/components/study/main/WriteEnglish.dart';
+import 'package:englister/components/study/main/WriteJapanese.dart';
+import 'package:englister/components/today/TodayStudyTop.dart';
+import 'package:englister/models/localstorage/LocalStorageHelper.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
-import 'package:englister/models/study/Question.dart';
+import 'package:englister/models/riverpod/TodayStudyRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'WriteEnglish.dart';
-import 'WriteJapanese.dart';
-
-class StudyStepper extends HookConsumerWidget {
-  const StudyStepper({Key? key}) : super(key: key);
+class TodayStudyStepper extends HookConsumerWidget {
+  const TodayStudyStepper({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,33 +24,23 @@ class StudyStepper extends HookConsumerWidget {
     var errorMessage = useState<String?>(null);
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
-
-    useEffect(() {
-      //API getTopic
-      StudyApi.getTopic().then((topic) {
-        var q = Question(
-            topicId: topic.topicId!,
-            title: topic.topicTitle!,
-            description: topic.topicDescription!);
-        studyNotifier.set(studyState.copyWith(activeQuestion: q));
-      });
-    }, []);
+    var nameState = ref.watch(nameProvider);
+    var todayResultIdNotifier = ref.watch(TodayResultIdProvider.notifier);
+    var todayTopic = ref.watch(todayTopicProvider);
 
     void handleNext() async {
       EasyLoading.show(status: 'loading...');
       //キーボードを閉じる
       FocusScope.of(context).unfocus();
-      if (activeStep.value == 2) {
-        //最後のステップ
-        //初期化
-        studyNotifier.set(studyState.copyWith(
-            english: "", japanese: "", translation: "", needRetry: false));
-
-        //結果画面に移動
-        Navigator.pop(context);
-        activeStep.value = 0;
+      if (activeStep.value == 0) {
+        if (nameState.isEmpty) {
+          EasyLoading.dismiss();
+          return;
+        }
+        await LocalStorageHelper.saveTodayName(nameState);
+        activeStep.value = 1;
         EasyLoading.dismiss();
-      } else if (activeStep.value == 0) {
+      } else if (activeStep.value == 1) {
         if (studyState.japanese.isEmpty) {
           EasyLoading.dismiss();
           return;
@@ -61,9 +52,9 @@ class StudyStepper extends HookConsumerWidget {
           EasyLoading.dismiss();
           return;
         }
-        activeStep.value = 1;
+        activeStep.value = 2;
         EasyLoading.dismiss();
-      } else if (activeStep.value == 1) {
+      } else if (activeStep.value == 2) {
         if (studyState.english.isEmpty) {
           EasyLoading.dismiss();
           return;
@@ -74,24 +65,46 @@ class StudyStepper extends HookConsumerWidget {
           EasyLoading.dismiss();
           return;
         }
+
+        //翻訳
         var resTranslation = await StudyApi.translate(
             studyState.japanese, studyState.activeQuestion.title);
         studyNotifier.set(
             studyState.copyWith(translation: resTranslation.translation ?? ""));
 
-        TopicApi.submitDoneTopic(studyState.activeQuestion.topicId);
+        //年齢とスコアの取得
+        var resScore = await SpecialApi.englishScore(
+            studyState.english, studyState.translation);
+
+        //結果の保存
+        var result = await TodayApi.submitTodayTopicResult(
+          todayTopic!.question.todayTopicId,
+          resScore.score_num,
+          studyState.english,
+          resTranslation.translation ?? "",
+          studyState.japanese,
+          studyState.activeQuestion.topicId,
+          resScore.age,
+          nameState,
+        );
+
+        //TODO submitPublicAnswer
 
         //WARN: WebではReviewのuseEffectで呼んでいるが、Flutterではスコアを算出しないことと、ライフサイクルの観点からここで実行する
 
-        //translationとか全部入っている状態じゃないとダメだ。
+        //必要？
         RecordApi.submitDashboard(
-            -1,
+            resScore.age,
             studyState.english,
             resTranslation.translation ?? "",
             studyState.activeQuestion.topicId);
 
-        activeStep.value = 2;
         EasyLoading.dismiss();
+        todayResultIdNotifier.set(result.resultId);
+        //初期化
+        activeStep.value = 0;
+        studyNotifier.set(studyState.copyWith(
+            english: "", japanese: "", translation: "", needRetry: false));
       }
 
       errorMessage.value = null;
@@ -116,7 +129,7 @@ class StudyStepper extends HookConsumerWidget {
         return [
           TextButton(
             onPressed: handleBack,
-            child: const Text('日本語入力に戻る'),
+            child: const Text('名前入力に戻る'),
           ),
           ElevatedButton(
             onPressed: handleNext,
@@ -128,7 +141,7 @@ class StudyStepper extends HookConsumerWidget {
           return [
             TextButton(
               onPressed: handleNext,
-              child: const Text('終了'),
+              child: const Text('結果を見る'),
             ),
             ElevatedButton(
               onPressed: handleBack,
@@ -139,11 +152,11 @@ class StudyStepper extends HookConsumerWidget {
         return [
           TextButton(
             onPressed: handleBack,
-            child: const Text('英語入力に戻る'),
+            child: const Text('日本語入力に戻る'),
           ),
           ElevatedButton(
             onPressed: handleNext,
-            child: const Text('終了'),
+            child: const Text('結果を見る'),
           )
         ];
       }
@@ -161,9 +174,19 @@ class StudyStepper extends HookConsumerWidget {
       },
       steps: [
         Step(
+          title: const Text('Your Name'),
+          subtitle: const Text('君の名は'),
+          isActive: activeStep.value == 0,
+          content: Container(
+              alignment: Alignment.centerLeft,
+              child: TodayStudyTop(
+                errorMessage: errorMessage.value,
+              )),
+        ),
+        Step(
           title: const Text('Japanene'),
           subtitle: const Text('日本語'),
-          isActive: activeStep.value == 0,
+          isActive: activeStep.value == 1,
           content: Container(
               alignment: Alignment.centerLeft,
               child: WriteJapanese(
@@ -173,16 +196,10 @@ class StudyStepper extends HookConsumerWidget {
         Step(
           title: const Text('English'),
           subtitle: const Text('英語'),
-          isActive: activeStep.value == 1,
+          isActive: activeStep.value == 2,
           content: WriteEnglish(
             errorMessage: errorMessage.value,
           ),
-        ),
-        Step(
-          title: const Text('Review'),
-          subtitle: const Text("お手本"),
-          isActive: activeStep.value == 2,
-          content: Review(),
         ),
       ],
     );

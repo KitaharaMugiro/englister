@@ -24,6 +24,7 @@ final studyProvider = StateNotifierProvider<StudyNotifier, StudyState>(
   (ref) => StudyNotifier(),
 );
 
+
 //使い方
 //var value = ref.watch(xxxProvider);
 // → value

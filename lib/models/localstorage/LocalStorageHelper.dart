@@ -45,4 +45,14 @@ class LocalStorageHelper {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString("PrevCategorySlug");
   }
+
+  static saveTodayName(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("TodayName", name);
+  }
+
+  static getTodayName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("TodayName");
+  }
 }

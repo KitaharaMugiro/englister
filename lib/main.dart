@@ -13,6 +13,7 @@ import 'package:englister/pages/record.dart';
 import 'package:englister/route/setting.dart';
 import 'package:englister/route/study.dart';
 import 'package:englister/route/studyStart.dart';
+import 'package:englister/route/todayStudy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         '/study': (BuildContext context) => const StudyPage(),
         '/study/start': (BuildContext context) => StudyStartPage(),
         '/plan': (BuildContext context) => const PlanPage(),
+        '/today': (BuildContext context) => const TodayStudyPage(),
       },
     ));
   }
@@ -79,7 +81,6 @@ class _IndexPageState extends ConsumerState<IndexPage> {
     final bool available = await InAppPurchase.instance.isAvailable();
     if (!available) {
       // The store cannot be reached or accessed. Update the UI accordingly.
-      inspect("The store cannot be reached or accessed");
       return;
     }
     final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;

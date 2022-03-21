@@ -22,17 +22,18 @@ class MyDrawer extends HookConsumerWidget {
 
     useEffect(() {
       SubscriptionApi.getPurchasedHeart().then((value) {
-        debugPrint(value.count.toString());
+        debugPrint("購入したハート数: ${value.count.toString()}");
         heart.value = value.count;
       }).catchError((e) {
+        debugPrint("Error on MyDrawer↓");
         debugPrint(e);
         heart.value = 0;
       });
 
       StudyApi.leftHeart().then((value) {
-        debugPrint(value.leftHeart.toString());
         leftHeartsNotifier.set(value.leftHeart);
       }).catchError((e) {
+        debugPrint("Error on MyDrawer↓");
         debugPrint(e);
         leftHeartsNotifier.set(0);
       });
@@ -74,6 +75,11 @@ class MyDrawer extends HookConsumerWidget {
         onTap: () {
           Navigator.pop(context);
         },
+      ),
+      ListTile(
+        leading: Icon(Icons.local_library),
+        title: Text('ダッシュボード'),
+        onTap: () => launch("https://english.yunomy.com/dashboard"),
       ),
       ListTile(
         leading: Icon(Icons.local_library),
