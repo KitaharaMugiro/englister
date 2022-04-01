@@ -11,11 +11,11 @@ class PhrasePage extends HookConsumerWidget {
     var user = ref.watch(userProvider);
 
     if (user.sub == null) {
-      return Center(
+      return const Center(
         child: Text("ログインすると覚えたいフレーズを登録できるようになります"),
       );
     }
 
-    return PhraseList();
+    return const PhraseList();
   }
 }

@@ -182,7 +182,7 @@ class StudyStepper extends HookConsumerWidget {
           title: const Text('Review'),
           subtitle: const Text("お手本"),
           isActive: activeStep.value == 2,
-          content: Review(),
+          content: const Review(),
         ),
       ],
     );

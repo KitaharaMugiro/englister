@@ -45,10 +45,10 @@ class TodayStudyReview extends HookConsumerWidget {
                 : Text("${name.value}さんが日本語で書いた意見",
                     style: Typography.dense2018.bodyText1),
             Container(
-                margin: EdgeInsets.only(top: 5, bottom: 10),
+                margin: const EdgeInsets.only(top: 5, bottom: 10),
                 color: Colors.grey[300],
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Text(todayTopic.answer!.japanese,
                       style: Typography.englishLike2018.bodyText1),
                 )),
@@ -57,10 +57,10 @@ class TodayStudyReview extends HookConsumerWidget {
                 : Text("${name.value}さんが英語で書いた意見",
                     style: Typography.dense2018.bodyText1),
             Container(
-                margin: EdgeInsets.only(top: 5, bottom: 15),
+                margin: const EdgeInsets.only(top: 5, bottom: 15),
                 color: Colors.grey[300],
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Text(todayTopic.answer!.english,
                       style: Typography.englishLike2018.bodyText1),
                 )),
@@ -68,10 +68,10 @@ class TodayStudyReview extends HookConsumerWidget {
                 textAlign: TextAlign.center,
                 style: Typography.dense2018.bodyText1),
             Container(
-                margin: EdgeInsets.only(top: 15, bottom: 15),
+                margin: const EdgeInsets.only(top: 15, bottom: 15),
                 color: Colors.green[100],
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Text(todayTopic.answer!.translation,
                       style: Typography.englishLike2018.bodyText1),
                 )),

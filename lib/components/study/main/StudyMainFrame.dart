@@ -6,6 +6,6 @@ class StudyMainFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: StudyStepper());
+    return Container(child: const StudyStepper());
   }
 }

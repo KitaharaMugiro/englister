@@ -45,18 +45,18 @@ class RecordPage extends HookConsumerWidget {
     }, [user]);
 
     if (user.sub == null) {
-      return Center(
+      return const Center(
         child: Text("ログインすると学習記録を閲覧できます"),
       );
     }
     if (isLoading.value) {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(),
       );
     }
     var contentWidgets = <Widget>[];
     contentWidgets.add(Text("学習履歴", style: Typography.dense2018.headline5));
-    contentWidgets.add(SizedBox(height: 20));
+    contentWidgets.add(const SizedBox(height: 20));
 
     for (var record in records.value) {
       contentWidgets.add(StudyRecordCard(
@@ -69,7 +69,7 @@ class RecordPage extends HookConsumerWidget {
     }
 
     return ListView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       children: contentWidgets,
     );
   }

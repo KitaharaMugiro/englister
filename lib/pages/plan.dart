@@ -81,7 +81,7 @@ class PlanPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('プラン'),
+        title: const Text('プラン'),
       ),
       body: Center(
         child: Column(

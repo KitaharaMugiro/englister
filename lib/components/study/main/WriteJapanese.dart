@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class WriteJapanese extends HookConsumerWidget {
-  WriteJapanese({Key? key, String? this.errorMessage}) : super(key: key);
+  WriteJapanese({Key? key, this.errorMessage}) : super(key: key);
   String? errorMessage;
 
   @override
@@ -39,7 +39,7 @@ class WriteJapanese extends HookConsumerWidget {
             studyNotifier.set(studyState.copyWith(japanese: value));
           },
           decoration: InputDecoration(
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               labelText: '日本語で意見を書いてください',
               errorText: errorMessage),
         ),

@@ -6,7 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TodayStudyTop extends HookConsumerWidget {
-  TodayStudyTop({Key? key, String? this.errorMessage}) : super(key: key);
+  TodayStudyTop({Key? key, this.errorMessage}) : super(key: key);
   String? errorMessage;
 
   @override
@@ -37,7 +37,7 @@ class TodayStudyTop extends HookConsumerWidget {
           },
           controller: _textEditingController,
           decoration: InputDecoration(
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               labelText: 'お名前を入力してください',
               errorText: errorMessage),
         ),
