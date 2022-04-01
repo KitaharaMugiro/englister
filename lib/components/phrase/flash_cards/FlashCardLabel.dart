@@ -6,8 +6,8 @@ import 'colors.dart';
 
 const _labelAngle = math.pi / 2 * 0.2;
 
-class CardLabel extends StatelessWidget {
-  const CardLabel._({
+class FlashCardLabel extends StatelessWidget {
+  const FlashCardLabel._({
     required this.color,
     required this.label,
     required this.angle,
@@ -15,8 +15,8 @@ class CardLabel extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  factory CardLabel.right() {
-    return const CardLabel._(
+  factory FlashCardLabel.right() {
+    return const FlashCardLabel._(
       color: SwipeDirectionColor.right,
       label: '知ってる',
       angle: -_labelAngle,
@@ -24,8 +24,8 @@ class CardLabel extends StatelessWidget {
     );
   }
 
-  factory CardLabel.left() {
-    return const CardLabel._(
+  factory FlashCardLabel.left() {
+    return const FlashCardLabel._(
       color: SwipeDirectionColor.left,
       label: '知らない',
       angle: _labelAngle,

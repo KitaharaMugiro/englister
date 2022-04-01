@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swipable_stack/swipable_stack.dart';
 import 'package:flip_card/flip_card.dart';
 
-import 'BottomButtonsRow.dart';
-import 'CardOverlay.dart';
+import 'FlashCardBottomButtonsRow.dart';
+import 'FlashCardOverlay.dart';
 
 class FlashCards extends ConsumerStatefulWidget {
   const FlashCards({
@@ -83,7 +83,7 @@ class _FlashCardsState extends ConsumerState<FlashCards> {
                         // more custom overlay possible than with overlayBuilder
                         if (properties.stackIndex == 0 &&
                             properties.direction != null)
-                          CardOverlay(
+                          FlashCardOverlay(
                             swipeProgress: properties.swipeProgress,
                             direction: properties.direction!,
                           )
@@ -93,7 +93,7 @@ class _FlashCardsState extends ConsumerState<FlashCards> {
                 ),
               ),
             ),
-            BottomButtonsRow(
+            FlashCardBottomButtonsRow(
               onSwipe: (direction) {
                 _controller.next(swipeDirection: direction);
               },

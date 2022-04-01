@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:swipable_stack/swipable_stack.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BottomButtonsRow extends StatelessWidget {
-  const BottomButtonsRow({
+class FlashCardBottomButtonsRow extends StatelessWidget {
+  const FlashCardBottomButtonsRow({
     required this.onRewindTap,
     required this.onSwipe,
     required this.canRewind,

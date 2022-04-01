@@ -3,10 +3,10 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:swipable_stack/swipable_stack.dart';
 
-import 'CardLabel.dart';
+import 'FlashCardLabel.dart';
 
-class CardOverlay extends StatelessWidget {
-  const CardOverlay({
+class FlashCardOverlay extends StatelessWidget {
+  const FlashCardOverlay({
     required this.direction,
     required this.swipeProgress,
     Key? key,
@@ -24,11 +24,11 @@ class CardOverlay extends StatelessWidget {
       children: [
         Opacity(
           opacity: isRight ? opacity : 0,
-          child: CardLabel.right(),
+          child: FlashCardLabel.right(),
         ),
         Opacity(
           opacity: isLeft ? opacity : 0,
-          child: CardLabel.left(),
+          child: FlashCardLabel.left(),
         ),
       ],
     );
