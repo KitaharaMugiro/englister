@@ -12,6 +12,7 @@ import 'package:englister/pages/plan.dart';
 import 'package:englister/pages/record.dart';
 import 'package:englister/route/setting.dart';
 import 'package:englister/route/study.dart';
+import 'package:englister/route/phraseStudy.dart';
 import 'package:englister/route/studyStart.dart';
 import 'package:englister/route/todayStudy.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ import 'api/rest/UserApi.dart';
 import 'components/drawer/MyDrawer.dart';
 import 'components/navigation/MyBottomNavigationBar.dart';
 import 'models/localstorage/LocalStorageHelper.dart';
+import 'models/riverpod/PhraseRiverpod.dart';
 import 'models/subscriptions/listenToPurchaseUpdated.dart';
 
 Future<void> main() async {
@@ -52,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/study/start': (BuildContext context) => StudyStartPage(),
         '/plan': (BuildContext context) => const PlanPage(),
         '/today': (BuildContext context) => const TodayStudyPage(),
+        '/phrase/study': (BuildContext context) => const PhraseStudyPage(),
       },
     ));
   }
@@ -129,6 +132,8 @@ class _IndexPageState extends ConsumerState<IndexPage> {
 
   @override
   Widget build(BuildContext context) {
+    var phrases = ref.watch(phrasesProvider);
+
     var scaffold = Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -137,14 +142,29 @@ class _IndexPageState extends ConsumerState<IndexPage> {
         iconTheme: const IconThemeData(color: Colors.black),
         titleTextStyle: const TextStyle(
             color: Colors.black, fontSize: 23, fontWeight: FontWeight.w500),
-        actions: [
-          Padding(padding: const EdgeInsets.all(10), child: LoginButton())
+        actions: const [
+          Padding(padding: EdgeInsets.all(10), child: LoginButton())
         ],
       ),
       drawer: MyDrawer(),
       bottomNavigationBar: MyBottomNavigationBar(_selectedIndex, _onItemTapped),
       body: _widgetOptions.elementAt(_selectedIndex),
       backgroundColor: Colors.grey[50],
+      floatingActionButtonLocation: _selectedIndex == 2 && phrases.isNotEmpty
+          ? FloatingActionButtonLocation.centerDocked
+          : null,
+      floatingActionButton: _selectedIndex == 2 && phrases.isNotEmpty
+          ? (Container(
+              margin: const EdgeInsets.only(bottom: 100.0),
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/phrase/study');
+                },
+                label: const Text('フラッシュカードで覚える'),
+                icon: const Icon(Icons.school),
+              ),
+            ))
+          : null,
     );
     return scaffold;
   }
