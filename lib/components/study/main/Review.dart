@@ -28,22 +28,22 @@ class Review extends HookConsumerWidget {
             Text("お手本の英語を暗記して復習しよう", style: Typography.dense2018.headline6),
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
               Container(
-                  margin: EdgeInsets.only(top: 15, bottom: 15),
+                  margin: const EdgeInsets.only(top: 15, bottom: 15),
                   color: Colors.grey[300],
                   child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(studyState.english,
+                    padding: const EdgeInsets.all(20),
+                    child: SelectableText(studyState.english,
                         style: Typography.englishLike2018.bodyText1),
                   )),
               Text("↓ お手本の英語",
                   textAlign: TextAlign.center,
                   style: Typography.dense2018.bodyText1),
               Container(
-                  margin: EdgeInsets.only(top: 15, bottom: 15),
+                  margin: const EdgeInsets.only(top: 15, bottom: 15),
                   color: Colors.green[100],
                   child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(studyState.translation,
+                    padding: const EdgeInsets.all(20),
+                    child: SelectableText(studyState.translation,
                         style: Typography.englishLike2018.bodyText1),
                   )),
             ])
