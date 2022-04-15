@@ -33,7 +33,8 @@ class Review extends HookConsumerWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: SelectableText(studyState.english,
-                        style: Typography.englishLike2018.bodyText1),
+                        style: Typography.englishLike2018.bodyText1!
+                            .apply(color: Colors.black)),
                   )),
               Text("↓ お手本の英語",
                   textAlign: TextAlign.center,
@@ -44,7 +45,8 @@ class Review extends HookConsumerWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: SelectableText(studyState.translation,
-                        style: Typography.englishLike2018.bodyText1),
+                        style: Typography.englishLike2018.bodyText1!
+                            .apply(color: Colors.black)),
                   )),
             ])
           ],

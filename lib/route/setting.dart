@@ -1,5 +1,6 @@
 import 'package:englister/components/card/CategoryCard.dart';
 import 'package:englister/models/auth/AuthService.dart';
+import 'package:englister/models/riverpod/SettingRiverpod.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
@@ -28,17 +29,20 @@ class SettingPage extends HookConsumerWidget {
   List<Widget> _makeWidgets(BuildContext context, WidgetRef ref) {
     var user = ref.watch(userProvider);
     var userNotifier = ref.watch(userProvider.notifier);
+    var themeMode = ref.watch(SettingProvider);
+    var themeModeNotifier = ref.watch(SettingProvider.notifier);
     var contentWidgets = <Widget>[];
 
     for (var item in listItems) {
       contentWidgets.add(Container(
-        decoration: new BoxDecoration(
-            color: Colors.white,
-            border: new Border(
-                bottom: BorderSide(width: 1.0, color: Colors.grey.shade300))),
+        decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            border: Border(
+                bottom: BorderSide(
+                    width: 1.0, color: Theme.of(context).dividerColor))),
         child: ListTile(
           title: Text(item["title"] ?? ""),
-          trailing: Icon(Icons.chevron_right),
+          trailing: const Icon(Icons.chevron_right),
           onTap: () {
             _launchURL(item["url"] ?? "");
           },
@@ -46,19 +50,38 @@ class SettingPage extends HookConsumerWidget {
       ));
     }
 
-    contentWidgets.add(SizedBox(height: 20));
+    contentWidgets.add(const SizedBox(height: 20));
+
+    //ダークモード切り替え
+    contentWidgets.add(Container(
+      decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          border: Border(
+              bottom: BorderSide(
+                  width: 1.0, color: Theme.of(context).dividerColor))),
+      child: ListTile(
+        title: const Text("Dark Mode"),
+        trailing: Switch(
+          value: themeMode == ThemeMode.dark,
+          onChanged: (value) {
+            themeModeNotifier.change(value ? ThemeMode.dark : ThemeMode.light);
+          },
+        ),
+      ),
+    ));
 
     if (user.sub != null) {
       contentWidgets.add(Container(
-          decoration: new BoxDecoration(
-              color: Colors.white,
-              border: new Border(
-                  bottom: BorderSide(width: 1.0, color: Colors.grey.shade300))),
+          decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              border: Border(
+                  bottom: BorderSide(
+                      width: 1.0, color: Theme.of(context).dividerColor))),
           child: ListTile(
-            title: Text("ログアウト"),
+            title: const Text("ログアウト"),
             onTap: () async {
               await AuthService.signOut();
-              userNotifier.set(new UserAttribute());
+              userNotifier.set(UserAttribute());
               Navigator.pop(context);
             },
           )));
@@ -70,11 +93,11 @@ class SettingPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("設定"),
+          title: const Text("設定"),
         ),
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Theme.of(context).canvasColor,
         body: Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             child: ListView(children: _makeWidgets(context, ref))));
   }
 }

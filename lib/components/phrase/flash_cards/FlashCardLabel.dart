@@ -54,7 +54,7 @@ class FlashCardLabel extends StatelessWidget {
               color: color,
               width: 4,
             ),
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(4),
           ),
           padding: const EdgeInsets.all(6),

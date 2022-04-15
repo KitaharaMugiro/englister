@@ -25,29 +25,31 @@ class StudyRecordCard extends StatelessWidget {
         padding: const EdgeInsets.all(0),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text("$questionText",
+          Text(questionText,
               style: Typography.dense2018.subtitle1?.apply(fontWeightDelta: 3)),
-          Text("$questionDescription", style: Typography.dense2018.subtitle2),
+          Text(questionDescription, style: Typography.dense2018.subtitle2),
           Container(
-              margin: EdgeInsets.only(top: 15, bottom: 15),
+              margin: const EdgeInsets.only(top: 15, bottom: 15),
               color: Colors.grey[300],
               child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Text("$firstEnglish",
-                    style: Typography.englishLike2018.bodyText1),
+                padding: const EdgeInsets.all(20),
+                child: Text(firstEnglish,
+                    style: Typography.englishLike2018.bodyText1!
+                        .apply(color: Colors.black)),
               )),
           Text("↓ お手本の英語",
               textAlign: TextAlign.center, style: Typography.dense2018.caption),
           Container(
-              margin: EdgeInsets.only(top: 15, bottom: 15),
+              margin: const EdgeInsets.only(top: 15, bottom: 15),
               color: Colors.green[100],
               child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Text("$translation",
-                    style: Typography.englishLike2018.bodyText1),
+                padding: const EdgeInsets.all(20),
+                child: Text(translation,
+                    style: Typography.englishLike2018.bodyText1!
+                        .apply(color: Colors.black)),
               )),
           Divider(
-            color: Colors.grey[500],
+            color: Theme.of(context).dividerColor,
           )
         ]));
   }

@@ -32,11 +32,11 @@ class SigninDialog extends HookConsumerWidget {
       children: [
         Text("EnglisterはAI英語添削アプリです。あなたの英語で生きる力を飛躍的に伸ばします。",
             style: Typography.dense2018.bodyText1),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         Container(
           child: SignInButton(
             Buttons.Google,
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             elevation: 5,
             onPressed: () async {
               await AuthService.signInWithGoogle(context);
@@ -44,11 +44,11 @@ class SigninDialog extends HookConsumerWidget {
             },
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Container(
           child: SignInButton(
             Buttons.Facebook,
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             elevation: 5,
             onPressed: () async {
               await AuthService.signInWithFacebook(context);
@@ -56,11 +56,11 @@ class SigninDialog extends HookConsumerWidget {
             },
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Container(
           child: SignInButton(
             Buttons.Apple,
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             elevation: 5,
             onPressed: () async {
               await AuthService.signInWithApple(context);
@@ -69,15 +69,15 @@ class SigninDialog extends HookConsumerWidget {
           ),
         ),
         Divider(
-          color: Colors.grey.shade500,
+          color: Theme.of(context).dividerColor,
         ),
         TextButton(
             onPressed: () async {
               await AuthService.signInWithEmail(context);
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
-            child: Text("メールアドレス認証")),
-        SizedBox(height: 20),
+            child: const Text("メールアドレス認証")),
+        const SizedBox(height: 20),
         Text("利用規約、プライバシーポリシーに同意した上でログインしてください。",
             style: Typography.dense2018.caption),
       ],

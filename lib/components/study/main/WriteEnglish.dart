@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class WriteEnglish extends HookConsumerWidget {
-  WriteEnglish({Key? key, String? this.errorMessage}) : super(key: key);
+  WriteEnglish({Key? key, this.errorMessage}) : super(key: key);
   String? errorMessage;
 
   @override
@@ -36,13 +36,14 @@ class WriteEnglish extends HookConsumerWidget {
           height: 5,
         ),
         Container(
-            margin: EdgeInsets.only(top: 15, bottom: 15),
+            margin: const EdgeInsets.only(top: 15, bottom: 15),
             color: Colors.grey[300],
             width: double.infinity,
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Text(studyState.japanese,
-                  style: Typography.englishLike2018.bodyText1),
+                  style: Typography.englishLike2018.bodyText1!
+                      .apply(color: Colors.black)),
             )),
         const SizedBox(
           height: 5,
@@ -53,7 +54,7 @@ class WriteEnglish extends HookConsumerWidget {
             studyNotifier.set(studyState.copyWith(english: value));
           },
           decoration: InputDecoration(
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               labelText: '上の文章を英語にしてください',
               errorText: errorMessage),
         ),
