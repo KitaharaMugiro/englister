@@ -80,7 +80,7 @@ class CategoryStartFrame extends HookConsumerWidget {
                     Text(category.value?.categoryName ?? "",
                         style: Typography.dense2018.headline4!
                             .apply(fontWeightDelta: 2)),
-                    Divider(
+                    const Divider(
                       thickness: 1,
                     ),
                     Text(category.value?.categoryDescription ?? "",
@@ -95,7 +95,7 @@ class CategoryStartFrame extends HookConsumerWidget {
                       percent: doneTopicNum.value / allTopicNum.value,
                       center: Text(
                         "${doneTopicNum.value}/${allTopicNum.value}",
-                        style: new TextStyle(fontSize: 15.0),
+                        style: TextStyle(fontSize: 15.0),
                       ),
                       backgroundColor: Colors.grey[100],
                       progressColor: Colors.blue,

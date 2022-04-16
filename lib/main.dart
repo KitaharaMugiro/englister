@@ -5,6 +5,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:englister/components/signin/LoginButton.dart';
 import 'package:englister/models/auth/AuthService.dart';
+import 'package:englister/models/riverpod/SettingRiverpod.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:englister/pages/home.dart';
 import 'package:englister/pages/phrase.dart';
@@ -19,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import 'amplifyconfiguration.dart';
@@ -35,17 +37,18 @@ Future<void> main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends HookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var themeMode = ref.watch(SettingProvider);
     return ClientProvider(
         child: MaterialApp(
       title: 'Englister',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: themeMode == ThemeMode.dark ? ThemeData.dark() : ThemeData.light(),
+      darkTheme:
+          themeMode == ThemeMode.light ? ThemeData.light() : ThemeData.dark(),
       builder: EasyLoading.init(),
       home: const IndexPage(title: 'Englister'),
       routes: {
@@ -138,10 +141,8 @@ class _IndexPageState extends ConsumerState<IndexPage> {
       appBar: AppBar(
         title: Text(widget.title),
         centerTitle: false,
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
-        titleTextStyle: const TextStyle(
-            color: Colors.black, fontSize: 23, fontWeight: FontWeight.w500),
+        titleTextStyle:
+            const TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
         actions: const [
           Padding(padding: EdgeInsets.all(10), child: LoginButton())
         ],
@@ -149,7 +150,7 @@ class _IndexPageState extends ConsumerState<IndexPage> {
       drawer: MyDrawer(),
       bottomNavigationBar: MyBottomNavigationBar(_selectedIndex, _onItemTapped),
       body: _widgetOptions.elementAt(_selectedIndex),
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButtonLocation: _selectedIndex == 2 && phrases.isNotEmpty
           ? FloatingActionButtonLocation.centerDocked
           : null,

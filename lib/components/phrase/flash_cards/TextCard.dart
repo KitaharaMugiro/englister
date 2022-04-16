@@ -20,7 +20,7 @@ class TextCard extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: const TextStyle(fontSize: 40))),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: Colors.black38),
               ),

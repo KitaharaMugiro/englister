@@ -54,7 +54,7 @@ class PhraseList extends HookConsumerWidget {
                 phraseId: phrase["id"]),
           );
           contentWidgets.add(Divider(
-            color: Colors.grey[400],
+            color: Theme.of(context).dividerColor,
           ));
         }
 

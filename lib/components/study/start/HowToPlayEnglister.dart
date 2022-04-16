@@ -7,10 +7,10 @@ class HowToPlayEnglister extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-        margin: EdgeInsets.only(top: 15, bottom: 15),
-        color: Colors.grey[300],
+        margin: const EdgeInsets.only(top: 15, bottom: 15),
+        color: Theme.of(context).canvasColor,
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Text("日本語で自分の意見を書く → 英語にする → お手本を覚える。",
               textAlign: TextAlign.center,
               style: Typography.englishLike2018.bodyText1!

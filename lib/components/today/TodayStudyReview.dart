@@ -50,7 +50,8 @@ class TodayStudyReview extends HookConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: SelectableText(todayTopic.answer!.japanese,
-                      style: Typography.englishLike2018.bodyText1),
+                      style: Typography.englishLike2018.bodyText1!
+                          .apply(color: Colors.black)),
                 )),
             name.value.isEmpty
                 ? Text("英語で書いた意見", style: Typography.dense2018.bodyText1)
@@ -62,7 +63,8 @@ class TodayStudyReview extends HookConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: SelectableText(todayTopic.answer!.english,
-                      style: Typography.englishLike2018.bodyText1),
+                      style: Typography.englishLike2018.bodyText1!
+                          .apply(color: Colors.black)),
                 )),
             Text("↓ お手本の英語",
                 textAlign: TextAlign.center,
@@ -73,7 +75,8 @@ class TodayStudyReview extends HookConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: SelectableText(todayTopic.answer!.translation,
-                      style: Typography.englishLike2018.bodyText1),
+                      style: Typography.englishLike2018.bodyText1!
+                          .apply(color: Colors.black)),
                 )),
             Text("結果と答えをシェア！！",
                 textAlign: TextAlign.center,
@@ -117,7 +120,7 @@ class TodayStudyReview extends HookConsumerWidget {
       floatingActionButton: Container(
         margin: const EdgeInsets.only(bottom: 10.0),
         child: FloatingActionButton.extended(
-          backgroundColor: Colors.grey,
+          backgroundColor: Theme.of(context).disabledColor,
           onPressed: () {},
           label: const Text('次回の英語年齢診断18時スタート！'),
         ),
