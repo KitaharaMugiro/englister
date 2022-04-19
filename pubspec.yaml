@@ -62,6 +62,7 @@ dependencies:
   swipable_stack: ^1.2.0
   flip_card: ^0.6.0
   font_awesome_flutter: ^9.0.0
+  random_avatar: ^0.0.5
 
 dev_dependencies:
   flutter_test:
