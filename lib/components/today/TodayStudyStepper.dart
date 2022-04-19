@@ -13,7 +13,29 @@ import 'package:englister/models/riverpod/TodayStudyRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+final queryDocument = gql(r'''
+  mutation SubmitTodayPublicAnswer(
+    $topicId: Int!, $answer: String!, $japanese: String!,
+    $translation: String!, $age: Int!, $todayTopicId: String!,
+    $name: String!) {
+    insert_englister_PublicAnswers_one(object:{
+      topicId:$topicId,
+      answer:$answer,
+      japanese: $japanese,
+      translation: $translation,
+      age: $age, todayTopicId: $todayTopicId,
+      name: $name}) {
+      id
+      topicId
+      answer
+      createdAt
+      createdBy
+    }
+  }
+''');
 
 class TodayStudyStepper extends HookConsumerWidget {
   const TodayStudyStepper({Key? key}) : super(key: key);
@@ -28,7 +50,7 @@ class TodayStudyStepper extends HookConsumerWidget {
     var todayResultIdNotifier = ref.watch(TodayResultIdProvider.notifier);
     var todayTopic = ref.watch(todayTopicProvider);
 
-    void handleNext() async {
+    void handleNext(Function? submitTodayPublicAnswer) async {
       EasyLoading.show(status: 'loading...');
       //キーボードを閉じる
       FocusScope.of(context).unfocus();
@@ -88,11 +110,17 @@ class TodayStudyStepper extends HookConsumerWidget {
           nameState,
         );
 
-        //TODO submitPublicAnswer
+        submitTodayPublicAnswer!(
+            int.parse(studyState.activeQuestion.topicId),
+            studyState.english,
+            studyState.japanese,
+            resTranslation.translation ?? "",
+            resScore.age,
+            todayTopic.question.todayTopicId,
+            nameState);
 
         //WARN: WebではReviewのuseEffectで呼んでいるが、Flutterではスコアを算出しないことと、ライフサイクルの観点からここで実行する
 
-        //必要？
         RecordApi.submitDashboard(
             resScore.age,
             studyState.english,
@@ -117,11 +145,44 @@ class TodayStudyStepper extends HookConsumerWidget {
       activeStep.value -= 1;
     }
 
+    Widget reviewButton() {
+      return Mutation(
+        builder: (runMutation, result) {
+          // ignore: prefer_function_declarations_over_variables
+          Function submitTodayPublicAnswer = (
+            int topicId,
+            String answer,
+            String japanese,
+            String translation,
+            int age,
+            String todayTopicId,
+            String name,
+          ) {
+            runMutation({
+              'topicId': topicId,
+              'answer': answer,
+              'japanese': japanese,
+              'translation': translation,
+              'age': age,
+              'todayTopicId': todayTopicId,
+              'name': name,
+            });
+          };
+
+          return TextButton(
+            onPressed: () => handleNext(submitTodayPublicAnswer),
+            child: const Text('結果を見る'),
+          );
+        },
+        options: MutationOptions(document: queryDocument),
+      );
+    }
+
     List<Widget> renderButtons() {
       if (activeStep.value == 0) {
         return [
           ElevatedButton(
-            onPressed: handleNext,
+            onPressed: () => handleNext(null),
             child: const Text('次へ進む'),
           )
         ];
@@ -132,17 +193,14 @@ class TodayStudyStepper extends HookConsumerWidget {
             child: const Text('名前入力に戻る'),
           ),
           ElevatedButton(
-            onPressed: handleNext,
+            onPressed: () => handleNext(null),
             child: const Text('次へ進む'),
           )
         ];
       } else if (activeStep.value == 2) {
         if (studyState.needRetry) {
           return [
-            TextButton(
-              onPressed: handleNext,
-              child: const Text('結果を見る'),
-            ),
+            reviewButton(),
             ElevatedButton(
               onPressed: handleBack,
               child: const Text('お手本を暗記してもう一回挑戦'),
@@ -154,10 +212,7 @@ class TodayStudyStepper extends HookConsumerWidget {
             onPressed: handleBack,
             child: const Text('日本語入力に戻る'),
           ),
-          ElevatedButton(
-            onPressed: handleNext,
-            child: const Text('結果を見る'),
-          )
+          reviewButton(),
         ];
       }
       return [];

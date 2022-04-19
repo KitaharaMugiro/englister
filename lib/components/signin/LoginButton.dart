@@ -22,11 +22,18 @@ class LoginButton extends HookConsumerWidget {
 
     return Container(
         child: ElevatedButton(
-      style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 15)),
+      style: ElevatedButton.styleFrom(
+        textStyle: const TextStyle(fontSize: 15),
+        primary: Theme.of(context).toggleableActiveColor,
+      ),
       onPressed: () {
         _onPressedLogin(context);
       },
-      child: const Text('Log in'),
+      child: Text('Log in',
+          style: TextStyle(
+            fontSize: 17,
+            color: Theme.of(context).cardColor,
+          )),
     ));
   }
 }

@@ -33,8 +33,17 @@ class TwitterShareButton extends StatelessWidget {
       onPressed: () {
         _tweet();
       },
-      icon: const Icon(MdiIcons.shareVariantOutline),
-      label: Text(label, style: Typography.dense2018.bodyText1),
+      icon: Icon(
+        MdiIcons.shareVariantOutline,
+        color: Theme.of(context).cardColor,
+      ),
+      label: Text(label,
+          style: TextStyle(
+            fontSize: 17,
+            color: Theme.of(context).cardColor,
+          )),
+      style: ElevatedButton.styleFrom(
+          primary: Theme.of(context).toggleableActiveColor),
     );
   }
 }

@@ -1,10 +1,12 @@
 import 'package:englister/api/rest/TodayApi.dart';
 import 'package:englister/components/today/TodayShareButton.dart';
+import 'package:englister/components/today/TodayStudyRanking.dart';
 import 'package:englister/models/localstorage/LocalStorageHelper.dart';
 import 'package:englister/models/riverpod/TodayStudyRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 class TodayStudyReview extends HookConsumerWidget {
   const TodayStudyReview({Key? key}) : super(key: key);
@@ -84,7 +86,9 @@ class TodayStudyReview extends HookConsumerWidget {
                     Typography.dense2018.bodyText1!.apply(fontWeightDelta: 3)),
             Container(
                 margin: const EdgeInsets.only(top: 1, bottom: 15),
-                child: const SizedBox(height: 60, child: TodayShareButton()))
+                child: const SizedBox(height: 60, child: TodayShareButton())),
+            //TODO 後で実装する
+            // const TodayStudyRanking(),
           ])
         ],
       );
