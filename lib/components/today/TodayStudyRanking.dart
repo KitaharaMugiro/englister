@@ -1,59 +1,74 @@
-import 'package:englister/api/rest/TodayApi.dart';
+import 'package:englister/components/today/TodayStudyRankingItem.dart';
 import 'package:englister/models/riverpod/TodayStudyRiverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:random_avatar/random_avatar.dart';
 
-//TODO 後で実装する
+final queryDocument = gql(
+  r'''
+    query queryTodayPublciAnswerRanking($todayTopicId: String!) {
+      englister_PublicAnswers(
+          where:{todayTopicId:{_eq:$todayTopicId}}, 
+          order_by:{age:desc},
+          limit:50) {
+        id
+        topicId
+        answer
+        japanese
+        translation
+        age
+        name
+        createdBy
+        createdAt
+      }
+    }
+  ''',
+);
+
 class TodayStudyRanking extends HookConsumerWidget {
   const TodayStudyRanking({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(
-        children: [
-          const Icon(
-            Icons.looks_one,
-            size: 60,
-            color: Colors.yellow,
-          ),
-          randomAvatar(
-            DateTime.now().toIso8601String(),
-            height: 50,
-            width: 52,
-          ),
-        ],
+    var todayTopic = ref.watch(todayTopicProvider);
+    return Query(
+      options: QueryOptions(
+        document: queryDocument, // this is the query string you just created
+        variables: {
+          'todayTopicId': todayTopic?.question.todayTopicId,
+        },
       ),
-      Row(
-        children: [
-          const Icon(
-            Icons.looks_two,
-            size: 60,
-            color: Colors.grey,
-          ),
-          randomAvatar(
-            DateTime.now().toIso8601String(),
-            height: 50,
-            width: 52,
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          const Icon(
-            Icons.looks_3,
-            size: 60,
-            color: Colors.orange,
-          ),
-          randomAvatar(
-            DateTime.now().toIso8601String(),
-            height: 50,
-            width: 52,
-          ),
-        ],
-      ),
-    ]);
+      builder: (QueryResult result,
+          {VoidCallback? refetch, FetchMore? fetchMore}) {
+        if (result.hasException) {
+          return Text(result.exception.toString());
+        }
+
+        if (result.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final answers =
+            result.data?["englister_PublicAnswers"] as List<dynamic>;
+
+        if (answers.isEmpty) {
+          return Text("まだ他の人は回答を投稿していません",
+              style: Typography.dense2018.bodyText1);
+        }
+
+        return ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: answers.length,
+            itemBuilder: (context, index) {
+              final answer = answers[index];
+              return TodayStudyRankingItem(
+                age: answer["age"],
+                index: index,
+                name: answer["name"],
+              );
+            });
+      },
+    );
   }
 }
