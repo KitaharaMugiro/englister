@@ -49,13 +49,14 @@ class WriteEnglish extends HookConsumerWidget {
           height: 5,
         ),
         TextField(
-          maxLines: 3,
+          maxLines: 5,
           onChanged: (value) {
             studyNotifier.set(studyState.copyWith(english: value));
           },
           decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText: '上の文章を英語にしてください',
+              alignLabelWithHint: true,
               errorText: errorMessage),
         ),
         const SizedBox(

@@ -169,7 +169,7 @@ class TodayStudyStepper extends HookConsumerWidget {
             });
           };
 
-          return TextButton(
+          return ElevatedButton(
             onPressed: () => handleNext(submitTodayPublicAnswer),
             child: const Text('結果を見る'),
           );
