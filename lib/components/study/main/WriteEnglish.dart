@@ -18,6 +18,7 @@ class WriteEnglish extends HookConsumerWidget {
     var sttModeNotifier = ref.watch(sttModeProvider.notifier);
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
+    final textEditingController = useTextEditingController();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,10 +30,8 @@ class WriteEnglish extends HookConsumerWidget {
             border: Border.all(color: Colors.black),
             shape: BoxShape.circle,
           ),
-          child: Container(
-            child: const Text("Q",
-                style: TextStyle(fontSize: 20, color: Colors.white)),
-          ),
+          child: const Text("Q",
+              style: TextStyle(fontSize: 20, color: Colors.white)),
         ),
         Text(studyState.activeQuestion.title,
             style: Typography.dense2018.headline5?.apply(fontWeightDelta: 10)),
@@ -59,6 +58,7 @@ class WriteEnglish extends HookConsumerWidget {
                 children: [
                   TextField(
                     maxLines: 5,
+                    controller: textEditingController,
                     onChanged: (value) {
                       studyNotifier.set(studyState.copyWith(english: value));
                     },
@@ -69,31 +69,33 @@ class WriteEnglish extends HookConsumerWidget {
                       errorText: errorMessage,
                     ),
                   ),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          //TODO
-                          // IconButton(
-                          //     iconSize: 35,
-                          //     color: Theme.of(context).primaryColor,
-                          //     icon: const Icon(Icons.keyboard),
-                          //     onPressed: () {}),
-                          IconButton(
-                              iconSize: 45,
-                              color: Theme.of(context).primaryColor,
-                              icon: const Icon(Icons.mic),
-                              onPressed: () {
-                                sttModeNotifier.set(true);
-                              }),
-                        ],
-                      ))
+                  studyState.english.isEmpty
+                      ? Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              //TODO
+                              // IconButton(
+                              //     iconSize: 35,
+                              //     color: Theme.of(context).primaryColor,
+                              //     icon: const Icon(Icons.keyboard),
+                              //     onPressed: () {}),
+                              IconButton(
+                                  iconSize: 45,
+                                  color: Theme.of(context).primaryColor,
+                                  icon: const Icon(Icons.mic),
+                                  onPressed: () {
+                                    sttModeNotifier.set(true);
+                                  })
+                            ],
+                          ))
+                      : Container()
                 ],
               )
-            : SpeachEnglish(),
+            : SpeachEnglish(textEditingController),
         const SizedBox(
           height: 15,
         ),
