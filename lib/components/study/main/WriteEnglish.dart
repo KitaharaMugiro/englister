@@ -85,7 +85,7 @@ class WriteEnglish extends HookConsumerWidget {
                               //     onPressed: () {}),
                               IconButton(
                                   iconSize: 45,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Colors.blue,
                                   icon: const Icon(Icons.mic),
                                   onPressed: () {
                                     sttModeNotifier.set(true);
