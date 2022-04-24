@@ -30,16 +30,23 @@ class SpeachEnglish extends HookConsumerWidget {
     final SpeechToText speech = SpeechToText();
 
     void resultListener(SpeechRecognitionResult result) {
+      if (kDebugMode) {
+        print("RESULT LISTENER CALLED " + result.recognizedWords);
+      }
       lastWords.value = result.recognizedWords;
     }
 
     void errorListener(SpeechRecognitionError error) {
       if (kDebugMode) {
-        print('${error.errorMsg} - ${error.permanent}');
+        print('ERROR LISTENER CALLED ${error.errorMsg} - ${error.permanent}');
       }
     }
 
     void handleStop() {
+      if (kDebugMode) {
+        print('HANDLE STOP CALLED');
+        print(spokenWords.value);
+      }
       isListening.value = false;
       if (spokenWords.value.isEmpty) {
         spokenWords.value = lastWords.value;
@@ -52,7 +59,7 @@ class SpeachEnglish extends HookConsumerWidget {
 
     void statusListener(String status) {
       if (kDebugMode) {
-        print(status);
+        print("STATUS = " + status);
       }
       //Androidは数秒でストップする仕様なので、ここでisListeningなどの状態を変更したい
       //iosはそういう仕様はない？？
