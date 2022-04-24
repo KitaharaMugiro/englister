@@ -61,6 +61,6 @@
 		<key>NSSpeechRecognitionUsageDescription</key>
 		<string>This app requires to speech recognition</string>
 		<key>NSMicrophoneUsageDescription</key>
-		<string>This app requires to add file to your photo library your microphone </string>
+		<string>This app requires microphone access to speech recognition</string>
 	</dict>
 </plist>

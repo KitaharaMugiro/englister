@@ -69,9 +69,10 @@ class SpeachEnglish extends HookConsumerWidget {
           onError: errorListener, onStatus: statusListener);
       if (available) {
         var locales = await speech.locales();
+
         //英語 アメリカ合衆国
-        var selectedLocale =
-            locales.firstWhere((element) => element.localeId == "en-US");
+        var selectedLocale = locales.firstWhere((element) =>
+            element.localeId == "en-US" || element.localeId == "en_US");
         if (selectedLocale == null) {
           if (kDebugMode) {
             print("The user doesn't have a language installed");
