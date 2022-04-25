@@ -30,7 +30,9 @@ class SpeachEnglish extends HookConsumerWidget {
     final SpeechToText speech = SpeechToText();
 
     void resultListener(SpeechRecognitionResult result) {
-      lastWords.value = result.recognizedWords;
+      if (isListening.value) {
+        lastWords.value = result.recognizedWords;
+      }
     }
 
     void errorListener(SpeechRecognitionError error) {
@@ -134,8 +136,12 @@ class SpeachEnglish extends HookConsumerWidget {
                 width: 80,
                 child: FloatingActionButton(
                   onPressed: isListening.value ? _stop : _speak,
-                  child: Icon(isListening.value ? Icons.stop : Icons.mic_none,
-                      size: 40),
+                  backgroundColor: Colors.blue,
+                  child: Icon(
+                    isListening.value ? Icons.stop : Icons.mic_none,
+                    size: 40,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

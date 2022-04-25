@@ -9,8 +9,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'SpeachEnglish.dart';
 
 class WriteEnglish extends HookConsumerWidget {
-  WriteEnglish({Key? key, this.errorMessage}) : super(key: key);
+  WriteEnglish(
+      {Key? key, this.errorMessage, required this.textEditingController})
+      : super(key: key);
   String? errorMessage;
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,7 +21,6 @@ class WriteEnglish extends HookConsumerWidget {
     var sttModeNotifier = ref.watch(sttModeProvider.notifier);
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
-    final textEditingController = useTextEditingController();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
