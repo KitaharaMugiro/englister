@@ -63,6 +63,8 @@ dependencies:
   flip_card: ^0.6.0
   font_awesome_flutter: ^9.0.0
   random_avatar: ^0.0.5
+  speech_to_text: ^5.4.3
+  avatar_glow: ^2.0.2
 
 dev_dependencies:
   flutter_test:

@@ -81,7 +81,7 @@ class PlanPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('プラン'),
+        title: const Text('プラン'),
       ),
       body: Center(
         child: Column(
@@ -90,7 +90,9 @@ class PlanPage extends HookConsumerWidget {
             Text("プラン",
                 style:
                     Typography.dense2018.headline4?.apply(fontWeightDelta: 3)),
-            Text("圧倒的に継続しやすい価格。", style: Typography.dense2018.caption),
+            Text("たくさん問題を解きましょう！", style: Typography.dense2018.subtitle1),
+            Text("※ハートはサブスクリプションではなく買い切りになります",
+                style: Typography.dense2018.caption),
             const SizedBox(height: 10),
             _renderPlan()
           ],

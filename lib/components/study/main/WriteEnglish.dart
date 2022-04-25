@@ -1,15 +1,24 @@
 import 'dart:ui';
 
+import 'package:englister/models/riverpod/StudyModeRiverpod.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'SpeachEnglish.dart';
+
 class WriteEnglish extends HookConsumerWidget {
-  WriteEnglish({Key? key, this.errorMessage}) : super(key: key);
+  WriteEnglish(
+      {Key? key, this.errorMessage, required this.textEditingController})
+      : super(key: key);
   String? errorMessage;
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var isSttMode = ref.watch(sttModeProvider);
+    var sttModeNotifier = ref.watch(sttModeProvider.notifier);
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
 
@@ -23,10 +32,8 @@ class WriteEnglish extends HookConsumerWidget {
             border: Border.all(color: Colors.black),
             shape: BoxShape.circle,
           ),
-          child: Container(
-            child: const Text("Q",
-                style: TextStyle(fontSize: 20, color: Colors.white)),
-          ),
+          child: const Text("Q",
+              style: TextStyle(fontSize: 20, color: Colors.white)),
         ),
         Text(studyState.activeQuestion.title,
             style: Typography.dense2018.headline5?.apply(fontWeightDelta: 10)),
@@ -48,16 +55,49 @@ class WriteEnglish extends HookConsumerWidget {
         const SizedBox(
           height: 5,
         ),
-        TextField(
-          maxLines: 3,
-          onChanged: (value) {
-            studyNotifier.set(studyState.copyWith(english: value));
-          },
-          decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: '上の文章を英語にしてください',
-              errorText: errorMessage),
-        ),
+        !isSttMode
+            ? Stack(
+                children: [
+                  TextField(
+                    maxLines: 5,
+                    controller: textEditingController,
+                    onChanged: (value) {
+                      studyNotifier.set(studyState.copyWith(english: value));
+                    },
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: '上の文章を英語にしてください',
+                      alignLabelWithHint: true,
+                      errorText: errorMessage,
+                    ),
+                  ),
+                  studyState.english.isEmpty
+                      ? Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              //TODO
+                              // IconButton(
+                              //     iconSize: 35,
+                              //     color: Theme.of(context).primaryColor,
+                              //     icon: const Icon(Icons.keyboard),
+                              //     onPressed: () {}),
+                              IconButton(
+                                  iconSize: 45,
+                                  color: Colors.blue,
+                                  icon: const Icon(Icons.mic),
+                                  onPressed: () {
+                                    sttModeNotifier.set(true);
+                                  })
+                            ],
+                          ))
+                      : Container()
+                ],
+              )
+            : SpeachEnglish(textEditingController),
         const SizedBox(
           height: 15,
         ),

@@ -49,6 +49,7 @@ class TodayStudyStepper extends HookConsumerWidget {
     var nameState = ref.watch(nameProvider);
     var todayResultIdNotifier = ref.watch(TodayResultIdProvider.notifier);
     var todayTopic = ref.watch(todayTopicProvider);
+    final englishTextController = useTextEditingController();
 
     void handleNext(Function? submitTodayPublicAnswer) async {
       EasyLoading.show(status: 'loading...');
@@ -142,6 +143,7 @@ class TodayStudyStepper extends HookConsumerWidget {
       //キーボードを閉じる（一応戻る時も）
       FocusScope.of(context).unfocus();
       studyNotifier.set(studyState.copyWith(english: ""));
+      englishTextController.text = "";
       activeStep.value -= 1;
     }
 
@@ -169,7 +171,7 @@ class TodayStudyStepper extends HookConsumerWidget {
             });
           };
 
-          return TextButton(
+          return ElevatedButton(
             onPressed: () => handleNext(submitTodayPublicAnswer),
             child: const Text('結果を見る'),
           );
@@ -254,6 +256,7 @@ class TodayStudyStepper extends HookConsumerWidget {
           isActive: activeStep.value == 2,
           content: WriteEnglish(
             errorMessage: errorMessage.value,
+            textEditingController: englishTextController,
           ),
         ),
       ],
