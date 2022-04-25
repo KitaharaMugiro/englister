@@ -23,6 +23,7 @@ class StudyStepper extends HookConsumerWidget {
     var errorMessage = useState<String?>(null);
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
+    final englishTextController = useTextEditingController();
 
     useEffect(() {
       //API getTopic
@@ -101,6 +102,7 @@ class StudyStepper extends HookConsumerWidget {
       //キーボードを閉じる（一応戻る時も）
       FocusScope.of(context).unfocus();
       studyNotifier.set(studyState.copyWith(english: ""));
+      englishTextController.text = "";
       activeStep.value -= 1;
     }
 
@@ -176,13 +178,14 @@ class StudyStepper extends HookConsumerWidget {
           isActive: activeStep.value == 1,
           content: WriteEnglish(
             errorMessage: errorMessage.value,
+            textEditingController: englishTextController,
           ),
         ),
         Step(
           title: const Text('Review'),
           subtitle: const Text("お手本"),
           isActive: activeStep.value == 2,
-          content: Review(),
+          content: const Review(),
         ),
       ],
     );
