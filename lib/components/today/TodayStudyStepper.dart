@@ -75,6 +75,13 @@ class TodayStudyStepper extends HookConsumerWidget {
           EasyLoading.dismiss();
           return;
         }
+        //非同期で翻訳
+        StudyApi.translate(studyState.japanese, studyState.activeQuestion.title)
+            .then((resTranslation) => {
+                  studyNotifier.set(studyState.copyWith(
+                      translation: resTranslation.translation ?? ""))
+                });
+
         activeStep.value = 2;
         EasyLoading.dismiss();
       } else if (activeStep.value == 2) {
@@ -89,12 +96,6 @@ class TodayStudyStepper extends HookConsumerWidget {
           return;
         }
 
-        //翻訳
-        var resTranslation = await StudyApi.translate(
-            studyState.japanese, studyState.activeQuestion.title);
-        studyNotifier.set(
-            studyState.copyWith(translation: resTranslation.translation ?? ""));
-
         //年齢とスコアの取得
         var resScore = await SpecialApi.englishScore(
             studyState.english, studyState.translation);
@@ -104,7 +105,7 @@ class TodayStudyStepper extends HookConsumerWidget {
           todayTopic!.question.todayTopicId,
           resScore.score_num,
           studyState.english,
-          resTranslation.translation ?? "",
+          studyState.translation,
           studyState.japanese,
           studyState.activeQuestion.topicId,
           resScore.age,
@@ -115,18 +116,15 @@ class TodayStudyStepper extends HookConsumerWidget {
             int.parse(studyState.activeQuestion.topicId),
             studyState.english,
             studyState.japanese,
-            resTranslation.translation ?? "",
+            studyState.translation,
             resScore.age,
             todayTopic.question.todayTopicId,
             nameState);
 
         //WARN: WebではReviewのuseEffectで呼んでいるが、Flutterではスコアを算出しないことと、ライフサイクルの観点からここで実行する
 
-        RecordApi.submitDashboard(
-            resScore.age,
-            studyState.english,
-            resTranslation.translation ?? "",
-            studyState.activeQuestion.topicId);
+        RecordApi.submitDashboard(resScore.age, studyState.english,
+            studyState.translation, studyState.activeQuestion.topicId);
 
         EasyLoading.dismiss();
         todayResultIdNotifier.set(result.resultId);

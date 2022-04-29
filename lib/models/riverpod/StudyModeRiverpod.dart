@@ -14,3 +14,16 @@ class SttModeNotifier extends StateNotifier<bool> {
 final sttModeProvider = StateNotifierProvider<SttModeNotifier, bool>(
   (ref) => SttModeNotifier(),
 );
+
+//単語選択モード
+class PickModeNotifier extends StateNotifier<bool> {
+  PickModeNotifier() : super(_initialValue);
+  static const bool _initialValue = false;
+  void set(bool isPickMode) {
+    state = isPickMode;
+  }
+}
+
+final pickModeProvider = StateNotifierProvider<PickModeNotifier, bool>(
+  (ref) => PickModeNotifier(),
+);
