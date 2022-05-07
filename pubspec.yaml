@@ -65,6 +65,8 @@ dependencies:
   random_avatar: ^0.0.5
   speech_to_text: ^5.4.3
   avatar_glow: ^2.0.2
+  quiver: ^3.1.0
+  dots_indicator: ^2.1.0
 
 dev_dependencies:
   flutter_test:

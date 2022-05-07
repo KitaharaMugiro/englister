@@ -75,12 +75,10 @@ class TodayStudyStepper extends HookConsumerWidget {
           EasyLoading.dismiss();
           return;
         }
-        //非同期で翻訳
-        StudyApi.translate(studyState.japanese, studyState.activeQuestion.title)
-            .then((resTranslation) => {
-                  studyNotifier.set(studyState.copyWith(
-                      translation: resTranslation.translation ?? ""))
-                });
+        final resTranslation = await StudyApi.translate(
+            studyState.japanese.trim(), studyState.activeQuestion.title);
+        studyNotifier.set(
+            studyState.copyWith(translation: resTranslation.translation ?? ""));
 
         activeStep.value = 2;
         EasyLoading.dismiss();

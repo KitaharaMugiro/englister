@@ -62,6 +62,11 @@ class StudyStepper extends HookConsumerWidget {
           EasyLoading.dismiss();
           return;
         }
+        //翻訳
+        var resTranslation = await StudyApi.translate(
+            studyState.japanese.trim(), studyState.activeQuestion.title);
+        studyNotifier.set(
+            studyState.copyWith(translation: resTranslation.translation ?? ""));
         activeStep.value = 1;
         EasyLoading.dismiss();
       } else if (activeStep.value == 1) {
@@ -75,21 +80,14 @@ class StudyStepper extends HookConsumerWidget {
           EasyLoading.dismiss();
           return;
         }
-        var resTranslation = await StudyApi.translate(
-            studyState.japanese, studyState.activeQuestion.title);
-        studyNotifier.set(
-            studyState.copyWith(translation: resTranslation.translation ?? ""));
 
         TopicApi.submitDoneTopic(studyState.activeQuestion.topicId);
 
         //WARN: WebではReviewのuseEffectで呼んでいるが、Flutterではスコアを算出しないことと、ライフサイクルの観点からここで実行する
 
         //translationとか全部入っている状態じゃないとダメだ。
-        RecordApi.submitDashboard(
-            -1,
-            studyState.english,
-            resTranslation.translation ?? "",
-            studyState.activeQuestion.topicId);
+        RecordApi.submitDashboard(-1, studyState.english,
+            studyState.translation, studyState.activeQuestion.topicId);
 
         activeStep.value = 2;
         EasyLoading.dismiss();

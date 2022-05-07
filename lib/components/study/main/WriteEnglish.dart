@@ -35,7 +35,7 @@ class WriteEnglish extends HookConsumerWidget {
             children: [
               IconButton(
                   iconSize: 45,
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.blue,
                   icon: const Icon(Icons.keyboard),
                   onPressed: () {
                     pickModeNotifier.set(true);
@@ -51,34 +51,41 @@ class WriteEnglish extends HookConsumerWidget {
           ));
     }
 
+    Widget renderEnglishTextField() {
+      return Stack(
+        children: [
+          TextField(
+            maxLines: 5,
+            controller: textEditingController,
+            onChanged: (value) {
+              studyNotifier.set(studyState.copyWith(english: value));
+            },
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: '上の文章を英語にしてください',
+              alignLabelWithHint: true,
+              errorText: errorMessage,
+            ),
+          ),
+          studyState.english.isEmpty ? renderInputIcons() : Container()
+        ],
+      );
+    }
+
     Widget renderInputView() {
       if (isSttMode) {
         return SpeachEnglish(textEditingController);
       } else if (isPickMode) {
         return Column(
-          children: const [
-            PickModeInput(),
+          children: [
+            renderEnglishTextField(),
+            PickModeInput(
+              textEditingController: textEditingController,
+            ),
           ],
         );
       } else {
-        return Stack(
-          children: [
-            TextField(
-              maxLines: 5,
-              controller: textEditingController,
-              onChanged: (value) {
-                studyNotifier.set(studyState.copyWith(english: value));
-              },
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: '上の文章を英語にしてください',
-                alignLabelWithHint: true,
-                errorText: errorMessage,
-              ),
-            ),
-            studyState.english.isEmpty ? renderInputIcons() : Container()
-          ],
-        );
+        return renderEnglishTextField();
       }
     }
 
