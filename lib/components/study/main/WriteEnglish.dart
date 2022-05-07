@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:englister/components/study/main/PickModeInput.dart';
 import 'package:englister/models/riverpod/StudyModeRiverpod.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,72 @@ class WriteEnglish extends HookConsumerWidget {
     var sttModeNotifier = ref.watch(sttModeProvider.notifier);
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
+    var isPickMode = ref.watch(pickModeProvider);
+    var pickModeNotifier = ref.watch(pickModeProvider.notifier);
+
+    Widget renderInputIcons() {
+      return Positioned(
+          bottom: 0,
+          right: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                  iconSize: 45,
+                  color: Colors.blue,
+                  icon: const Icon(Icons.keyboard),
+                  onPressed: () {
+                    pickModeNotifier.set(true);
+                  }),
+              IconButton(
+                  iconSize: 45,
+                  color: Colors.blue,
+                  icon: const Icon(Icons.mic),
+                  onPressed: () {
+                    sttModeNotifier.set(true);
+                  })
+            ],
+          ));
+    }
+
+    Widget renderEnglishTextField() {
+      return Stack(
+        children: [
+          TextField(
+            maxLines: 5,
+            controller: textEditingController,
+            onChanged: (value) {
+              studyNotifier.set(studyState.copyWith(english: value));
+            },
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: '上の文章を英語にしてください',
+              alignLabelWithHint: true,
+              errorText: errorMessage,
+            ),
+          ),
+          studyState.english.isEmpty ? renderInputIcons() : Container()
+        ],
+      );
+    }
+
+    Widget renderInputView() {
+      if (isSttMode) {
+        return SpeachEnglish(textEditingController);
+      } else if (isPickMode) {
+        return Column(
+          children: [
+            renderEnglishTextField(),
+            PickModeInput(
+              textEditingController: textEditingController,
+            ),
+          ],
+        );
+      } else {
+        return renderEnglishTextField();
+      }
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,49 +122,7 @@ class WriteEnglish extends HookConsumerWidget {
         const SizedBox(
           height: 5,
         ),
-        !isSttMode
-            ? Stack(
-                children: [
-                  TextField(
-                    maxLines: 5,
-                    controller: textEditingController,
-                    onChanged: (value) {
-                      studyNotifier.set(studyState.copyWith(english: value));
-                    },
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: '上の文章を英語にしてください',
-                      alignLabelWithHint: true,
-                      errorText: errorMessage,
-                    ),
-                  ),
-                  studyState.english.isEmpty
-                      ? Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              //TODO
-                              // IconButton(
-                              //     iconSize: 35,
-                              //     color: Theme.of(context).primaryColor,
-                              //     icon: const Icon(Icons.keyboard),
-                              //     onPressed: () {}),
-                              IconButton(
-                                  iconSize: 45,
-                                  color: Colors.blue,
-                                  icon: const Icon(Icons.mic),
-                                  onPressed: () {
-                                    sttModeNotifier.set(true);
-                                  })
-                            ],
-                          ))
-                      : Container()
-                ],
-              )
-            : SpeachEnglish(textEditingController),
+        renderInputView(),
         const SizedBox(
           height: 15,
         ),
