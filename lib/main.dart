@@ -11,6 +11,7 @@ import 'package:englister/pages/home.dart';
 import 'package:englister/pages/phrase.dart';
 import 'package:englister/pages/plan.dart';
 import 'package:englister/pages/record.dart';
+import 'package:englister/pages/top.dart';
 import 'package:englister/route/setting.dart';
 import 'package:englister/route/study.dart';
 import 'package:englister/route/phraseStudy.dart';
@@ -18,6 +19,7 @@ import 'package:englister/route/studyStart.dart';
 import 'package:englister/route/todayStudy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -41,7 +43,34 @@ class MyApp extends HookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Future<void> _configureAmplify() async {
+      // Add the following line to add Auth plugin to your app.
+      await Amplify.addPlugin(AmplifyAuthCognito());
+
+      // call Amplify.configure to use the initialized categories in your app
+      //TODO: 手動でSignInRedirectURIをenglister://に修正してる。まじ！？
+      // WARN: pushしたらWebサービスのログイン障害に繋がる危険な状態
+      await Amplify.configure(amplifyconfig);
+
+      //ここでログイン状況を確認したい
+      var userNotifier = ref.read(userProvider.notifier);
+
+      try {
+        userNotifier.set(await AuthService.getCurrentUserAttribute());
+      } catch (e) {
+        print(e);
+      }
+
+      await LocalStorageHelper.initializeUserId();
+      await UserApi.signin();
+    }
+
+    useEffect(() {
+      _configureAmplify();
+    }, []);
+
     var themeMode = ref.watch(SettingProvider);
+    var user = ref.read(userProvider);
     return ClientProvider(
         child: MaterialApp(
       title: 'Englister',
@@ -50,7 +79,9 @@ class MyApp extends HookConsumerWidget {
       darkTheme:
           themeMode == ThemeMode.light ? ThemeData.light() : ThemeData.dark(),
       builder: EasyLoading.init(),
-      home: const IndexPage(title: 'Englister'),
+      home: user.sub == null
+          ? const TopPage()
+          : const IndexPage(title: 'Englister'),
       routes: {
         '/settings': (BuildContext context) => SettingPage(),
         '/study': (BuildContext context) => const StudyPage(),
@@ -80,7 +111,7 @@ class _IndexPageState extends ConsumerState<IndexPage> {
   void initState() {
     super.initState();
     _subscribePurchaseUpdate();
-    _configureAmplify();
+    // _configureAmplify();
   }
 
   void _subscribePurchaseUpdate() async {
@@ -98,27 +129,6 @@ class _IndexPageState extends ConsumerState<IndexPage> {
       // handle error here.
       debugPrint("payment error: $error");
     });
-  }
-
-  Future<void> _configureAmplify() async {
-    // Add the following line to add Auth plugin to your app.
-    await Amplify.addPlugin(AmplifyAuthCognito());
-
-    // call Amplify.configure to use the initialized categories in your app
-    //TODO: 手動でSignInRedirectURIをenglister://に修正してる。まじ！？
-    // WARN: pushしたらWebサービスのログイン障害に繋がる危険な状態
-    await Amplify.configure(amplifyconfig);
-
-    //ここでログイン状況を確認したい
-    var userNotifier = ref.read(userProvider.notifier);
-    try {
-      userNotifier.set(await AuthService.getCurrentUserAttribute());
-    } catch (e) {
-      print(e);
-    }
-
-    await LocalStorageHelper.initializeUserId();
-    await UserApi.signin();
   }
 
   void _onItemTapped(int index) {
