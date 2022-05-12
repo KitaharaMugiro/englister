@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -18,7 +17,6 @@ import 'package:englister/route/studyStart.dart';
 import 'package:englister/route/todayStudy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -46,7 +44,10 @@ class MyApp extends HookConsumerWidget {
         child: MaterialApp(
       title: 'Englister',
       debugShowCheckedModeBanner: false,
-      theme: themeMode == ThemeMode.dark ? ThemeData.dark() : ThemeData.light(),
+      //theme: ThemeData(useMaterial3: true),
+      theme: themeMode == ThemeMode.dark
+          ? ThemeData(brightness: Brightness.dark, useMaterial3: true)
+          : ThemeData(brightness: Brightness.light, useMaterial3: true),
       darkTheme:
           themeMode == ThemeMode.light ? ThemeData.light() : ThemeData.dark(),
       builder: EasyLoading.init(),
