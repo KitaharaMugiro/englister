@@ -44,12 +44,12 @@ class MyApp extends HookConsumerWidget {
         child: MaterialApp(
       title: 'Englister',
       debugShowCheckedModeBanner: false,
-      //theme: ThemeData(useMaterial3: true),
       theme: themeMode == ThemeMode.dark
           ? ThemeData(brightness: Brightness.dark, useMaterial3: true)
           : ThemeData(brightness: Brightness.light, useMaterial3: true),
-      darkTheme:
-          themeMode == ThemeMode.light ? ThemeData.light() : ThemeData.dark(),
+      darkTheme: themeMode == ThemeMode.light
+          ? ThemeData(brightness: Brightness.light, useMaterial3: true)
+          : ThemeData(brightness: Brightness.dark, useMaterial3: true),
       builder: EasyLoading.init(),
       home: const IndexPage(title: 'Englister'),
       routes: {
