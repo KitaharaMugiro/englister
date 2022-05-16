@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//①Englisterのアイコン＋はじめるボタン(始めるボタンを一回押した or ログインしていたらホームを表示する)
-//②Englisterの概要
-//③「問題をやってみる」→home・「診断テスト」→todayStudyの２択を用意して画面遷移をする
 class OutlinePage extends HookConsumerWidget {
   const OutlinePage({
     Key? key,

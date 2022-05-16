@@ -12,6 +12,7 @@ import 'package:englister/pages/phrase.dart';
 import 'package:englister/pages/plan.dart';
 import 'package:englister/pages/record.dart';
 import 'package:englister/pages/top.dart';
+import 'package:englister/route/index.dart';
 import 'package:englister/route/setting.dart';
 import 'package:englister/route/study.dart';
 import 'package:englister/route/phraseStudy.dart';
@@ -45,34 +46,21 @@ class MyApp extends HookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Future<void> _configureAmplify() async {
-      // Add the following line to add Auth plugin to your app.
-      await Amplify.addPlugin(AmplifyAuthCognito());
-
-      // call Amplify.configure to use the initialized categories in your app
-      //TODO: 手動でSignInRedirectURIをenglister://に修正してる。まじ！？
-      // WARN: pushしたらWebサービスのログイン障害に繋がる危険な状態
-      await Amplify.configure(amplifyconfig);
-
-      //ここでログイン状況を確認したい
-      var userNotifier = ref.read(userProvider.notifier);
-
-      try {
-        userNotifier.set(await AuthService.getCurrentUserAttribute());
-      } catch (e) {
-        print(e);
+    final started = useState<bool>(false);
+    Future<void> _getStarted() async {
+      final res = await LocalStorageHelper.getStarted();
+      if (res == null) {
+        return;
       }
-
-      await LocalStorageHelper.initializeUserId();
-      await UserApi.signin();
+      started.value = true;
     }
 
     useEffect(() {
-      _configureAmplify();
+      _getStarted();
     }, []);
 
     var themeMode = ref.watch(SettingProvider);
-    var user = ref.read(userProvider);
+
     return ClientProvider(
         child: MaterialApp(
       title: 'Englister',
@@ -81,10 +69,10 @@ class MyApp extends HookConsumerWidget {
       darkTheme:
           themeMode == ThemeMode.light ? ThemeData.light() : ThemeData.dark(),
       builder: EasyLoading.init(),
-      home: user.sub == null
-          ? const TopPage()
-          : const IndexPage(title: 'Englister'),
+      home:
+          started.value ? const IndexPage(title: 'Englister') : const TopPage(),
       routes: {
+        '/index': (BuildContext context) => const IndexPage(title: 'Englister'),
         '/settings': (BuildContext context) => SettingPage(),
         '/study': (BuildContext context) => const StudyPage(),
         '/study/start': (BuildContext context) => StudyStartPage(),
@@ -95,92 +83,5 @@ class MyApp extends HookConsumerWidget {
         '/top/start': (BuildContext context) => const StartPage(),
       },
     ));
-  }
-}
-
-class IndexPage extends ConsumerStatefulWidget {
-  const IndexPage({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  ConsumerState<IndexPage> createState() => _IndexPageState();
-}
-
-class _IndexPageState extends ConsumerState<IndexPage> {
-  //TODO: ここで管理したくない・・
-  int _selectedIndex = 0;
-  late StreamSubscription<dynamic> _subscription;
-
-  @override
-  void initState() {
-    super.initState();
-    _subscribePurchaseUpdate();
-    // _configureAmplify();
-  }
-
-  void _subscribePurchaseUpdate() async {
-    final bool available = await InAppPurchase.instance.isAvailable();
-    if (!available) {
-      // The store cannot be reached or accessed. Update the UI accordingly.
-      return;
-    }
-    final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
-    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
-      listenToPurchaseUpdated(purchaseDetailsList);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      // handle error here.
-      debugPrint("payment error: $error");
-    });
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    RecordPage(),
-    PhrasePage(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    var phrases = ref.watch(phrasesProvider);
-
-    var scaffold = Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        centerTitle: false,
-        titleTextStyle:
-            const TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
-        actions: const [
-          Padding(padding: EdgeInsets.all(10), child: LoginButton())
-        ],
-      ),
-      drawer: MyDrawer(),
-      bottomNavigationBar: MyBottomNavigationBar(_selectedIndex, _onItemTapped),
-      body: _widgetOptions.elementAt(_selectedIndex),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      floatingActionButtonLocation: _selectedIndex == 2 && phrases.isNotEmpty
-          ? FloatingActionButtonLocation.centerDocked
-          : null,
-      floatingActionButton: _selectedIndex == 2 && phrases.isNotEmpty
-          ? (Container(
-              margin: const EdgeInsets.only(bottom: 100.0),
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/phrase/study');
-                },
-                label: const Text('フラッシュカードで覚える'),
-                icon: const Icon(Icons.school),
-              ),
-            ))
-          : null,
-    );
-    return scaffold;
   }
 }

@@ -1,10 +1,12 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:englister/amplifyconfiguration.dart';
+import 'package:englister/api/rest/UserApi.dart';
+import 'package:englister/models/localstorage/LocalStorageHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//①Englisterのアイコン＋はじめるボタン(始めるボタンを一回押した or ログインしていたらホームを表示する)
-//②Englisterの概要
-//③「問題をやってみる」→home・「診断テスト」→todayStudyの２択を用意して画面遷移をする
 class StartPage extends HookConsumerWidget {
   const StartPage({
     Key? key,
@@ -152,31 +154,46 @@ class StartPage extends HookConsumerWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: ElevatedButton(
-              child: const Text(
-                '次へ',
-                style: TextStyle(
-                  color: Color.fromRGBO(3, 41, 68, 1),
-                  fontSize: 19,
+        toHome.value || toTodayStudy.value
+            ? Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
+                    child: const Text(
+                      '次へ',
+                      style: TextStyle(
+                        color: Color.fromRGBO(3, 41, 68, 1),
+                        fontSize: 19,
+                      ),
+                    ),
+                    onPressed: () async {
+                      await LocalStorageHelper.saveStarted();
+                      if (toHome.value) {
+                        Navigator.pushNamed(context, '/index');
+                        return;
+                      }
+                      if (toTodayStudy.value) {
+                        if (!Amplify.isConfigured) {
+                          await Amplify.addPlugin(AmplifyAuthCognito());
+                          await Amplify.configure(amplifyconfig);
+                        }
+                        await LocalStorageHelper.initializeUserId();
+                        Navigator.pushNamed(context, '/today');
+                        return;
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(17),
+                      ),
+                      primary: Colors.white,
+                      minimumSize: const Size(double.maxFinite, 60),
+                    ),
+                  ),
                 ),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/top/start');
-              },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(17),
-                ),
-                primary: Colors.white,
-                minimumSize: const Size(double.maxFinite, 60),
-              ),
-            ),
-          ),
-        ),
+              )
+            : Container(),
       ]),
     );
   }

@@ -56,7 +56,7 @@ dependencies:
   freezed: ^1.1.1
   freezed_annotation: ^1.1.0
   in_app_purchase: ^2.0.1
-  percent_indicator: ^4.0.0
+  percent_indicator: 4.0.0
   material_design_icons_flutter: ^5.0.6595
   share_plus: ^4.0.1
   swipable_stack: ^1.2.0
