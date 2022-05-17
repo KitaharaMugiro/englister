@@ -63,7 +63,7 @@ dependencies:
   flip_card: ^0.6.0
   font_awesome_flutter: ^9.0.0
   random_avatar: ^0.0.5
-  speech_to_text: ^5.4.3
+  speech_to_text: 5.4.3
   avatar_glow: ^2.0.2
   quiver: ^3.1.0
   dots_indicator: ^2.1.0
@@ -75,12 +75,25 @@ dev_dependencies:
   build_runner: "^2.1.7"
   json_serializable: ">4.4.0"
   flutter_launcher_icons: "^0.9.2"
+  flutter_native_splash: ^2.1.6
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+
+flutter_native_splash:
+  color: "#002442"
+  image: "assets/images/splash.png"
+  color_dark: "#002442"
+  image_dark: "assets/images/splash.png"
+  fullscreen: true
+  android_12:
+    icon_background_color: "#002442"
+    image: "assets/images/splash.png"
+    icon_background_color_dark: "#002442"
+    image_dark: "assets/images/splash.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
