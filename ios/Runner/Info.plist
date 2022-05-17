@@ -57,10 +57,12 @@
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
-		<true/>
+		<false/>
 		<key>NSSpeechRecognitionUsageDescription</key>
 		<string>This app requires to speech recognition</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>This app requires microphone access to speech recognition</string>
+		<key>UIStatusBarHidden</key>
+		<true/>
 	</dict>
 </plist>

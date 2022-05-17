@@ -1,13 +1,13 @@
 import 'package:englister/api/rest/TodayApi.dart';
+import 'package:englister/components/signin/SigninDialog.dart';
 import 'package:englister/components/today/TodayShareButton.dart';
 import 'package:englister/components/today/TodayStudyRanking.dart';
-import 'package:englister/models/localstorage/LocalStorageHelper.dart';
+import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/riverpod/TodayStudyRiverpod.dart';
+import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:random_avatar/random_avatar.dart';
 
 class TodayStudyReview extends HookConsumerWidget {
   const TodayStudyReview({Key? key}) : super(key: key);
@@ -18,6 +18,7 @@ class TodayStudyReview extends HookConsumerWidget {
     var todayTopicNotifier = ref.watch(todayTopicProvider.notifier);
     var todayResultId = ref.watch(TodayResultIdProvider);
     var name = useState("");
+    final user = ref.watch(userProvider);
 
     useEffect(() {
       if (todayResultId == null) {
@@ -113,7 +114,61 @@ class TodayStudyReview extends HookConsumerWidget {
                       const SizedBox(height: 30),
                       renderReview(),
                       const SizedBox(height: 5),
-                      const TodayStudyRanking(),
+                      user.sub == null
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const SizedBox(height: 10),
+                                Text("もっとEnglisterで英語年齢を上げませんか？",
+                                    style: Typography.dense2018.headline4
+                                        ?.apply(fontWeightDelta: 2)),
+                                const SizedBox(height: 10),
+                                Text(
+                                    "英語面接や英語環境で5歳児のようなことを言ってしまっていることに課題感を感じている人に特におすすめです。 本当に自分が使う言葉で英語を覚えていく体験をしてみませんか？",
+                                    style: Typography.dense2018.bodyText1),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                  height: 60,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      await openSigninDialog(context);
+                                      //stateだとnullになるので直接取得
+                                      final userAttribute = await AuthService
+                                          .getCurrentUserAttribute();
+                                      if (userAttribute.sub != null) {
+                                        Navigator.pushNamed(context, '/index');
+                                      }
+                                    },
+                                    child: Text("会員登録をしてみる(5秒)",
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          color: Theme.of(context).cardColor,
+                                        )),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Theme.of(context)
+                                          .toggleableActiveColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(17),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/index');
+                                  },
+                                  child: const Text("あとで",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        color: Colors.blue,
+                                      )),
+                                ),
+                              ],
+                            )
+                          : const TodayStudyRanking(),
                     ]),
               ),
             ),
