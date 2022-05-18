@@ -55,4 +55,14 @@ class LocalStorageHelper {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString("TodayName");
   }
+
+  static saveStarted() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("Started", "yes");
+  }
+
+  static Future<String?> getStarted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("Started");
+  }
 }

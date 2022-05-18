@@ -7,6 +7,7 @@ import 'package:englister/api/rest/response_type/translate_response.dart';
 import 'package:englister/api/rest/rest_client.dart';
 import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/localstorage/LocalStorageHelper.dart';
+import 'package:flutter/foundation.dart';
 
 class StudyApi {
   static Future<LeftHeartResponse> leftHeart() async {
@@ -64,6 +65,10 @@ class StudyApi {
     var userId = await LocalStorageHelper.getUserId();
     var studySessionId = await LocalStorageHelper.getStudySessionId();
     if (userId == null || studySessionId == null) {
+      if (kDebugMode) {
+        print('userId $userId');
+        print('studySessionId $studySessionId');
+      }
       throw Exception('UserId or StudySessionId is null');
     }
 

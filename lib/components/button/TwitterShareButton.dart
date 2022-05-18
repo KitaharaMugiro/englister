@@ -43,7 +43,11 @@ class TwitterShareButton extends StatelessWidget {
             color: Theme.of(context).cardColor,
           )),
       style: ElevatedButton.styleFrom(
-          primary: Theme.of(context).toggleableActiveColor),
+        primary: Theme.of(context).toggleableActiveColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(17),
+        ),
+      ),
     );
   }
 }
