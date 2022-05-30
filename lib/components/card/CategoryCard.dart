@@ -27,8 +27,9 @@ class CategoryCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Image(
-                  image: NetworkImage(imageURL),
-                ),
+                    height: 200,
+                    image: NetworkImage(imageURL),
+                    fit: BoxFit.cover),
                 ListTile(
                     title: Text(title,
                         style: Typography.material2018().dense.headline5))

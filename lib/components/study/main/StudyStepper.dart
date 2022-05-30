@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:englister/api/rest/RecordApi.dart';
 import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/api/rest/TopicApi.dart';
@@ -34,6 +32,7 @@ class StudyStepper extends HookConsumerWidget {
             description: topic.topicDescription!);
         studyNotifier.set(studyState.copyWith(activeQuestion: q));
       });
+      return null;
     }, []);
 
     void handleNext() async {
@@ -110,6 +109,12 @@ class StudyStepper extends HookConsumerWidget {
           ElevatedButton(
             onPressed: handleNext,
             child: const Text('次へ進む'),
+            style: ElevatedButton.styleFrom(
+              // Foreground color
+              onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+              // Background color
+              primary: Theme.of(context).colorScheme.secondaryContainer,
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
           )
         ];
       } else if (activeStep.value == 1) {
@@ -121,6 +126,12 @@ class StudyStepper extends HookConsumerWidget {
           ElevatedButton(
             onPressed: handleNext,
             child: const Text('次へ進む'),
+            style: ElevatedButton.styleFrom(
+              // Foreground color
+              onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+              // Background color
+              primary: Theme.of(context).colorScheme.secondaryContainer,
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
           )
         ];
       } else if (activeStep.value == 2) {
@@ -129,6 +140,12 @@ class StudyStepper extends HookConsumerWidget {
             TextButton(
               onPressed: handleNext,
               child: const Text('終了'),
+              style: ElevatedButton.styleFrom(
+                // Foreground color
+                onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+                // Background color
+                primary: Theme.of(context).colorScheme.secondaryContainer,
+              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
             ),
             ElevatedButton(
               onPressed: handleBack,
@@ -144,6 +161,12 @@ class StudyStepper extends HookConsumerWidget {
           ElevatedButton(
             onPressed: handleNext,
             child: const Text('終了'),
+            style: ElevatedButton.styleFrom(
+              // Foreground color
+              onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+              // Background color
+              primary: Theme.of(context).colorScheme.secondaryContainer,
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
           )
         ];
       }
