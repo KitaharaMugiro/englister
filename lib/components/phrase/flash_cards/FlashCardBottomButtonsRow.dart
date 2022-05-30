@@ -33,9 +33,11 @@ class FlashCardBottomButtonsRow extends StatelessWidget {
                   color: SwipeDirectionColor.left,
                   child: const Icon(
                     FontAwesomeIcons.question,
+                    color: Colors.white,
                     size: 40,
                   ),
-                  text: const Text('知らない'),
+                  text:
+                      const Text('知らない', style: TextStyle(color: Colors.white)),
                   onPressed: () {
                     onSwipe(SwipeDirection.left);
                   }),
@@ -44,9 +46,10 @@ class FlashCardBottomButtonsRow extends StatelessWidget {
                 onPressed: () {
                   onSwipe(SwipeDirection.right);
                 },
-                text: const Text('知ってる'),
+                text: const Text('知ってる', style: TextStyle(color: Colors.white)),
                 child: const Icon(
                   Icons.thumb_up,
+                  color: Colors.white,
                   size: 40,
                 ),
               ),
