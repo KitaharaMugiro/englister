@@ -1,7 +1,5 @@
-import 'package:englister/components/card/CategoryCard.dart';
 import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/riverpod/SettingRiverpod.dart';
-import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,16 +12,16 @@ class SettingPage extends HookConsumerWidget {
       "url":
           "https://docs.google.com/forms/d/e/1FAIpQLSfpVp24DmJSR5IvLVqy0AuXSt1ZNxyAMxONMSZMEebh2EYqxw/viewform"
     },
-    {"title": "利用規約", "url": "https://english.yunomy.com/t/terms_of_service"},
+    {"title": "利用規約", "url": "https://englister.yunomy.com/t/terms_of_service"},
     {
       "title": "プライバシーポリシー",
-      "url": "https://english.yunomy.com/t/privacy_policy"
+      "url": "https://englister.yunomy.com/t/privacy_policy"
     },
-    {"title": "特定商取引法に基づく表記", "url": "https://english.yunomy.com/t/legal"},
+    {"title": "特定商取引法に基づく表記", "url": "https://englister.yunomy.com/t/legal"},
   ];
 
   void _launchURL(String url) async {
-    if (!await launch(url)) throw 'Could not launch $url';
+    if (!await launchUrl(Uri.parse(url))) throw 'Could not launch $url';
   }
 
   List<Widget> _makeWidgets(BuildContext context, WidgetRef ref) {

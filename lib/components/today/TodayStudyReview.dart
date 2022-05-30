@@ -30,6 +30,7 @@ class TodayStudyReview extends HookConsumerWidget {
         todayTopicNotifier.set(res);
         name.value = res.answer?.name ?? "";
       });
+      return null;
     }, [todayResultId]);
 
     Widget renderReview() {
@@ -109,7 +110,7 @@ class TodayStudyReview extends HookConsumerWidget {
                       const SizedBox(height: 20),
                       Image(
                         image: NetworkImage(
-                            'https://english.yunomy.com/static/ogp/slide_${todayTopic!.answer!.age + 1}.png'),
+                            'https://englister.yunomy.com/static/ogp/slide_${todayTopic!.answer!.age + 1}.png'),
                       ),
                       const SizedBox(height: 30),
                       renderReview(),

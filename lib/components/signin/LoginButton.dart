@@ -1,8 +1,6 @@
-import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'SigninDialog.dart';
 
 class LoginButton extends HookConsumerWidget {
@@ -29,7 +27,7 @@ class LoginButton extends HookConsumerWidget {
       onPressed: () {
         _onPressedLogin(context);
       },
-      child: Text('Log in',
+      child: Text('ログイン',
           style: TextStyle(
             fontSize: 17,
             color: Theme.of(context).cardColor,

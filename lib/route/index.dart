@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -103,8 +102,8 @@ class _IndexPageState extends ConsumerState<IndexPage> {
       appBar: AppBar(
         title: Text(widget.title),
         centerTitle: false,
-        titleTextStyle:
-            const TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
+        // titleTextStyle:
+        //     const TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
         actions: const [
           Padding(padding: EdgeInsets.all(10), child: LoginButton())
         ],

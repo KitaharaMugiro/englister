@@ -49,6 +49,7 @@ class MyDrawer extends HookConsumerWidget {
           maxHeartsNotifier.set(0);
         }
       });
+      return null;
     }, []);
 
     return Drawer(
@@ -61,7 +62,8 @@ class MyDrawer extends HookConsumerWidget {
           //   radius: 20,
           // ),
           const SizedBox(height: 10),
-          Text(userEmail ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(userEmail ?? "",
+              style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 5),
           const Text("残りライフ"),
           LeftPlanHearts(
@@ -70,20 +72,22 @@ class MyDrawer extends HookConsumerWidget {
         ]),
       )),
       ListTile(
-        leading: Icon(Icons.local_library),
-        title: Text('勉強する'),
+        leading: const Icon(Icons.local_library),
+        title: const Text('勉強する'),
         onTap: () {
           Navigator.pop(context);
         },
       ),
       ListTile(
-        leading: Icon(Icons.local_library),
-        title: Text('ダッシュボード'),
-        onTap: () => launch("https://english.yunomy.com/dashboard"),
+        leading: const Icon(Icons.local_library),
+        title: const Text('ダッシュボード'),
+        onTap: () => launchUrl(
+            Uri.parse("https://englister.yunomy.com/dashboard"),
+            mode: LaunchMode.externalApplication),
       ),
       ListTile(
-        leading: Icon(Icons.local_library),
-        title: Text('プラン'),
+        leading: const Icon(Icons.local_library),
+        title: const Text('プラン'),
         onTap: () {
           Navigator.pop(context);
           Navigator.push(
@@ -94,16 +98,18 @@ class MyDrawer extends HookConsumerWidget {
               ));
         },
       ),
-      Divider(),
+      const Divider(),
       ListTile(
-        leading: Icon(Icons.people),
-        title: Text('追加機能リクエスト'),
-        onTap: () => launch(
-            "https://docs.google.com/forms/d/e/1FAIpQLSdiBErG8O7zFEZYlODFk4p27GjwbFjV4ehp9SO8OZ3cffuMcA/viewform?usp=sf_link"),
+        leading: const Icon(Icons.people),
+        title: const Text('追加機能リクエスト'),
+        onTap: () => launchUrl(
+            Uri.parse(
+                "https://docs.google.com/forms/d/e/1FAIpQLSdiBErG8O7zFEZYlODFk4p27GjwbFjV4ehp9SO8OZ3cffuMcA/viewform?usp=sf_link"),
+            mode: LaunchMode.externalApplication),
       ),
       ListTile(
-          leading: Icon(Icons.settings),
-          title: Text('設定'),
+          leading: const Icon(Icons.settings),
+          title: const Text('設定'),
           onTap: () {
             Navigator.pop(context);
             Navigator.of(context).pushNamed('/settings');

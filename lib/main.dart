@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:englister/models/riverpod/SettingRiverpod.dart';
 import 'package:englister/pages/plan.dart';
@@ -44,6 +43,7 @@ class MyApp extends HookConsumerWidget {
 
     useEffect(() {
       _getStarted();
+      return null;
     }, []);
 
     var themeMode = ref.watch(SettingProvider);
@@ -52,9 +52,12 @@ class MyApp extends HookConsumerWidget {
         child: MaterialApp(
       title: 'Englister',
       debugShowCheckedModeBanner: false,
-      theme: themeMode == ThemeMode.dark ? ThemeData.dark() : ThemeData.light(),
-      darkTheme:
-          themeMode == ThemeMode.light ? ThemeData.light() : ThemeData.dark(),
+      theme: themeMode == ThemeMode.dark
+          ? ThemeData(brightness: Brightness.dark, useMaterial3: true)
+          : ThemeData(brightness: Brightness.light, useMaterial3: true),
+      darkTheme: themeMode == ThemeMode.light
+          ? ThemeData(brightness: Brightness.light, useMaterial3: true)
+          : ThemeData(brightness: Brightness.dark, useMaterial3: true),
       builder: EasyLoading.init(),
       home: isLoading.value
           ? const Center(child: CircularProgressIndicator())
