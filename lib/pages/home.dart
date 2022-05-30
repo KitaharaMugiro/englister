@@ -20,7 +20,7 @@ class HomePage extends HookConsumerWidget {
     var categoryList = useState<GetCategoryListResponse?>(null);
     var isLoading = useState(false);
 
-    const BASE_URL = 'https://english.yunomy.com';
+    const BASE_URL = 'https://englister.yunomy.com';
 
     useEffect(() {
       isLoading.value = true;
@@ -31,6 +31,7 @@ class HomePage extends HookConsumerWidget {
         print(e);
         isLoading.value = false;
       });
+      return null;
     }, []);
 
     void onTapCard(String category, String title) async {
@@ -71,7 +72,8 @@ class HomePage extends HookConsumerWidget {
               if (index == 0) {
                 return CategoryCard(
                   onTap: onTapCard,
-                  imageURL: 'https://english.yunomy.com/static/ogp/slide_6.png',
+                  imageURL:
+                      'https://englister.yunomy.com/static/ogp/slide_6.png',
                   title: '今日の英語年齢診断',
                   category: 'today',
                 );

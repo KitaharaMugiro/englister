@@ -14,7 +14,7 @@ class TodayShareButton extends HookConsumerWidget {
     return TwitterShareButton(
       label: '結果を共有する',
       text: 'Q.${todayTopic!.question.title}\n\n$text',
-      url: 'https://english.yunomy.com/today/${todayTopic.answer?.resultId}',
+      url: 'https://englister.yunomy.com/today/${todayTopic.answer?.resultId}',
       hashtags: const ["Englister", "英語力診断", "毎日英語年齢診断"],
     );
   }
