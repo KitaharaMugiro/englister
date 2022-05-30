@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:englister/api/rest/RecordApi.dart';
 import 'package:englister/api/rest/SpecialApi.dart';
 import 'package:englister/api/rest/StudyApi.dart';
@@ -170,6 +168,12 @@ class TodayStudyStepper extends HookConsumerWidget {
           return ElevatedButton(
             onPressed: () => handleNext(submitTodayPublicAnswer),
             child: const Text('結果を見る'),
+            style: ElevatedButton.styleFrom(
+              // Foreground color
+              onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+              // Background color
+              primary: Theme.of(context).colorScheme.secondaryContainer,
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
           );
         },
         options: MutationOptions(document: queryDocument),
@@ -182,6 +186,12 @@ class TodayStudyStepper extends HookConsumerWidget {
           ElevatedButton(
             onPressed: () => handleNext(null),
             child: const Text('次へ進む'),
+            style: ElevatedButton.styleFrom(
+              // Foreground color
+              onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+              // Background color
+              primary: Theme.of(context).colorScheme.secondaryContainer,
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
           )
         ];
       } else if (activeStep.value == 1) {
@@ -193,6 +203,12 @@ class TodayStudyStepper extends HookConsumerWidget {
           ElevatedButton(
             onPressed: () => handleNext(null),
             child: const Text('次へ進む'),
+            style: ElevatedButton.styleFrom(
+              // Foreground color
+              onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+              // Background color
+              primary: Theme.of(context).colorScheme.secondaryContainer,
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
           )
         ];
       } else if (activeStep.value == 2) {

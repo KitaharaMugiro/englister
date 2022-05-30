@@ -27,7 +27,7 @@ class LoginButton extends HookConsumerWidget {
       onPressed: () {
         _onPressedLogin(context);
       },
-      child: Text('Log in',
+      child: Text('ログイン',
           style: TextStyle(
             fontSize: 17,
             color: Theme.of(context).cardColor,

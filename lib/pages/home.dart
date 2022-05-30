@@ -1,10 +1,7 @@
 import 'package:englister/api/rest/CategoryApi.dart';
-import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/api/rest/response_type/get_category_list_response.dart';
 import 'package:englister/components/card/CategoryCard.dart';
-import 'package:englister/components/dialog/showHeartShortError.dart';
 import 'package:englister/route/studyStart.dart';
-import 'package:englister/route/todayStudy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -31,6 +28,7 @@ class HomePage extends HookConsumerWidget {
         print(e);
         isLoading.value = false;
       });
+      return null;
     }, []);
 
     void onTapCard(String category, String title) async {
@@ -59,10 +57,18 @@ class HomePage extends HookConsumerWidget {
 
     return Container(
         child: Column(children: <Widget>[
-      Container(
-        height: 20,
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            const Icon(Icons.school),
+            const SizedBox(
+              width: 5,
+            ),
+            Text("英作文コース一覧", style: Typography.dense2018.headline5),
+          ],
+        ),
       ),
-      Text("コンテンツ一覧", style: Typography.dense2018.headline4),
       Expanded(
         child: ListView.builder(
             padding: const EdgeInsets.all(8),
