@@ -12,23 +12,23 @@ const amplifyconfig = ''' {
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "ap-northeast-1:0b8c4f5c-2e59-4553-aaa7-2c319386b94a",
+                            "PoolId": "ap-northeast-1:2731ca41-cb65-4009-97e0-bd2d96938dae",
                             "Region": "ap-northeast-1"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "ap-northeast-1_WilzuDo5l",
-                        "AppClientId": "1290bopn7lnj3rui8il5hpfeks",
+                        "PoolId": "ap-northeast-1_bihw3sgMQ",
+                        "AppClientId": "4tsf0ki40qohtt6m396np6tpup",
                         "Region": "ap-northeast-1"
                     }
                 },
                 "Auth": {
                     "Default": {
                         "OAuth": {
-                            "WebDomain": "slideshare23669af5-23669af5-dev.auth.ap-northeast-1.amazoncognito.com",
-                            "AppClientId": "1290bopn7lnj3rui8il5hpfeks",
+                            "WebDomain": "englister3f839e5d-3f839e5d-dev.auth.ap-northeast-1.amazoncognito.com",
+                            "AppClientId": "4tsf0ki40qohtt6m396np6tpup",
                             "SignInRedirectURI": "englister://",
                             "SignOutRedirectURI": "englister://",
                             "Scopes": [
@@ -66,22 +66,7 @@ const amplifyconfig = ''' {
                             "EMAIL"
                         ]
                     }
-                },
-                "S3TransferUtility": {
-                    "Default": {
-                        "Bucket": "slidesharefb3e5b28443a4cada2800e8b4b2e9012235535-dev",
-                        "Region": "ap-northeast-1"
-                    }
                 }
-            }
-        }
-    },
-    "storage": {
-        "plugins": {
-            "awsS3StoragePlugin": {
-                "bucket": "slidesharefb3e5b28443a4cada2800e8b4b2e9012235535-dev",
-                "region": "ap-northeast-1",
-                "defaultAccessLevel": "guest"
             }
         }
     }
