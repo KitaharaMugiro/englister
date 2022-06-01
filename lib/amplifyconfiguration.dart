@@ -20,7 +20,7 @@ const amplifyconfig = ''' {
                 "CognitoUserPool": {
                     "Default": {
                         "PoolId": "ap-northeast-1_bihw3sgMQ",
-                        "AppClientId": "4tsf0ki40qohtt6m396np6tpup",
+                        "AppClientId": "6lsastakiokkq9ejqt2chnklnm",
                         "Region": "ap-northeast-1"
                     }
                 },
@@ -28,7 +28,7 @@ const amplifyconfig = ''' {
                     "Default": {
                         "OAuth": {
                             "WebDomain": "englister3f839e5d-3f839e5d-dev.auth.ap-northeast-1.amazoncognito.com",
-                            "AppClientId": "4tsf0ki40qohtt6m396np6tpup",
+                            "AppClientId": "6lsastakiokkq9ejqt2chnklnm",
                             "SignInRedirectURI": "englister://",
                             "SignOutRedirectURI": "englister://",
                             "Scopes": [
@@ -40,7 +40,12 @@ const amplifyconfig = ''' {
                             ]
                         },
                         "authenticationFlowType": "USER_SRP_AUTH",
-                        "loginMechanisms": [
+                        "socialProviders": [
+                            "FACEBOOK",
+                            "GOOGLE",
+                            "APPLE"
+                        ],
+                        "usernameAttributes": [
                             "EMAIL"
                         ],
                         "signupAttributes": [
@@ -55,14 +60,6 @@ const amplifyconfig = ''' {
                             "SMS"
                         ],
                         "verificationMechanisms": [
-                            "EMAIL"
-                        ],
-                        "socialProviders": [
-                            "FACEBOOK",
-                            "GOOGLE",
-                            "APPLE"
-                        ],
-                        "usernameAttributes": [
                             "EMAIL"
                         ]
                     }

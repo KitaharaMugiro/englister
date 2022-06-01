@@ -45,6 +45,11 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+
+key.properties
+
+.fvm/flutter_sdk
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -58,14 +63,10 @@ node_modules/
 aws-exports.js
 awsconfiguration.json
 amplifyconfiguration.json
-#amplifyconfiguration.dart
+amplifyconfiguration.dart
 amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-
-key.properties
-
-.fvm/flutter_sdk
