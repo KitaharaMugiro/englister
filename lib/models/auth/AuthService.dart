@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class UserAttribute {
@@ -10,7 +9,7 @@ class UserAttribute {
   String? emailVerified;
   String? identities;
 
-  UserAttribute() {}
+  UserAttribute();
 }
 
 class AuthService {
@@ -101,14 +100,21 @@ class AuthService {
   }
 
   static Future<String?> getJwt() async {
-    final resp = await Amplify.Auth.fetchAuthSession(
-      options: CognitoSessionOptions(getAWSCredentials: true),
-    );
-    if (resp.isSignedIn) {
-      final sess = resp as CognitoAuthSession;
-      return sess.userPoolTokens?.idToken;
+    try {
+      final resp = await Amplify.Auth.fetchAuthSession(
+        options: CognitoSessionOptions(getAWSCredentials: true),
+      );
+      if (resp.isSignedIn) {
+        final sess = resp as CognitoAuthSession;
+        return sess.userPoolTokens?.idToken;
+      }
+      return null;
+    } on AmplifyException catch (e) {
+      if (kDebugMode) {
+        print(e.message);
+      }
+      return null;
     }
-    return null;
   }
 
   static Future<Object?> getHeader() async {

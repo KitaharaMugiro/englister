@@ -2,7 +2,7 @@
   "providers": [
     "awscloudformation"
   ],
-  "projectName": "slideshare",
+  "projectName": "englister",
   "version": "3.1",
   "frontend": "flutter",
   "flutter": {

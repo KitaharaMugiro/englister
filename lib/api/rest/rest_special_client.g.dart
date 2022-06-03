@@ -11,7 +11,7 @@ part of 'rest_special_client.dart';
 class _RestSpecialClient implements RestSpecialClient {
   _RestSpecialClient(this._dio, {this.baseUrl}) {
     baseUrl ??=
-        'https://ke5c05zzxb.execute-api.ap-northeast-1.amazonaws.com/dev/';
+        'https://1kfq730jwf.execute-api.ap-northeast-1.amazonaws.com/dev/';
   }
 
   final Dio _dio;
