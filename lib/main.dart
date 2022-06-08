@@ -14,6 +14,7 @@ import 'package:englister/route/top/start.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'api/graphql/client_provider.dart';
@@ -59,11 +60,17 @@ class MyApp extends HookConsumerWidget {
           ? ThemeData(brightness: Brightness.light, useMaterial3: true)
           : ThemeData(brightness: Brightness.dark, useMaterial3: true),
       builder: EasyLoading.init(),
-      home: isLoading.value
-          ? const Center(child: CircularProgressIndicator())
-          : started.value
-              ? const IndexPage(title: 'Englister')
-              : const TopPage(),
+      home: ScreenUtilInit(
+          designSize: const Size(390, 844),
+          builder: (BuildContext context, Widget? child) {
+            if (isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (started.value) {
+              return const IndexPage(title: 'Englister');
+            }
+            return const TopPage();
+          }),
       routes: {
         '/index': (BuildContext context) => const IndexPage(title: 'Englister'),
         '/settings': (BuildContext context) => SettingPage(),
