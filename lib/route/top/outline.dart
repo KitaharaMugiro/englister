@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class OutlinePage extends HookConsumerWidget {
@@ -18,40 +19,40 @@ class OutlinePage extends HookConsumerWidget {
         Container(
           color: const Color.fromRGBO(3, 41, 68, 1),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(15.0),
             child: Column(
               children: [
-                const Text(
+                Text(
                   'Englisterの概要',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 28,
+                    fontSize: 28.sp,
                   ),
                 ),
-                const SizedBox(
-                  height: 13,
+                SizedBox(
+                  height: 10.h,
                 ),
-                const Text(
+                Text(
                   'AI翻訳(DeepL)を先生役に、英作文の練習や添削ができるサービスです。',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 22,
+                    fontSize: 22.sp,
                   ),
                 ),
-                const SizedBox(
-                  height: 40,
+                SizedBox(
+                  height: 20.h,
                 ),
-                const Text(
+                Text(
                   'こんな効果があります',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 23,
+                    fontSize: 23.sp,
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 20.h,
                 ),
                 Container(
                   padding: const EdgeInsets.all(5.0),
@@ -61,62 +62,65 @@ class OutlinePage extends HookConsumerWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
-                    children: const [
+                    children: [
                       Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          "言いたいことが英語で言えるようになる！",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 23,
+                        padding: const EdgeInsets.all(11.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "言いたいことが英語で言えるようになる！",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.sp,
+                            ),
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.white70,
                         thickness: 1,
                         indent: 20,
                         endIndent: 20,
                       ),
                       Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(11.0),
                         child: Text(
                           "こういう表現があったか〜という学びが得られる",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 23,
+                            fontSize: 20.sp,
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.white70,
                         thickness: 1,
                         indent: 20,
                         endIndent: 20,
                       ),
                       Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(11.0),
                         child: Text(
                           "語彙力が効果的にアップする",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 23,
+                            fontSize: 20.sp,
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.white70,
                         thickness: 1,
                         indent: 20,
                         endIndent: 20,
                       ),
                       Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(11.0),
                         child: Text(
                           "AIが自分の英語を採点してくれる",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 25,
+                            fontSize: 20.sp,
                           ),
                         ),
                       ),
@@ -132,11 +136,11 @@ class OutlinePage extends HookConsumerWidget {
           child: Align(
             alignment: Alignment.bottomCenter,
             child: ElevatedButton(
-              child: const Text(
+              child: Text(
                 '次へ',
                 style: TextStyle(
-                  color: Color.fromRGBO(3, 41, 68, 1),
-                  fontSize: 19,
+                  color: const Color.fromRGBO(3, 41, 68, 1),
+                  fontSize: 19.sp,
                 ),
               ),
               onPressed: () {

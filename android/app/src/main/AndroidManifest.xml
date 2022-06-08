@@ -9,7 +9,9 @@
     <queries>
         <intent>
             <action android:name="android.support.customtabs.action.CustomTabsService" />
-          <action android:name="android.speech.RecognitionService" />
+        </intent>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
         </intent>
     </queries>
 
