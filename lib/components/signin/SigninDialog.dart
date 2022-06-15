@@ -41,6 +41,7 @@ class SigninDialog extends HookConsumerWidget {
                 await AuthService.signInWithGoogle(context);
               } catch (e) {
                 print(e);
+                await AuthService.signOut();
               }
 
               userNotifier.set(await AuthService.getCurrentUserAttribute());
@@ -58,6 +59,7 @@ class SigninDialog extends HookConsumerWidget {
                 await AuthService.signInWithFacebook(context);
               } catch (e) {
                 print(e);
+                await AuthService.signOut();
               }
 
               userNotifier.set(await AuthService.getCurrentUserAttribute());
@@ -75,6 +77,7 @@ class SigninDialog extends HookConsumerWidget {
                 await AuthService.signInWithApple(context);
               } catch (e) {
                 print(e);
+                await AuthService.signOut();
               }
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
@@ -89,6 +92,7 @@ class SigninDialog extends HookConsumerWidget {
                 await AuthService.signInWithEmail(context);
               } catch (e) {
                 print(e);
+                await AuthService.signOut();
               }
 
               userNotifier.set(await AuthService.getCurrentUserAttribute());
