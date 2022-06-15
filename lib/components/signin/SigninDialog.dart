@@ -1,5 +1,3 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +37,12 @@ class SigninDialog extends HookConsumerWidget {
             padding: const EdgeInsets.all(5),
             elevation: 5,
             onPressed: () async {
-              await AuthService.signInWithGoogle(context);
+              try {
+                await AuthService.signInWithGoogle(context);
+              } catch (e) {
+                print(e);
+              }
+
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
@@ -51,7 +54,12 @@ class SigninDialog extends HookConsumerWidget {
             padding: const EdgeInsets.all(12),
             elevation: 5,
             onPressed: () async {
-              await AuthService.signInWithFacebook(context);
+              try {
+                await AuthService.signInWithFacebook(context);
+              } catch (e) {
+                print(e);
+              }
+
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
@@ -63,7 +71,11 @@ class SigninDialog extends HookConsumerWidget {
             padding: const EdgeInsets.all(12),
             elevation: 5,
             onPressed: () async {
-              await AuthService.signInWithApple(context);
+              try {
+                await AuthService.signInWithApple(context);
+              } catch (e) {
+                print(e);
+              }
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
@@ -73,7 +85,12 @@ class SigninDialog extends HookConsumerWidget {
         ),
         TextButton(
             onPressed: () async {
-              await AuthService.signInWithEmail(context);
+              try {
+                await AuthService.signInWithEmail(context);
+              } catch (e) {
+                print(e);
+              }
+
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
             child: const Text("メールアドレス認証")),
