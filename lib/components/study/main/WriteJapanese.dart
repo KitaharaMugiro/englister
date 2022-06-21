@@ -1,6 +1,10 @@
+import 'package:englister/components/publicAnswers/PublicJapaneseList.dart';
+import 'package:englister/components/signin/SigninDialog.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../models/riverpod/UserRiverpod.dart';
 
 class WriteJapanese extends HookConsumerWidget {
   WriteJapanese({Key? key, this.errorMessage}) : super(key: key);
@@ -10,6 +14,7 @@ class WriteJapanese extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
+    var user = ref.watch(userProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,6 +49,19 @@ class WriteJapanese extends HookConsumerWidget {
               alignLabelWithHint: true,
               errorText: errorMessage),
         ),
+        const SizedBox(
+          height: 15,
+        ),
+        user.sub == null
+            ? TextButton(
+                onPressed: () async {
+                  //TODO ログインしなくても見られるようにしたい
+                  await openSigninDialog(context);
+                },
+                child: const Text("ログインすると他の人の意見が見られるよ"))
+            : PublicJapaneseList(
+                topicId: int.parse(studyState.activeQuestion.topicId),
+              ),
         const SizedBox(
           height: 15,
         ),
