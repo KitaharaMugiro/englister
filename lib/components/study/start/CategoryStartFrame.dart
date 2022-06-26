@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:englister/api/rest/CategoryApi.dart';
 import 'package:englister/api/rest/TopicApi.dart';
-import 'package:englister/components/study/main/StudyStepper.dart';
 import 'package:englister/components/study/start/HowToPlayEnglister.dart';
 import 'package:englister/models/study/Category.dart';
 import 'package:flutter/material.dart';
@@ -103,15 +100,9 @@ class CategoryStartFrame extends HookConsumerWidget {
                       backgroundColor: Colors.grey[100],
                       progressColor: Colors.blue,
                     ),
-                    const SizedBox(height: 10),
-                    if (doneTopicNum.value < 3)
-                      Text("最初の3問はハートを消費しません",
-                          textAlign: TextAlign.center,
-                          style: Typography.dense2018.subtitle2),
-                    if (doneTopicNum.value >= 3 && categorySlug != "free")
-                      Text("1問ごとにハートを1つ消費します",
-                          textAlign: TextAlign.center,
-                          style: Typography.dense2018.subtitle2),
+                    Text("スタートするとハートを1つ消費します",
+                        textAlign: TextAlign.center,
+                        style: Typography.dense2018.subtitle2),
                     const SizedBox(height: 10),
                     if (!noMore.value)
                       ElevatedButton(
