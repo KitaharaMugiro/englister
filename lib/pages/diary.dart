@@ -8,7 +8,7 @@ import '../components/diary/DiaryCard.dart';
 
 final queryDocument = gql(
   r'''
-    query ListMyDiary($userId: String = "") {
+    query ListMyDiary($userId: String!) {
         englister_Diary(order_by: {createdAt: desc_nulls_last}, where: {createdBy: {_eq: $userId}}) {
           createdAt
           createdBy
