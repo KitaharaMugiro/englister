@@ -13,6 +13,7 @@ import 'package:englister/models/riverpod/PhraseRiverpod.dart';
 
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:englister/models/subscriptions/listenToPurchaseUpdated.dart';
+import 'package:englister/pages/diary.dart';
 import 'package:englister/pages/home.dart';
 import 'package:englister/pages/phrase.dart';
 import 'package:englister/pages/record.dart';
@@ -92,7 +93,47 @@ class _IndexPageState extends ConsumerState<IndexPage> {
     HomePage(),
     RecordPage(),
     PhrasePage(),
+    DiaryPage(),
   ];
+
+  FloatingActionButtonLocation? getFloatingActionButtonLocation(
+      int selectedIndex, List phrases) {
+    //フレーズ画面
+    if (_selectedIndex == 2 && phrases.isNotEmpty) {
+      return FloatingActionButtonLocation.centerDocked;
+    }
+    //日記画面
+    if (_selectedIndex == 3) {
+      return FloatingActionButtonLocation.endFloat;
+    }
+    return null;
+  }
+
+  Widget? getFloatingActionButton(int selectedIndex, List phrases) {
+    //フレーズ画面
+    if (_selectedIndex == 2 && phrases.isNotEmpty) {
+      return Container(
+        margin: const EdgeInsets.only(bottom: 100.0),
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, '/phrase/study');
+          },
+          label: const Text('フラッシュカードで覚える'),
+          icon: const Icon(Icons.school),
+        ),
+      );
+    }
+    //日記を書く画面
+    if (_selectedIndex == 3) {
+      return FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/diary/write');
+        },
+        child: const Icon(Icons.mode_edit),
+      );
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,21 +153,9 @@ class _IndexPageState extends ConsumerState<IndexPage> {
       bottomNavigationBar: MyBottomNavigationBar(_selectedIndex, _onItemTapped),
       body: _widgetOptions.elementAt(_selectedIndex),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      floatingActionButtonLocation: _selectedIndex == 2 && phrases.isNotEmpty
-          ? FloatingActionButtonLocation.centerDocked
-          : null,
-      floatingActionButton: _selectedIndex == 2 && phrases.isNotEmpty
-          ? (Container(
-              margin: const EdgeInsets.only(bottom: 100.0),
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/phrase/study');
-                },
-                label: const Text('フラッシュカードで覚える'),
-                icon: const Icon(Icons.school),
-              ),
-            ))
-          : null,
+      floatingActionButtonLocation:
+          getFloatingActionButtonLocation(_selectedIndex, phrases),
+      floatingActionButton: getFloatingActionButton(_selectedIndex, phrases),
     );
     return scaffold;
   }
