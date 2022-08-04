@@ -9,7 +9,7 @@ import '../components/diary/DiaryCard.dart';
 final queryDocument = gql(
   r'''
     query ListMyDiary($userId: String = "") {
-        englister_Diary(order_by: {createdAt: desc}, where: {createdBy: {_eq: $userId}}) {
+        englister_Diary(order_by: {createdAt: desc_nulls_last}, where: {createdBy: {_eq: $userId}}) {
           createdAt
           createdBy
           id
@@ -61,7 +61,6 @@ class DiaryPage extends HookConsumerWidget {
           }
 
           print(diaries);
-          print(diaries.length);
 
           var contentWidgets = <Widget>[];
           contentWidgets.add(Text("日記", style: Typography.dense2018.headline5));
