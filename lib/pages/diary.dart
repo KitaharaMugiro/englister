@@ -8,7 +8,7 @@ import '../components/diary/DiaryCard.dart';
 
 final queryDocument = gql(
   r'''
-    query ListMyDiary($userId: String!) {
+    subscription ListMyDiary($userId: String!) {
         englister_Diary(order_by: {createdAt: desc_nulls_last}, where: {createdBy: {_eq: $userId}}) {
           createdAt
           createdBy
@@ -37,8 +37,8 @@ class DiaryPage extends HookConsumerWidget {
       );
     }
 
-    return Query(
-        options: QueryOptions(
+    return Subscription(
+        options: SubscriptionOptions(
           document: queryDocument, // this is the query string you just created
           variables: {
             'userId': user.sub,
@@ -59,8 +59,6 @@ class DiaryPage extends HookConsumerWidget {
           if (diaries.isEmpty) {
             return TextButton(onPressed: () {}, child: const Text("日記を書いてみよう"));
           }
-
-          print(diaries);
 
           var contentWidgets = <Widget>[];
           contentWidgets.add(Text("日記", style: Typography.dense2018.headline5));

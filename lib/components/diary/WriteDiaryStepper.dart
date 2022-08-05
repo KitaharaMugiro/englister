@@ -10,13 +10,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../api/rest/DiaryApi.dart';
-
-//TODD　studyProviderをdiary用に作成する
-//TODD　WriteJapaneseをdiary用に作成する
-//TODD　WriteEnglishをdiary用に作成する
-//TODD　APIを作成する
-//TODD　日本語を書いたら翻訳をして単語で選択できるようにする
-//TODD　GraphQLので呼び出す
+import '../../models/riverpod/UserRiverpod.dart';
 
 final queryDocument = gql(r'''
   mutation CreateDiary($userInputText: String!, $protected: Boolean! , $translatedEnglish: String!, $translatedJapanese: String, $userInputEnglish: String!) {
@@ -44,44 +38,34 @@ class WriteDiaryStepper extends HookConsumerWidget {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
     final englishTextController = useTextEditingController();
+    var user = ref.watch(userProvider);
 
-    void handleNext2(Function saveDiary) async {
+    void handleSave(Function saveDiary) async {
       EasyLoading.show(status: 'loading...');
       //キーボードを閉じる
       FocusScope.of(context).unfocus();
-      if (activeStep.value == 2) {
-        //最後のステップ
+      if (user.sub != null) {
         //日記保存処理
         saveDiary(
             userInputText: studyState.japanese,
             protected: true,
             translatedEnglish: studyState.translation,
             userInputEnglish: studyState.english);
-        //初期化
-        studyNotifier.set(studyState.copyWith(
-            english: "", japanese: "", translation: "", needRetry: false));
-        //結果画面に移動
-        Navigator.pop(context);
-        activeStep.value = 0;
-        EasyLoading.dismiss();
       }
+      //初期化
+      studyNotifier.set(studyState.copyWith(
+          english: "", japanese: "", translation: "", needRetry: false));
+      //結果画面に移動
+      Navigator.pop(context);
+      activeStep.value = 0;
+      EasyLoading.dismiss();
     }
 
     void handleNext() async {
       EasyLoading.show(status: 'loading...');
       //キーボードを閉じる
       FocusScope.of(context).unfocus();
-      if (activeStep.value == 2) {
-        //最後のステップ
-        //初期化
-        // studyNotifier.set(studyState.copyWith(
-        //     english: "", japanese: "", translation: "", needRetry: false));
-
-        // //結果画面に移動
-        // Navigator.pop(context);
-        // activeStep.value = 0;
-        // EasyLoading.dismiss();
-      } else if (activeStep.value == 0) {
+      if (activeStep.value == 0) {
         if (studyState.japanese.isEmpty || studyState.japanese.length < 5) {
           errorMessage.value = "短いのでもう少し書いてみよう";
           EasyLoading.dismiss();
@@ -200,8 +184,10 @@ class WriteDiaryStepper extends HookConsumerWidget {
                 }
 
                 return ElevatedButton(
-                  onPressed: () => handleNext2(saveDiary),
-                  child: const Text('保存する'),
+                  onPressed: () => handleSave(saveDiary),
+                  child: user.sub == null
+                      ? const Text('終了する')
+                      : const Text('保存する'),
                   style: ElevatedButton.styleFrom(
                     // Foreground color
                     onPrimary:

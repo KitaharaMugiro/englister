@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DiaryCard extends StatelessWidget {
-  String userInputText = "";
-  String userInputEnglish = "";
-  String translatedEnglish = "";
-  String date = "";
+  String userInputText;
+  String userInputEnglish;
+  String translatedEnglish;
+  String date;
 
   DiaryCard({
     Key? key,
-    String? userInputText,
-    String? userInputEnglish,
-    String? translatedEnglish,
-    String? date,
+    required this.userInputText,
+    required this.userInputEnglish,
+    required this.translatedEnglish,
+    required this.date,
   }) : super(key: key) {
-    this.userInputText = userInputText ?? "";
-    this.userInputEnglish = userInputEnglish ?? "";
-    this.translatedEnglish = translatedEnglish ?? "";
-    this.date = date ?? "";
+    DateTime dt = DateTime.parse(date).toLocal();
+    DateFormat outputFormat = DateFormat('yyyy年MM月dd日');
+    String dateString = outputFormat.format(dt);
+    date = dateString;
   }
 
   @override
@@ -25,9 +26,9 @@ class DiaryCard extends StatelessWidget {
         padding: const EdgeInsets.all(0),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text(userInputText,
+          Text(date,
               style: Typography.dense2018.subtitle1?.apply(fontWeightDelta: 3)),
-          Text(date, style: Typography.dense2018.subtitle2),
+          Text(userInputText, style: Typography.dense2018.subtitle2),
           Container(
               margin: const EdgeInsets.only(top: 15, bottom: 15),
               color: Colors.grey[300],

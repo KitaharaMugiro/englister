@@ -22,6 +22,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
+import '../models/riverpod/StudyRiverpod.dart';
+
 class IndexPage extends ConsumerStatefulWidget {
   const IndexPage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -127,6 +129,12 @@ class _IndexPageState extends ConsumerState<IndexPage> {
     if (_selectedIndex == 3) {
       return FloatingActionButton(
         onPressed: () {
+          //初期化
+          var studyState = ref.watch(studyProvider);
+          var studyNotifier = ref.watch(studyProvider.notifier);
+          studyNotifier.set(studyState.copyWith(
+              english: "", japanese: "", translation: "", needRetry: false));
+
           Navigator.pushNamed(context, '/diary/write');
         },
         child: const Icon(Icons.mode_edit),
