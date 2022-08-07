@@ -1,5 +1,4 @@
 import 'package:englister/api/rest/response_type/dashboard.dart';
-import 'package:englister/api/rest/response_type/get_category_detail_response.dart';
 import 'package:englister/api/rest/response_type/get_category_list_response.dart';
 import 'package:englister/api/rest/response_type/get_current_plan_response.dart';
 import 'package:englister/api/rest/response_type/get_purchased_heart_response.dart';
@@ -15,6 +14,7 @@ import 'package:englister/api/rest/response_type/study_start_response.dart';
 import 'package:englister/api/rest/response_type/submit_dashboard_response.dart';
 import 'package:englister/api/rest/response_type/submit_done_topic_response.dart';
 import 'package:englister/api/rest/response_type/submit_today_topic_result_response.dart';
+import 'package:englister/api/rest/response_type/translate_diary_response.dart';
 import 'package:englister/api/rest/response_type/translate_response.dart';
 import 'package:englister/api/rest/rest_constants.dart';
 import 'package:englister/models/study/Category.dart';
@@ -132,6 +132,12 @@ abstract class RestClient {
 
   @POST("/today/list_result")
   Future<ListTodayTopicResultResponse> listTodayTopicResult(
+    @Body() Map<String, dynamic> map,
+  );
+
+  //diary系
+  @POST("/diary/translate")
+  Future<TranslateDiaryResponse> translateDiary(
     @Body() Map<String, dynamic> map,
   );
 }

@@ -6,18 +6,31 @@ class MyBottomNavigationBar extends BottomNavigationBar {
           key: key,
           currentIndex: currentIndex,
           onTap: onTap,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              label: 'ホーム',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
-              label: 'Record',
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.dashboard,
+              ),
+              label: '学習履歴',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.translate),
-              label: 'Phrase',
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.translate,
+              ),
+              label: 'フレーズ',
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.note,
+              ),
+              label: '日記',
             ),
           ],
         );

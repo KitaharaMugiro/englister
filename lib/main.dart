@@ -11,6 +11,7 @@ import 'package:englister/route/studyStart.dart';
 import 'package:englister/route/todayStudy.dart';
 import 'package:englister/route/top/Outline.dart';
 import 'package:englister/route/top/start.dart';
+import 'package:englister/route/writeDiary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -81,6 +82,7 @@ class MyApp extends HookConsumerWidget {
         '/phrase/study': (BuildContext context) => const PhraseStudyPage(),
         '/top/outline': (BuildContext context) => const OutlinePage(),
         '/top/start': (BuildContext context) => const StartPage(),
+        '/diary/write': (BuildContext context) => const WriteDiaryPage(),
       },
     ));
   }
