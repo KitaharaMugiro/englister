@@ -41,6 +41,7 @@ class SigninDialog extends HookConsumerWidget {
                 await AuthService.signInWithGoogle(context);
               } catch (e) {
                 print(e);
+                //このエラー内容をAPIでDiscordとかに飛ばして中身見れないだろうか？？
                 await AuthService.signOut();
               }
 
