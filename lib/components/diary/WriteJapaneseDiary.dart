@@ -1,3 +1,4 @@
+import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,6 +18,28 @@ class WriteJapaneseDiary extends HookConsumerWidget {
       children: [
         Text("日本語で日記を書く",
             style: Typography.dense2018.headline5?.apply(fontWeightDelta: 10)),
+        const SizedBox(
+          height: 15,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Image.asset('assets/images/playful_cat.png'),
+            ),
+            Expanded(
+              flex: 3,
+              child: BubbleSpecialOne(
+                text: '今日、何をしたの？',
+                isSender: false,
+                color: Colors.green[100]!,
+                tail: true,
+                textStyle:
+                    Typography.dense2018.headline6!.apply(fontWeightDelta: 10),
+              ),
+            )
+          ],
+        ),
         const SizedBox(
           height: 15,
         ),
