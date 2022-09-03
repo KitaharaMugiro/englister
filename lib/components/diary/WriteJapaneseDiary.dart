@@ -1,6 +1,7 @@
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../models/riverpod/StudyRiverpod.dart';
 
@@ -16,8 +17,38 @@ class WriteJapaneseDiary extends HookConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("日本語で日記を書く",
-            style: Typography.dense2018.headline5?.apply(fontWeightDelta: 10)),
+        Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Expanded(
+            child: Container(
+              child: Text("日本語で日記を書く",
+                  style: Typography.dense2018.headline5
+                      ?.apply(fontWeightDelta: 10)),
+            ),
+          ),
+          Container(
+            child: ToggleSwitch(
+              minWidth: 36.0,
+              minHeight: 20.0,
+              initialLabelIndex: 0,
+              cornerRadius: 20.0,
+              activeFgColor: Colors.white,
+              inactiveBgColor: Colors.grey,
+              inactiveFgColor: Colors.white,
+              totalSwitches: 2,
+              labels: ["日", "英"],
+              // iconSize: 30.0,
+              activeBgColors: [
+                [Colors.black45, Colors.black26],
+                [Colors.yellow, Colors.orange]
+              ],
+              // animate: true, // with just animate set to true, default curve = Curves.easeIn
+              // curve: Curves.bounceInOut, // animate must be set to true when using custom curve
+              onToggle: (index) {
+                print('switched to: $index');
+              },
+            ),
+          )
+        ]),
         const SizedBox(
           height: 15,
         ),
