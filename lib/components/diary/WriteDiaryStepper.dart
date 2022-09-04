@@ -2,6 +2,7 @@ import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/components/diary/WriteEnglishDiary.dart';
 import 'package:englister/components/diary/WriteJapaneseDiary.dart';
 import 'package:englister/components/study/main/Review.dart';
+import 'package:englister/models/riverpod/DiaryModeRiverpod.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -35,6 +36,9 @@ class WriteDiaryStepper extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var activeStep = useState(0);
     var errorMessage = useState<String?>(null);
+    // 英語用日記への切り替えのためのステート
+    var jpOrEnState = ref.watch(diaryModeProvider);
+    var jpOrEnNotifier = ref.watch(diaryModeProvider.notifier);
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
     final englishTextController = useTextEditingController();

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
+import '../../models/riverpod/DiaryModeRiverpod.dart';
 import '../../models/riverpod/StudyRiverpod.dart';
 
 class WriteJapaneseDiary extends HookConsumerWidget {
@@ -13,6 +14,19 @@ class WriteJapaneseDiary extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
+    // 英語用日記への切り替えのためのステート
+    var jpOrEnState = ref.watch(diaryModeProvider);
+    var jpOrEnNotifier = ref.watch(diaryModeProvider.notifier);
+
+    var nekoMessage = '';
+    switch (jpOrEnState) {
+      case DiaryMode.Japanese:
+        nekoMessage = '今日、何をしたの？';
+        break;
+      case DiaryMode.English:
+        nekoMessage = 'What did you do today?';
+        break;
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +43,7 @@ class WriteJapaneseDiary extends HookConsumerWidget {
             child: ToggleSwitch(
               minWidth: 36.0,
               minHeight: 20.0,
-              initialLabelIndex: 0,
+              initialLabelIndex: jpOrEnState.index,
               cornerRadius: 20.0,
               activeFgColor: Colors.white,
               inactiveBgColor: Colors.grey,
@@ -45,6 +59,7 @@ class WriteJapaneseDiary extends HookConsumerWidget {
               // curve: Curves.bounceInOut, // animate must be set to true when using custom curve
               onToggle: (index) {
                 print('switched to: $index');
+                jpOrEnNotifier.set(DiaryMode.values[index!]);
               },
             ),
           )
@@ -61,7 +76,7 @@ class WriteJapaneseDiary extends HookConsumerWidget {
             Expanded(
               flex: 3,
               child: BubbleSpecialOne(
-                text: '今日、何をしたの？',
+                text: nekoMessage,
                 isSender: false,
                 color: Colors.green[100]!,
                 tail: true,
