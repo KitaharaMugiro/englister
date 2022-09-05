@@ -39,9 +39,11 @@ class SigninDialog extends HookConsumerWidget {
             elevation: 5,
             onPressed: () async {
               try {
+                await DiscordApi.sendMessage('Googleログイン開始');
                 await AuthService.signInWithGoogle(context);
+                await DiscordApi.sendMessage('Googleログイン成功');
               } catch (e) {
-                await DiscordApi.sendError(e.toString());
+                await DiscordApi.sendMessage(e.toString());
                 await AuthService.signOut();
               }
 
@@ -57,9 +59,11 @@ class SigninDialog extends HookConsumerWidget {
             elevation: 5,
             onPressed: () async {
               try {
+                await DiscordApi.sendMessage('Facebookログイン開始');
                 await AuthService.signInWithFacebook(context);
+                await DiscordApi.sendMessage('Facebookログイン成功');
               } catch (e) {
-                await DiscordApi.sendError(e.toString());
+                await DiscordApi.sendMessage(e.toString());
                 await AuthService.signOut();
               }
 
@@ -75,9 +79,11 @@ class SigninDialog extends HookConsumerWidget {
             elevation: 5,
             onPressed: () async {
               try {
+                await DiscordApi.sendMessage('Appleログイン開始');
                 await AuthService.signInWithApple(context);
+                await DiscordApi.sendMessage('Appleログイン成功');
               } catch (e) {
-                await DiscordApi.sendError(e.toString());
+                await DiscordApi.sendMessage(e.toString());
                 await AuthService.signOut();
               }
               userNotifier.set(await AuthService.getCurrentUserAttribute());
@@ -90,9 +96,11 @@ class SigninDialog extends HookConsumerWidget {
         TextButton(
             onPressed: () async {
               try {
+                await DiscordApi.sendMessage('Emailログイン開始');
                 await AuthService.signInWithEmail(context);
+                await DiscordApi.sendMessage('Emailログイン成功');
               } catch (e) {
-                await DiscordApi.sendError(e.toString());
+                await DiscordApi.sendMessage(e.toString());
                 await AuthService.signOut();
               }
 
