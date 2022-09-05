@@ -1,3 +1,4 @@
+import 'package:englister/api/rest/DiscordApi.dart';
 import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class SigninDialog extends HookConsumerWidget {
               try {
                 await AuthService.signInWithGoogle(context);
               } catch (e) {
-                print(e);
+                await DiscordApi.sendError(e.toString());
                 await AuthService.signOut();
               }
 
@@ -58,7 +59,7 @@ class SigninDialog extends HookConsumerWidget {
               try {
                 await AuthService.signInWithFacebook(context);
               } catch (e) {
-                print(e);
+                await DiscordApi.sendError(e.toString());
                 await AuthService.signOut();
               }
 
@@ -76,7 +77,7 @@ class SigninDialog extends HookConsumerWidget {
               try {
                 await AuthService.signInWithApple(context);
               } catch (e) {
-                print(e);
+                await DiscordApi.sendError(e.toString());
                 await AuthService.signOut();
               }
               userNotifier.set(await AuthService.getCurrentUserAttribute());
@@ -91,7 +92,7 @@ class SigninDialog extends HookConsumerWidget {
               try {
                 await AuthService.signInWithEmail(context);
               } catch (e) {
-                print(e);
+                await DiscordApi.sendError(e.toString());
                 await AuthService.signOut();
               }
 

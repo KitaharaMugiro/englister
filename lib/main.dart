@@ -13,6 +13,7 @@ import 'package:englister/route/top/Outline.dart';
 import 'package:englister/route/top/start.dart';
 import 'package:englister/route/writeDiary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +24,7 @@ import 'models/localstorage/LocalStorageHelper.dart';
 
 Future<void> main() async {
   await initHiveForFlutter();
+  await dotenv.load(fileName: ".env");
   runApp(const ProviderScope(child: MyApp()));
 }
 
