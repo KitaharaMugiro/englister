@@ -1,4 +1,3 @@
-import 'package:englister/api/rest/DiscordApi.dart';
 import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
@@ -38,15 +37,7 @@ class SigninDialog extends HookConsumerWidget {
             padding: const EdgeInsets.all(5),
             elevation: 5,
             onPressed: () async {
-              try {
-                await DiscordApi.sendMessage('Googleログイン開始');
-                await AuthService.signInWithGoogle(context);
-                await DiscordApi.sendMessage('Googleログイン成功');
-              } catch (e) {
-                await DiscordApi.sendMessage(e.toString());
-                await AuthService.signOut();
-              }
-
+              await AuthService.signInWithGoogle(context);
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
@@ -58,15 +49,7 @@ class SigninDialog extends HookConsumerWidget {
             padding: const EdgeInsets.all(12),
             elevation: 5,
             onPressed: () async {
-              try {
-                await DiscordApi.sendMessage('Facebookログイン開始');
-                await AuthService.signInWithFacebook(context);
-                await DiscordApi.sendMessage('Facebookログイン成功');
-              } catch (e) {
-                await DiscordApi.sendMessage(e.toString());
-                await AuthService.signOut();
-              }
-
+              await AuthService.signInWithFacebook(context);
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
@@ -78,14 +61,7 @@ class SigninDialog extends HookConsumerWidget {
             padding: const EdgeInsets.all(12),
             elevation: 5,
             onPressed: () async {
-              try {
-                await DiscordApi.sendMessage('Appleログイン開始');
-                await AuthService.signInWithApple(context);
-                await DiscordApi.sendMessage('Appleログイン成功');
-              } catch (e) {
-                await DiscordApi.sendMessage(e.toString());
-                await AuthService.signOut();
-              }
+              await AuthService.signInWithApple(context);
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
@@ -95,15 +71,7 @@ class SigninDialog extends HookConsumerWidget {
         ),
         TextButton(
             onPressed: () async {
-              try {
-                await DiscordApi.sendMessage('Emailログイン開始');
-                await AuthService.signInWithEmail(context);
-                await DiscordApi.sendMessage('Emailログイン成功');
-              } catch (e) {
-                await DiscordApi.sendMessage(e.toString());
-                await AuthService.signOut();
-              }
-
+              await AuthService.signInWithEmail(context);
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
             child: const Text("メールアドレス認証")),
