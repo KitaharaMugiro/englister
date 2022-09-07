@@ -3,6 +3,8 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../api/rest/DiscordApi.dart';
+
 class UserAttribute {
   String? sub; //WARN: subがnullかどうかでログイン状態を判定している
   String? email;
@@ -57,8 +59,8 @@ class AuthService {
       if (res.isSignedIn) {
         Navigator.pop(context);
       }
-    } on AmplifyException catch (e) {
-      print(e.message);
+    } on AmplifyException {
+      await signOut();
     }
   }
 
@@ -70,8 +72,8 @@ class AuthService {
       if (res.isSignedIn) {
         Navigator.pop(context);
       }
-    } on AmplifyException catch (e) {
-      print(e.message);
+    } on AmplifyException {
+      await signOut();
     }
   }
 
@@ -81,8 +83,8 @@ class AuthService {
       if (res.isSignedIn) {
         Navigator.pop(context);
       }
-    } on AmplifyException catch (e) {
-      print(e.message);
+    } on AmplifyException {
+      await signOut();
     }
   }
 
@@ -94,8 +96,8 @@ class AuthService {
       if (res.isSignedIn) {
         Navigator.pop(context);
       }
-    } on AmplifyException catch (e) {
-      print(e.message);
+    } on AmplifyException {
+      await signOut();
     }
   }
 
