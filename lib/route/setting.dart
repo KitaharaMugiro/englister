@@ -83,6 +83,20 @@ class SettingPage extends HookConsumerWidget {
               Navigator.pop(context);
             },
           )));
+      contentWidgets.add(const SizedBox(height: 20));
+      contentWidgets.add(Container(
+          decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              border: Border(
+                  bottom: BorderSide(
+                      width: 1.0, color: Theme.of(context).dividerColor))),
+          child: ListTile(
+            title: const Text("アカウント削除"),
+            onTap: () async {
+              _launchURL(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSc_pKTukF1q-EUSp7dQtHOipfEFZgFf2k-J3ZBiUYBzs76Xnw/viewform?usp=sf_link');
+            },
+          )));
     }
     return contentWidgets;
   }
