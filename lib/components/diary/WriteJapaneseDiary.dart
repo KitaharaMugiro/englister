@@ -18,16 +18,6 @@ class WriteJapaneseDiary extends HookConsumerWidget {
     var jpOrEnState = ref.watch(diaryModeProvider);
     var jpOrEnNotifier = ref.watch(diaryModeProvider.notifier);
 
-    var nekoMessage = '';
-    switch (jpOrEnState) {
-      case DiaryMode.Japanese:
-        nekoMessage = '今日、何をしたの？';
-        break;
-      case DiaryMode.English:
-        nekoMessage = 'What did you do today?';
-        break;
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -58,8 +48,7 @@ class WriteJapaneseDiary extends HookConsumerWidget {
               // animate: true, // with just animate set to true, default curve = Curves.easeIn
               // curve: Curves.bounceInOut, // animate must be set to true when using custom curve
               onToggle: (index) {
-                print('switched to: $index');
-                jpOrEnNotifier.set(DiaryMode.values[index!]);
+                jpOrEnNotifier.set(DiaryMode.English);
               },
             ),
           )
@@ -76,7 +65,7 @@ class WriteJapaneseDiary extends HookConsumerWidget {
             Expanded(
               flex: 3,
               child: BubbleSpecialOne(
-                text: nekoMessage,
+                text: '今日、何をしたの？',
                 isSender: false,
                 color: Colors.green[100]!,
                 tail: true,

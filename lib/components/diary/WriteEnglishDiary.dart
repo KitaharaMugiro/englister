@@ -4,6 +4,7 @@ import 'package:englister/models/riverpod/StudyModeRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../models/riverpod/DiaryModeRiverpod.dart';
 import '../../models/riverpod/StudyRiverpod.dart';
 
 class WriteEnglishDiary extends HookConsumerWidget {
@@ -21,6 +22,9 @@ class WriteEnglishDiary extends HookConsumerWidget {
     var studyNotifier = ref.watch(studyProvider.notifier);
     var isPickMode = ref.watch(pickModeProvider);
     var pickModeNotifier = ref.watch(pickModeProvider.notifier);
+
+    // 英語用日記への切り替えのためのステート
+    var jpOrEnState = ref.watch(diaryModeProvider);
 
     Widget renderInputIcons() {
       return Positioned(
@@ -86,32 +90,53 @@ class WriteEnglishDiary extends HookConsumerWidget {
       }
     }
 
+    var mainWidgets = <Widget>[
+      renderInputView(),
+      const SizedBox(
+        height: 15,
+      ),
+    ];
+    var widgetsByMode = <Widget>[];
+
+    switch (jpOrEnState) {
+      case DiaryMode.Japanese:
+        widgetsByMode = <Widget>[
+          Text("日本語を英語にする",
+              style:
+                  Typography.dense2018.headline5?.apply(fontWeightDelta: 10)),
+          const SizedBox(
+            height: 5,
+          ),
+          Container(
+              margin: const EdgeInsets.only(top: 15, bottom: 15),
+              color: Colors.grey[300],
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(studyState.japanese,
+                    style: Typography.englishLike2018.bodyText1!
+                        .apply(color: Colors.black)),
+              )),
+          const SizedBox(
+            height: 5,
+          ),
+        ];
+        break;
+      case DiaryMode.English:
+        widgetsByMode = <Widget>[
+          Text("英語で日記を書く",
+              style:
+                  Typography.dense2018.headline5?.apply(fontWeightDelta: 10)),
+          const SizedBox(
+            height: 5,
+          ),
+        ];
+        break;
+    }
+
+    widgetsByMode.addAll(mainWidgets);
+
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("日本語を英語にする",
-            style: Typography.dense2018.headline5?.apply(fontWeightDelta: 10)),
-        const SizedBox(
-          height: 5,
-        ),
-        Container(
-            margin: const EdgeInsets.only(top: 15, bottom: 15),
-            color: Colors.grey[300],
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(studyState.japanese,
-                  style: Typography.englishLike2018.bodyText1!
-                      .apply(color: Colors.black)),
-            )),
-        const SizedBox(
-          height: 5,
-        ),
-        renderInputView(),
-        const SizedBox(
-          height: 15,
-        ),
-      ],
-    );
+        crossAxisAlignment: CrossAxisAlignment.start, children: widgetsByMode);
   }
 }
