@@ -1,8 +1,10 @@
+import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:englister/components/study/main/PickModeInput.dart';
 import 'package:englister/components/study/main/SpeachEnglish.dart';
 import 'package:englister/models/riverpod/StudyModeRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../models/riverpod/DiaryModeRiverpod.dart';
 import '../../models/riverpod/StudyRiverpod.dart';
@@ -25,6 +27,7 @@ class WriteEnglishDiary extends HookConsumerWidget {
 
     // 英語用日記への切り替えのためのステート
     var jpOrEnState = ref.watch(diaryModeProvider);
+    var jpOrEnNotifier = ref.watch(diaryModeProvider.notifier);
 
     Widget renderInputIcons() {
       return Positioned(
@@ -124,9 +127,60 @@ class WriteEnglishDiary extends HookConsumerWidget {
         break;
       case DiaryMode.English:
         widgetsByMode = <Widget>[
-          Text("英語で日記を書く",
-              style:
-                  Typography.dense2018.headline5?.apply(fontWeightDelta: 10)),
+          Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Expanded(
+              child: Container(
+                child: Text("英語で日記を書く",
+                    style: Typography.dense2018.headline5
+                        ?.apply(fontWeightDelta: 10)),
+              ),
+            ),
+            Container(
+              child: ToggleSwitch(
+                minWidth: 36.0,
+                minHeight: 20.0,
+                initialLabelIndex: jpOrEnState.index,
+                cornerRadius: 20.0,
+                activeFgColor: Colors.white,
+                inactiveBgColor: Colors.grey,
+                inactiveFgColor: Colors.white,
+                totalSwitches: 2,
+                labels: ["日", "英"],
+                // iconSize: 30.0,
+                activeBgColors: [
+                  [Colors.black45, Colors.black26],
+                  [Colors.yellow, Colors.orange]
+                ],
+                // animate: true, // with just animate set to true, default curve = Curves.easeIn
+                // curve: Curves.bounceInOut, // animate must be set to true when using custom curve
+                onToggle: (index) {
+                  jpOrEnNotifier.set(DiaryMode.Japanese);
+                },
+              ),
+            )
+          ]),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Image.asset('assets/images/playful_cat.png'),
+              ),
+              Expanded(
+                flex: 3,
+                child: BubbleSpecialOne(
+                  text: '今日、何をしたの？',
+                  isSender: false,
+                  color: Colors.green[100]!,
+                  tail: true,
+                  textStyle: Typography.dense2018.headline6!
+                      .apply(fontWeightDelta: 10),
+                ),
+              )
+            ],
+          ),
           const SizedBox(
             height: 5,
           ),
