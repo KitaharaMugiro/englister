@@ -1,4 +1,3 @@
-import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/components/diary/WriteEnglishDiary.dart';
 import 'package:englister/components/study/main/Review.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
@@ -65,31 +64,17 @@ class WriteDiaryEnglishModeStepper extends HookConsumerWidget {
       //キーボードを閉じる
       FocusScope.of(context).unfocus();
       if (activeStep.value == 0) {
-        if (studyState.japanese.isEmpty || studyState.japanese.length < 5) {
+        if (studyState.english.isEmpty || studyState.english.length < 5) {
           errorMessage.value = "短いのでもう少し書いてみよう";
           EasyLoading.dismiss();
           return;
         }
         //翻訳
         var resTranslation =
-            await DiaryApi.translate(studyState.japanese.trim());
+            await DiaryApi.translate(studyState.english.trim());
         studyNotifier.set(studyState.copyWith(
             translation: resTranslation.translatedEnglish ?? ""));
         activeStep.value = 1;
-        EasyLoading.dismiss();
-      } else if (activeStep.value == 1) {
-        if (studyState.english.isEmpty) {
-          EasyLoading.dismiss();
-          return;
-        }
-        var res = await StudyApi.sendEnglish(studyState.english);
-        if (!res.success) {
-          errorMessage.value = res.message;
-          EasyLoading.dismiss();
-          return;
-        }
-
-        activeStep.value = 2;
         EasyLoading.dismiss();
       }
 
@@ -99,8 +84,6 @@ class WriteDiaryEnglishModeStepper extends HookConsumerWidget {
     void handleBack() {
       //キーボードを閉じる（一応戻る時も）
       FocusScope.of(context).unfocus();
-      studyNotifier.set(studyState.copyWith(english: ""));
-      englishTextController.text = "";
       activeStep.value -= 1;
     }
 
@@ -119,23 +102,6 @@ class WriteDiaryEnglishModeStepper extends HookConsumerWidget {
           )
         ];
       } else if (activeStep.value == 1) {
-        return [
-          TextButton(
-            onPressed: handleBack,
-            child: const Text('日本語入力に戻る'),
-          ),
-          ElevatedButton(
-            onPressed: handleNext,
-            child: const Text('次へ進む'),
-            style: ElevatedButton.styleFrom(
-              // Foreground color
-              onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
-              // Background color
-              primary: Theme.of(context).colorScheme.secondaryContainer,
-            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-          )
-        ];
-      } else if (activeStep.value == 2) {
         if (studyState.needRetry) {
           return [
             TextButton(
