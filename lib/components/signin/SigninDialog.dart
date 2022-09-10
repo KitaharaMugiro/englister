@@ -37,13 +37,7 @@ class SigninDialog extends HookConsumerWidget {
             padding: const EdgeInsets.all(5),
             elevation: 5,
             onPressed: () async {
-              try {
-                await AuthService.signInWithGoogle(context);
-              } catch (e) {
-                print(e);
-                await AuthService.signOut();
-              }
-
+              await AuthService.signInWithGoogle(context);
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
@@ -55,13 +49,7 @@ class SigninDialog extends HookConsumerWidget {
             padding: const EdgeInsets.all(12),
             elevation: 5,
             onPressed: () async {
-              try {
-                await AuthService.signInWithFacebook(context);
-              } catch (e) {
-                print(e);
-                await AuthService.signOut();
-              }
-
+              await AuthService.signInWithFacebook(context);
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
@@ -73,12 +61,7 @@ class SigninDialog extends HookConsumerWidget {
             padding: const EdgeInsets.all(12),
             elevation: 5,
             onPressed: () async {
-              try {
-                await AuthService.signInWithApple(context);
-              } catch (e) {
-                print(e);
-                await AuthService.signOut();
-              }
+              await AuthService.signInWithApple(context);
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
           ),
@@ -88,13 +71,7 @@ class SigninDialog extends HookConsumerWidget {
         ),
         TextButton(
             onPressed: () async {
-              try {
-                await AuthService.signInWithEmail(context);
-              } catch (e) {
-                print(e);
-                await AuthService.signOut();
-              }
-
+              await AuthService.signInWithEmail(context);
               userNotifier.set(await AuthService.getCurrentUserAttribute());
             },
             child: const Text("メールアドレス認証")),
