@@ -45,6 +45,12 @@ class WriteJapaneseDiary extends HookConsumerWidget {
                 [Colors.black45, Colors.black26]
               ],
               onToggle: (index) {
+                //初期化
+                studyNotifier.set(studyState.copyWith(
+                    english: "",
+                    japanese: "",
+                    translation: "",
+                    needRetry: false));
                 jpOrEnNotifier.set(DiaryMode.English);
               },
             ),
