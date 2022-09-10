@@ -40,13 +40,10 @@ class WriteJapaneseDiary extends HookConsumerWidget {
               inactiveFgColor: Colors.white,
               totalSwitches: 2,
               labels: ["日", "英"],
-              // iconSize: 30.0,
               activeBgColors: [
                 [Colors.black45, Colors.black26],
-                [Colors.yellow, Colors.orange]
+                [Colors.black45, Colors.black26]
               ],
-              // animate: true, // with just animate set to true, default curve = Curves.easeIn
-              // curve: Curves.bounceInOut, // animate must be set to true when using custom curve
               onToggle: (index) {
                 jpOrEnNotifier.set(DiaryMode.English);
               },
