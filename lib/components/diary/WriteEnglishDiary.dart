@@ -31,10 +31,30 @@ class WriteEnglishDiary extends HookConsumerWidget {
 
     var widgetsByMode = <Widget>[];
     var decorationText;
+    var inputIcons = <Widget>[
+      IconButton(
+          iconSize: 45,
+          color: Colors.blue,
+          icon: const Icon(Icons.mic),
+          onPressed: () {
+            sttModeNotifier.set(true);
+          })
+    ];
 
     switch (jpOrEnState) {
       case DiaryMode.Japanese:
         decorationText = '上の文章を英語にしてください';
+
+        // 日本語日記の際には日本語を元にしたヒントを利用した入力方式が有効であるため、それを利用できるようにする
+        inputIcons.insert(
+            0,
+            IconButton(
+                iconSize: 45,
+                color: Colors.blue,
+                icon: const Icon(Icons.keyboard),
+                onPressed: () {
+                  pickModeNotifier.set(true);
+                }));
 
         widgetsByMode = <Widget>[
           Text("日本語を英語にする",
@@ -131,25 +151,9 @@ class WriteEnglishDiary extends HookConsumerWidget {
           bottom: 0,
           right: 0,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                  iconSize: 45,
-                  color: Colors.blue,
-                  icon: const Icon(Icons.keyboard),
-                  onPressed: () {
-                    pickModeNotifier.set(true);
-                  }),
-              IconButton(
-                  iconSize: 45,
-                  color: Colors.blue,
-                  icon: const Icon(Icons.mic),
-                  onPressed: () {
-                    sttModeNotifier.set(true);
-                  })
-            ],
-          ));
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: inputIcons));
     }
 
     Widget renderEnglishTextField() {
