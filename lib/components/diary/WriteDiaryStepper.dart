@@ -1,8 +1,4 @@
 import 'package:englister/api/rest/StudyApi.dart';
-import 'package:englister/components/diary/WriteEnglishDiary.dart';
-import 'package:englister/components/diary/WriteJapaneseDiary.dart';
-import 'package:englister/components/study/main/Review.dart';
-import 'package:englister/models/riverpod/DiaryModeRiverpod.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -30,15 +26,14 @@ final queryDocument = gql(r'''
 ''');
 
 class WriteDiaryStepper extends HookConsumerWidget {
-  const WriteDiaryStepper({Key? key}) : super(key: key);
+  const WriteDiaryStepper({Key? key, required this.steps}) : super(key: key);
+  final List<Step> steps;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var activeStep = useState(0);
     var errorMessage = useState<String?>(null);
-    // 英語用日記への切り替えのためのステート
-    var jpOrEnState = ref.watch(diaryModeProvider);
-    var jpOrEnNotifier = ref.watch(diaryModeProvider.notifier);
+
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
     final englishTextController = useTextEditingController();
@@ -215,33 +210,7 @@ class WriteDiaryStepper extends HookConsumerWidget {
           children: renderButtons(),
         );
       },
-      steps: [
-        Step(
-          title: const Text('Japanene'),
-          subtitle: const Text('日本語'),
-          isActive: activeStep.value == 0,
-          content: Container(
-              alignment: Alignment.centerLeft,
-              child: WriteJapaneseDiary(
-                errorMessage: errorMessage.value,
-              )),
-        ),
-        Step(
-          title: const Text('English'),
-          subtitle: const Text('英語'),
-          isActive: activeStep.value == 1,
-          content: WriteEnglishDiary(
-            errorMessage: errorMessage.value,
-            textEditingController: englishTextController,
-          ),
-        ),
-        Step(
-          title: const Text('Review'),
-          subtitle: const Text("お手本"),
-          isActive: activeStep.value == 2,
-          content: const Review(),
-        ),
-      ],
+      steps: this.steps,
     );
   }
 }
