@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -33,7 +31,7 @@ class WriteDiaryStepper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stepper(
-      key: Key(Random.secure().nextDouble().toString()),
+      key: Key("write-diary-key-" + this.steps.length.toString()),
       currentStep: this.activeStep,
       type: StepperType.horizontal,
       controlsBuilder: (context, details) {
