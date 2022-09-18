@@ -1,10 +1,16 @@
+import 'package:englister/api/rest/DiaryApi.dart';
+import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/components/diary/WriteDiaryStepper.dart';
 import 'package:englister/components/diary/WriteEnglishDiary.dart';
 import 'package:englister/components/diary/WriteJapaneseDiary.dart';
 import 'package:englister/components/study/main/Review.dart';
 import 'package:englister/models/riverpod/DiaryModeRiverpod.dart';
+import 'package:englister/models/riverpod/StudyRiverpod.dart';
+import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class WriteDiaryMainFrame extends HookConsumerWidget {
@@ -12,18 +18,221 @@ class WriteDiaryMainFrame extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 英語用日記への切り替えのためのステート
-    var jpOrEnState = ref.watch(diaryModeProvider);
-
     var activeStep = useState(0);
     var errorMessage = useState<String?>(null);
 
-    final englishTextController = useTextEditingController();
+    // 英語用日記への切り替えのためのステート
+    var jpOrEnState = ref.watch(diaryModeProvider);
 
-    var stepps = <Step>[];
+    var studyState = ref.watch(studyProvider);
+    var studyNotifier = ref.watch(studyProvider.notifier);
+    final englishTextController = useTextEditingController();
+    var user = ref.watch(userProvider);
+
+    void handleSave(Function saveDiary) async {
+      EasyLoading.show(status: 'loading...');
+      //キーボードを閉じる
+      FocusScope.of(context).unfocus();
+      if (user.sub != null) {
+        //日記保存処理
+        saveDiary(
+            userInputText: studyState.japanese,
+            protected: true,
+            translatedEnglish: studyState.translation,
+            userInputEnglish: studyState.english);
+      }
+      //初期化
+      studyNotifier.set(studyState.copyWith(
+          english: "", japanese: "", translation: "", needRetry: false));
+      //結果画面に移動
+      Navigator.pop(context);
+      activeStep.value = 0;
+      EasyLoading.dismiss();
+    }
+
+    void handleNext() async {
+      EasyLoading.show(status: 'loading...');
+      //キーボードを閉じる
+      FocusScope.of(context).unfocus();
+      switch (jpOrEnState) {
+        case DiaryMode.Japanese:
+          if (activeStep.value == 0) {
+            if (studyState.japanese.isEmpty || studyState.japanese.length < 5) {
+              errorMessage.value = "短いのでもう少し書いてみよう";
+              EasyLoading.dismiss();
+              return;
+            }
+            //翻訳
+            var resTranslation =
+                await DiaryApi.translate(studyState.japanese.trim());
+            studyNotifier.set(studyState.copyWith(
+                translation: resTranslation.translatedEnglish ?? ""));
+          } else if (activeStep.value == 1) {
+            if (studyState.english.isEmpty) {
+              EasyLoading.dismiss();
+              return;
+            }
+            var res = await StudyApi.sendEnglish(studyState.english);
+            if (!res.success) {
+              errorMessage.value = res.message;
+              EasyLoading.dismiss();
+              return;
+            }
+          }
+          break;
+        case DiaryMode.English:
+          if (activeStep.value == 0) {
+            if (studyState.english.isEmpty || studyState.english.length < 5) {
+              errorMessage.value = "短いのでもう少し書いてみよう";
+              EasyLoading.dismiss();
+              return;
+            }
+            //翻訳
+            var resTranslation =
+                await DiaryApi.translate(studyState.english.trim());
+            studyNotifier.set(studyState.copyWith(
+                translation: resTranslation.translatedEnglish ?? ""));
+          }
+          break;
+      }
+
+      activeStep.value += 1;
+      EasyLoading.dismiss();
+      errorMessage.value = null;
+    }
+
+    void handleBack() {
+      //キーボードを閉じる（一応戻る時も）
+      FocusScope.of(context).unfocus();
+      switch (jpOrEnState) {
+        case DiaryMode.Japanese:
+          studyNotifier.set(studyState.copyWith(english: ""));
+          englishTextController.text = "";
+          break;
+        case DiaryMode.English:
+          break;
+      }
+      activeStep.value -= 1;
+    }
+
+    List<Widget> renderButtons() {
+      final commonFirstStep = [
+        ElevatedButton(
+          onPressed: handleNext,
+          child: const Text('次へ進む'),
+          style: ElevatedButton.styleFrom(
+            // Foreground color
+            onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+            // Background color
+            primary: Theme.of(context).colorScheme.secondaryContainer,
+          ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+        )
+      ];
+
+      List<Widget> commonLastStep() {
+        if (studyState.needRetry) {
+          return [
+            TextButton(
+              onPressed: handleNext,
+              child: const Text('終了'),
+              style: ElevatedButton.styleFrom(
+                // Foreground color
+                onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+                // Background color
+                primary: Theme.of(context).colorScheme.secondaryContainer,
+              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+            ),
+            ElevatedButton(
+              onPressed: handleBack,
+              child: const Text('お手本を暗記してもう一回挑戦'),
+            )
+          ];
+        }
+        return [
+          TextButton(
+            onPressed: handleBack,
+            child: const Text('英語入力に戻る'),
+          ),
+          Mutation(
+              options: MutationOptions(
+                document: queryDocument,
+                onCompleted: (dynamic resultData) {
+                  print(resultData);
+                },
+              ),
+              builder: (runMutation, result) {
+                saveDiary(
+                    {required String userInputText,
+                    required bool protected,
+                    required String translatedEnglish,
+                    String? translatedJapanese,
+                    required String userInputEnglish}) {
+                  runMutation({
+                    'protected': protected,
+                    'translatedEnglish': translatedEnglish,
+                    'userInputEnglish': userInputEnglish,
+                    'userInputText': userInputText,
+                    'translatedJapanese': translatedJapanese,
+                  });
+                }
+
+                return ElevatedButton(
+                  onPressed: () => handleSave(saveDiary),
+                  child: user.sub == null
+                      ? const Text('終了する')
+                      : const Text('保存する'),
+                  style: ElevatedButton.styleFrom(
+                    // Foreground color
+                    onPrimary:
+                        Theme.of(context).colorScheme.onSecondaryContainer,
+                    // Background color
+                    primary: Theme.of(context).colorScheme.secondaryContainer,
+                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                );
+              })
+        ];
+      }
+
+      switch (jpOrEnState) {
+        case DiaryMode.Japanese:
+          if (activeStep.value == 0) {
+            return commonFirstStep;
+          } else if (activeStep.value == 1) {
+            return [
+              TextButton(
+                onPressed: handleBack,
+                child: const Text('日本語入力に戻る'),
+              ),
+              ElevatedButton(
+                onPressed: handleNext,
+                child: const Text('次へ進む'),
+                style: ElevatedButton.styleFrom(
+                  // Foreground color
+                  onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+                  // Background color
+                  primary: Theme.of(context).colorScheme.secondaryContainer,
+                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+              )
+            ];
+          } else if (activeStep.value == 2) {
+            return commonLastStep();
+          }
+          break;
+        case DiaryMode.English:
+          if (activeStep.value == 0) {
+            return commonFirstStep;
+          } else if (activeStep.value == 1) {
+            return commonLastStep();
+          }
+          break;
+      }
+      return [];
+    }
+
+    var steps = <Step>[];
     switch (jpOrEnState) {
       case DiaryMode.Japanese:
-        stepps.addAll([
+        steps.addAll([
           Step(
             title: const Text('Japanene'),
             subtitle: const Text('日本語'),
@@ -52,7 +261,7 @@ class WriteDiaryMainFrame extends HookConsumerWidget {
         ]);
         break;
       case DiaryMode.English:
-        stepps.addAll([
+        steps.addAll([
           Step(
             title: const Text('English'),
             subtitle: const Text('英語'),
@@ -72,6 +281,11 @@ class WriteDiaryMainFrame extends HookConsumerWidget {
         break;
     }
 
-    return Container(child: WriteDiaryStepper(steps: stepps));
+    return Container(
+        child: WriteDiaryStepper(
+      steps: steps,
+      activeStep: activeStep.value,
+      renderButtons: renderButtons,
+    ));
   }
 }
