@@ -130,7 +130,7 @@ class WriteEnglishDiary extends HookConsumerWidget {
               Expanded(
                 flex: 3,
                 child: BubbleSpecialOne(
-                  text: '今日、何をしたの？',
+                  text: 'What did you do today?',
                   isSender: false,
                   color: Colors.green[100]!,
                   tail: true,

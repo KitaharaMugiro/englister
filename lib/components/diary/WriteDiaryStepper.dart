@@ -109,7 +109,8 @@ class WriteDiaryStepper extends HookConsumerWidget {
             var resTranslation =
                 await DiaryApi.translate(studyState.english.trim());
             studyNotifier.set(studyState.copyWith(
-                translation: resTranslation.translatedEnglish ?? ""));
+                translation: resTranslation.translatedEnglish ?? "",
+                japanese: resTranslation.translatedJapanese ?? ""));
           }
           break;
       }
