@@ -112,6 +112,7 @@ class WriteEnglishDiary extends HookConsumerWidget {
                       japanese: "",
                       translation: "",
                       needRetry: false));
+                  this.textEditingController.text = "";
                   jpOrEnNotifier.set(DiaryMode.Japanese);
                 },
               ),

@@ -1,16 +1,17 @@
-import 'package:englister/api/rest/DiaryApi.dart';
 import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/components/diary/WriteEnglishDiary.dart';
 import 'package:englister/components/diary/WriteJapaneseDiary.dart';
 import 'package:englister/components/study/main/Review.dart';
 import 'package:englister/models/riverpod/DiaryModeRiverpod.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
-import 'package:englister/models/riverpod/UserRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../api/rest/DiaryApi.dart';
+import '../../models/riverpod/UserRiverpod.dart';
 
 final queryDocument = gql(r'''
   mutation CreateDiary($userInputText: String!, $protected: Boolean! , $translatedEnglish: String!, $translatedJapanese: String, $userInputEnglish: String!) {
@@ -31,13 +32,7 @@ final queryDocument = gql(r'''
 class WriteDiaryStepper extends HookConsumerWidget {
   const WriteDiaryStepper({
     Key? key,
-    // required this.steps,
-    // required this.activeStep,
-    // required this.renderButtons
   }) : super(key: key);
-  // final List<Step> steps;
-  // final int activeStep;
-  // final List<Widget> Function() renderButtons;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
