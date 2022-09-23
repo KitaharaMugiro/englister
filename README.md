@@ -2,6 +2,10 @@
 
 A new Flutter project.
 
+## 初期設定
+
+- ``.env.template``を``.env``にリネームする。
+
 ## API 自動生成
 
 ```
