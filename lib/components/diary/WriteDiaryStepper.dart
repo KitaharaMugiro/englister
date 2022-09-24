@@ -82,7 +82,7 @@ class WriteDiaryStepper extends HookConsumerWidget {
             }
             //翻訳
             var resTranslation =
-                await DiaryApi.translate(studyState.japanese.trim());
+                await DiaryApi.translate(studyState.japanese.trim(), true);
             studyNotifier.set(studyState.copyWith(
                 translation: resTranslation.translatedEnglish ?? ""));
           } else if (activeStep.value == 1) {
@@ -107,7 +107,7 @@ class WriteDiaryStepper extends HookConsumerWidget {
             }
             //翻訳
             var resTranslation =
-                await DiaryApi.translate(studyState.english.trim());
+                await DiaryApi.translate(studyState.english.trim(), true);
             studyNotifier.set(studyState.copyWith(
                 translation: resTranslation.translatedEnglish ?? "",
                 japanese: resTranslation.translatedJapanese ?? ""));
