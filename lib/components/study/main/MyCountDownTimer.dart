@@ -4,8 +4,10 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
 class MyCountdownTimer extends StatefulWidget {
+  final int seconds;
   const MyCountdownTimer({
     Key? key,
+    required this.seconds,
   }) : super(key: key);
 
   @override
@@ -15,8 +17,6 @@ class MyCountdownTimer extends StatefulWidget {
 class _MyCountdownTimerState extends State<MyCountdownTimer>
     with SingleTickerProviderStateMixin {
   late CountdownTimerController controller;
-  int endTime = DateTime.now().millisecondsSinceEpoch +
-      const Duration(seconds: 30).inMilliseconds;
 
   void onEnd() {
     print('onEnd');
@@ -25,6 +25,9 @@ class _MyCountdownTimerState extends State<MyCountdownTimer>
   @override
   void initState() {
     super.initState();
+    int endTime = DateTime.now().millisecondsSinceEpoch +
+        Duration(seconds: widget.seconds).inMilliseconds;
+
     controller =
         CountdownTimerController(endTime: endTime, onEnd: onEnd, vsync: this);
   }

@@ -1,5 +1,6 @@
 import 'package:englister/components/publicAnswers/PublicJapaneseList.dart';
 import 'package:englister/components/signin/SigninDialog.dart';
+import 'package:englister/components/study/main/MyCountDownTimer.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -51,6 +52,9 @@ class WriteJapanese extends HookConsumerWidget {
         ),
         const SizedBox(
           height: 15,
+        ),
+        const MyCountdownTimer(
+          seconds: 60,
         ),
         user.sub == null
             ? TextButton(

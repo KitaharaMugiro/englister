@@ -1,10 +1,8 @@
-import 'dart:ui';
-
+import 'package:englister/components/study/main/MyCountDownTimer.dart';
 import 'package:englister/components/study/main/PickModeInput.dart';
 import 'package:englister/models/riverpod/StudyModeRiverpod.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'SpeachEnglish.dart';
@@ -123,6 +121,12 @@ class WriteEnglish extends HookConsumerWidget {
           height: 5,
         ),
         renderInputView(),
+        const SizedBox(
+          height: 15,
+        ),
+        const MyCountdownTimer(
+          seconds: 120,
+        ),
         const SizedBox(
           height: 15,
         ),
