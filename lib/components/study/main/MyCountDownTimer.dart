@@ -33,6 +33,12 @@ class _MyCountdownTimerState extends State<MyCountdownTimer>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CountdownTimer(
       controller: controller,

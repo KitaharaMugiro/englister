@@ -3,6 +3,7 @@ import 'package:englister/components/signin/SigninDialog.dart';
 import 'package:englister/components/study/main/MyCountDownTimer.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../models/riverpod/UserRiverpod.dart';
@@ -16,6 +17,7 @@ class WriteJapanese extends HookConsumerWidget {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
     var user = ref.watch(userProvider);
+    final isStart = useState<bool>(false);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,23 +41,61 @@ class WriteJapanese extends HookConsumerWidget {
         const SizedBox(
           height: 15,
         ),
-        TextField(
-          maxLines: 5,
-          onChanged: (value) {
-            studyNotifier.set(studyState.copyWith(japanese: value));
-          },
-          decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: '日本語で意見を書いてください',
-              alignLabelWithHint: true,
-              errorText: errorMessage),
-        ),
+        Stack(alignment: AlignmentDirectional.center, children: [
+          TextField(
+            maxLines: 5,
+            onChanged: (value) {
+              studyNotifier.set(studyState.copyWith(japanese: value));
+            },
+            decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: '日本語で意見を書いてください',
+                alignLabelWithHint: true,
+                errorText: errorMessage),
+          ),
+          isStart.value
+              ? Container()
+              : Opacity(
+                  opacity: 0.5,
+                  child: Container(
+                    width: 400,
+                    height: 170,
+                    color: Colors.blue,
+                  ),
+                ),
+          isStart.value
+              ? Container()
+              : Positioned(
+                  top: 55.0,
+                  child: Center(
+                    child: Text("あなたの意見を記述してください。",
+                        style: Typography.dense2018.bodyLarge),
+                  ),
+                ),
+          isStart.value
+              ? Container()
+              : Positioned(
+                  top: 90.0,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      isStart.value = true;
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                    ),
+                    child: const Text('日本語で書く',
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+        ]),
         const SizedBox(
           height: 15,
         ),
-        const MyCountdownTimer(
-          seconds: 60,
-        ),
+        isStart.value
+            ? const MyCountdownTimer(
+                seconds: 60,
+              )
+            : Text("残り 01:00:00", style: Typography.dense2018.bodyText2),
         user.sub == null
             ? TextButton(
                 onPressed: () async {
