@@ -3,21 +3,22 @@ import 'package:englister/components/signin/SigninDialog.dart';
 import 'package:englister/components/study/main/MyCountDownTimer.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../models/riverpod/UserRiverpod.dart';
 
 class WriteJapanese extends HookConsumerWidget {
-  WriteJapanese({Key? key, this.errorMessage}) : super(key: key);
   String? errorMessage;
+  ValueNotifier<bool> isStart;
+
+  WriteJapanese({Key? key, this.errorMessage, required this.isStart})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
     var user = ref.watch(userProvider);
-    final isStart = useState<bool>(false);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +44,7 @@ class WriteJapanese extends HookConsumerWidget {
         ),
         Stack(alignment: AlignmentDirectional.center, children: [
           TextField(
-            maxLines: 5,
+            maxLines: 6,
             onChanged: (value) {
               studyNotifier.set(studyState.copyWith(japanese: value));
             },
@@ -58,8 +59,8 @@ class WriteJapanese extends HookConsumerWidget {
               : Opacity(
                   opacity: 0.5,
                   child: Container(
-                    width: 400,
-                    height: 170,
+                    width: double.infinity,
+                    height: 184,
                     color: Colors.blue,
                   ),
                 ),

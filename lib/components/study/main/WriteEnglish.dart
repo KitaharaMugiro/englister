@@ -8,11 +8,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'SpeachEnglish.dart';
 
 class WriteEnglish extends HookConsumerWidget {
-  WriteEnglish(
-      {Key? key, this.errorMessage, required this.textEditingController})
-      : super(key: key);
+  WriteEnglish({
+    Key? key,
+    this.errorMessage,
+    required this.textEditingController,
+    required this.isStart,
+  }) : super(key: key);
   String? errorMessage;
   final TextEditingController textEditingController;
+  bool isStart;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -124,9 +128,11 @@ class WriteEnglish extends HookConsumerWidget {
         const SizedBox(
           height: 15,
         ),
-        const MyCountdownTimer(
-          seconds: 120,
-        ),
+        isStart
+            ? const MyCountdownTimer(
+                seconds: 120,
+              )
+            : Container(),
         const SizedBox(
           height: 15,
         ),

@@ -51,9 +51,9 @@ class _MyCountdownTimerState extends State<MyCountdownTimer>
         List<Widget> list = [];
         String value = '残り ';
 
-        var min = _getNumberAddZero(time.min ?? 0);
+        final min = _getNumberAddZero(time.min ?? 0);
         value = '$value$min : ';
-        var sec = _getNumberAddZero(time.sec ?? 0);
+        final sec = _getNumberAddZero(time.sec ?? 0);
         value = '$value$sec : ';
         list.add(Text(value, style: Typography.dense2018.bodyText2));
 
