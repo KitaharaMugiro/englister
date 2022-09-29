@@ -28,7 +28,7 @@ class MyBottomNavigationBar extends BottomNavigationBar {
             ),
             const BottomNavigationBarItem(
               icon: Icon(
-                Icons.note,
+                Icons.menu_book,
               ),
               label: '日記',
             ),
