@@ -1,22 +1,27 @@
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
+import 'package:englister/components/study/main/MyCountDownTimer.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../models/riverpod/DiaryModeRiverpod.dart';
 import '../../models/riverpod/StudyRiverpod.dart';
 
 class WriteJapaneseDiary extends HookConsumerWidget {
-  WriteJapaneseDiary({Key? key, this.errorMessage}) : super(key: key);
   String? errorMessage;
+  ValueNotifier<bool> isStartJapanese;
+  ValueNotifier<bool> isStartEnglish;
+
+  WriteJapaneseDiary(
+      {Key? key,
+      this.errorMessage,
+      required this.isStartJapanese,
+      required this.isStartEnglish})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
-    // 英語用日記への切り替えのためのステート
-    var jpOrEnState = ref.watch(diaryModeProvider);
-    var jpOrEnNotifier = ref.watch(diaryModeProvider.notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,32 +34,6 @@ class WriteJapaneseDiary extends HookConsumerWidget {
                       ?.apply(fontWeightDelta: 10)),
             ),
           ),
-          Container(
-            child: ToggleSwitch(
-              minWidth: 36.0,
-              minHeight: 20.0,
-              initialLabelIndex: jpOrEnState.index,
-              cornerRadius: 20.0,
-              activeFgColor: Colors.white,
-              inactiveBgColor: Colors.grey,
-              inactiveFgColor: Colors.white,
-              totalSwitches: 2,
-              labels: ["日", "英"],
-              activeBgColors: [
-                [Colors.black45, Colors.black26],
-                [Colors.black45, Colors.black26]
-              ],
-              onToggle: (index) {
-                //初期化
-                studyNotifier.set(studyState.copyWith(
-                    english: "",
-                    japanese: "",
-                    translation: "",
-                    needRetry: false));
-                jpOrEnNotifier.set(DiaryMode.English);
-              },
-            ),
-          )
         ]),
         const SizedBox(
           height: 15,
@@ -81,17 +60,84 @@ class WriteJapaneseDiary extends HookConsumerWidget {
         const SizedBox(
           height: 15,
         ),
-        TextField(
-          maxLines: 5,
-          onChanged: (value) {
-            studyNotifier.set(studyState.copyWith(japanese: value));
-          },
-          decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: '日本語で日記を書いてください',
-              alignLabelWithHint: true,
-              errorText: errorMessage),
+        Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            TextField(
+              maxLines: 6,
+              onChanged: (value) {
+                studyNotifier.set(studyState.copyWith(japanese: value));
+              },
+              decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: '日本語で日記を書いてください',
+                  alignLabelWithHint: true,
+                  errorText: errorMessage),
+            ),
+            isStartJapanese.value
+                ? Container()
+                : Opacity(
+                    opacity: 0.5,
+                    child: Container(
+                      width: double.infinity,
+                      height: 184,
+                      color: Colors.blue,
+                    ),
+                  ),
+            isStartJapanese.value
+                ? Container()
+                : Positioned(
+                    top: 55.0,
+                    child: Center(
+                      child: Text("あなたの日記を記述してください。",
+                          style: Typography.dense2018.bodyLarge),
+                    ),
+                  ),
+            isStartJapanese.value
+                ? Container()
+                : Positioned(
+                    top: 90.0,
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            isStartJapanese.value = true;
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.blue,
+                          ),
+                          child: const Text('日本語で書く',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            isStartEnglish.value = true;
+                            var jpOrEnState =
+                                ref.watch(diaryModeProvider.notifier);
+                            jpOrEnState.set(DiaryMode.English);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.purple,
+                          ),
+                          child: const Text('英語で書く',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
+                    ),
+                  ),
+          ],
         ),
+        const SizedBox(
+          height: 15,
+        ),
+        isStartJapanese.value
+            ? const MyCountdownTimer(
+                seconds: 60,
+              )
+            : Text("残り 01:00:00", style: Typography.dense2018.bodyText2),
         const SizedBox(
           height: 15,
         ),

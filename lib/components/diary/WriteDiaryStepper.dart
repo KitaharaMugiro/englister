@@ -38,6 +38,8 @@ class WriteDiaryStepper extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var activeStep = useState(0);
     var errorMessage = useState<String?>(null);
+    var isStartEnglish = useState(false);
+    var isStartJapanese = useState(false);
 
     // 英語用日記への切り替えのためのステート
     var jpOrEnState = ref.watch(diaryModeProvider);
@@ -80,11 +82,15 @@ class WriteDiaryStepper extends HookConsumerWidget {
               EasyLoading.dismiss();
               return;
             }
+
             //翻訳
             var resTranslation =
                 await DiaryApi.translate(studyState.japanese.trim(), true);
             studyNotifier.set(studyState.copyWith(
                 translation: resTranslation.translatedEnglish ?? ""));
+
+            //英語のカウントダウンタイマーをスタートする
+            isStartEnglish.value = true;
           } else if (activeStep.value == 1) {
             if (studyState.english.isEmpty) {
               EasyLoading.dismiss();
@@ -137,7 +143,8 @@ class WriteDiaryStepper extends HookConsumerWidget {
     List<Widget> renderButtons() {
       final commonFirstStep = [
         ElevatedButton(
-          onPressed: handleNext,
+          onPressed:
+              isStartJapanese.value || isStartEnglish.value ? handleNext : null,
           child: const Text('次へ進む'),
           style: ElevatedButton.styleFrom(
             // Foreground color
@@ -260,6 +267,8 @@ class WriteDiaryStepper extends HookConsumerWidget {
                 alignment: Alignment.centerLeft,
                 child: WriteJapaneseDiary(
                   errorMessage: errorMessage.value,
+                  isStartJapanese: isStartJapanese,
+                  isStartEnglish: isStartEnglish,
                 )),
           ),
           Step(
@@ -269,6 +278,7 @@ class WriteDiaryStepper extends HookConsumerWidget {
             content: WriteEnglishDiary(
               errorMessage: errorMessage.value,
               textEditingController: englishTextController,
+              isStart: isStartEnglish.value,
             ),
           ),
           Step(
@@ -288,6 +298,7 @@ class WriteDiaryStepper extends HookConsumerWidget {
             content: WriteEnglishDiary(
               errorMessage: errorMessage.value,
               textEditingController: englishTextController,
+              isStart: isStartEnglish.value,
             ),
           ),
           Step(

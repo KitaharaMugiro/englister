@@ -108,7 +108,7 @@ class StudyStepper extends HookConsumerWidget {
       if (activeStep.value == 0) {
         return [
           ElevatedButton(
-            onPressed: handleNext,
+            onPressed: isStartJapanese.value ? handleNext : null,
             child: const Text('次へ進む'),
             style: ElevatedButton.styleFrom(
               // Foreground color

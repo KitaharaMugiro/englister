@@ -9,6 +9,7 @@ import 'package:englister/components/navigation/MyBottomNavigationBar.dart';
 import 'package:englister/components/signin/LoginButton.dart';
 import 'package:englister/models/auth/AuthService.dart';
 import 'package:englister/models/localstorage/LocalStorageHelper.dart';
+import 'package:englister/models/riverpod/DiaryModeRiverpod.dart';
 import 'package:englister/models/riverpod/PhraseRiverpod.dart';
 
 import 'package:englister/models/riverpod/UserRiverpod.dart';
@@ -134,7 +135,8 @@ class _IndexPageState extends ConsumerState<IndexPage> {
           var studyNotifier = ref.watch(studyProvider.notifier);
           studyNotifier.set(studyState.copyWith(
               english: "", japanese: "", translation: "", needRetry: false));
-
+          var jpOrEnNotifier = ref.watch(diaryModeProvider.notifier);
+          jpOrEnNotifier.set(DiaryMode.Japanese);
           Navigator.pushNamed(context, '/diary/write');
         },
         child: const Icon(Icons.mode_edit),
