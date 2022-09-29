@@ -1,7 +1,9 @@
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
+import '../../models/riverpod/DiaryModeRiverpod.dart';
 import '../../models/riverpod/StudyRiverpod.dart';
 
 class WriteJapaneseDiary extends HookConsumerWidget {
@@ -12,12 +14,48 @@ class WriteJapaneseDiary extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
+    // 英語用日記への切り替えのためのステート
+    var jpOrEnState = ref.watch(diaryModeProvider);
+    var jpOrEnNotifier = ref.watch(diaryModeProvider.notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("日本語で日記を書く",
-            style: Typography.dense2018.headline5?.apply(fontWeightDelta: 10)),
+        Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Expanded(
+            child: Container(
+              child: Text("日本語で日記を書く",
+                  style: Typography.dense2018.headline5
+                      ?.apply(fontWeightDelta: 10)),
+            ),
+          ),
+          Container(
+            child: ToggleSwitch(
+              minWidth: 36.0,
+              minHeight: 20.0,
+              initialLabelIndex: jpOrEnState.index,
+              cornerRadius: 20.0,
+              activeFgColor: Colors.white,
+              inactiveBgColor: Colors.grey,
+              inactiveFgColor: Colors.white,
+              totalSwitches: 2,
+              labels: ["日", "英"],
+              activeBgColors: [
+                [Colors.black45, Colors.black26],
+                [Colors.black45, Colors.black26]
+              ],
+              onToggle: (index) {
+                //初期化
+                studyNotifier.set(studyState.copyWith(
+                    english: "",
+                    japanese: "",
+                    translation: "",
+                    needRetry: false));
+                jpOrEnNotifier.set(DiaryMode.English);
+              },
+            ),
+          )
+        ]),
         const SizedBox(
           height: 15,
         ),
