@@ -1,20 +1,22 @@
-import 'dart:ui';
-
+import 'package:englister/components/study/main/MyCountDownTimer.dart';
 import 'package:englister/components/study/main/PickModeInput.dart';
 import 'package:englister/models/riverpod/StudyModeRiverpod.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'SpeachEnglish.dart';
 
 class WriteEnglish extends HookConsumerWidget {
-  WriteEnglish(
-      {Key? key, this.errorMessage, required this.textEditingController})
-      : super(key: key);
+  WriteEnglish({
+    Key? key,
+    this.errorMessage,
+    required this.textEditingController,
+    required this.isStart,
+  }) : super(key: key);
   String? errorMessage;
   final TextEditingController textEditingController;
+  bool isStart;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -123,6 +125,14 @@ class WriteEnglish extends HookConsumerWidget {
           height: 5,
         ),
         renderInputView(),
+        const SizedBox(
+          height: 15,
+        ),
+        isStart
+            ? const MyCountdownTimer(
+                seconds: 120,
+              )
+            : Container(),
         const SizedBox(
           height: 15,
         ),

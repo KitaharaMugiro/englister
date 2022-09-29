@@ -2,15 +2,14 @@ import 'package:englister/api/rest/RecordApi.dart';
 import 'package:englister/api/rest/StudyApi.dart';
 import 'package:englister/api/rest/TopicApi.dart';
 import 'package:englister/components/study/main/Review.dart';
+import 'package:englister/components/study/main/WriteEnglish.dart';
+import 'package:englister/components/study/main/WriteJapanese.dart';
 import 'package:englister/models/riverpod/StudyRiverpod.dart';
 import 'package:englister/models/study/Question.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'WriteEnglish.dart';
-import 'WriteJapanese.dart';
 
 class StudyStepper extends HookConsumerWidget {
   const StudyStepper({Key? key}) : super(key: key);
@@ -22,6 +21,8 @@ class StudyStepper extends HookConsumerWidget {
     var studyState = ref.watch(studyProvider);
     var studyNotifier = ref.watch(studyProvider.notifier);
     final englishTextController = useTextEditingController();
+    var isStartEnglish = useState(false);
+    var isStartJapanese = useState(false);
 
     useEffect(() {
       //API getTopic
@@ -107,7 +108,7 @@ class StudyStepper extends HookConsumerWidget {
       if (activeStep.value == 0) {
         return [
           ElevatedButton(
-            onPressed: handleNext,
+            onPressed: isStartJapanese.value ? handleNext : null,
             child: const Text('次へ進む'),
             style: ElevatedButton.styleFrom(
               // Foreground color
@@ -191,6 +192,7 @@ class StudyStepper extends HookConsumerWidget {
               alignment: Alignment.centerLeft,
               child: WriteJapanese(
                 errorMessage: errorMessage.value,
+                isStart: isStartJapanese,
               )),
         ),
         Step(
@@ -198,6 +200,7 @@ class StudyStepper extends HookConsumerWidget {
           subtitle: const Text('英語'),
           isActive: activeStep.value == 1,
           content: WriteEnglish(
+            isStart: isStartEnglish.value,
             errorMessage: errorMessage.value,
             textEditingController: englishTextController,
           ),

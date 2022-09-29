@@ -48,6 +48,8 @@ class TodayStudyStepper extends HookConsumerWidget {
     var todayResultIdNotifier = ref.watch(TodayResultIdProvider.notifier);
     var todayTopic = ref.watch(todayTopicProvider);
     final englishTextController = useTextEditingController();
+    var isStartJapanese = useState(false);
+    var isStartEnglish = useState(false);
 
     void handleNext(Function? submitTodayPublicAnswer) async {
       EasyLoading.show(status: 'loading...');
@@ -80,6 +82,7 @@ class TodayStudyStepper extends HookConsumerWidget {
 
         activeStep.value = 2;
         EasyLoading.dismiss();
+        isStartEnglish.value = true;
       } else if (activeStep.value == 2) {
         if (studyState.english.isEmpty) {
           EasyLoading.dismiss();
@@ -201,7 +204,7 @@ class TodayStudyStepper extends HookConsumerWidget {
             child: const Text('名前入力に戻る'),
           ),
           ElevatedButton(
-            onPressed: () => handleNext(null),
+            onPressed: isStartJapanese.value ? () => handleNext(null) : null,
             child: const Text('次へ進む'),
             style: ElevatedButton.styleFrom(
               // Foreground color
@@ -259,6 +262,7 @@ class TodayStudyStepper extends HookConsumerWidget {
           content: Container(
               alignment: Alignment.centerLeft,
               child: WriteJapanese(
+                isStart: isStartJapanese,
                 errorMessage: errorMessage.value,
               )),
         ),
@@ -269,6 +273,7 @@ class TodayStudyStepper extends HookConsumerWidget {
           content: WriteEnglish(
             errorMessage: errorMessage.value,
             textEditingController: englishTextController,
+            isStart: isStartEnglish.value,
           ),
         ),
       ],

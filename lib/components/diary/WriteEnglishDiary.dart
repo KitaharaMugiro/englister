@@ -1,20 +1,25 @@
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
+import 'package:englister/components/study/main/MyCountDownTimer.dart';
 import 'package:englister/components/study/main/PickModeInput.dart';
 import 'package:englister/components/study/main/SpeachEnglish.dart';
 import 'package:englister/models/riverpod/StudyModeRiverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../models/riverpod/DiaryModeRiverpod.dart';
 import '../../models/riverpod/StudyRiverpod.dart';
 
 class WriteEnglishDiary extends HookConsumerWidget {
-  WriteEnglishDiary(
-      {Key? key, this.errorMessage, required this.textEditingController})
-      : super(key: key);
   String? errorMessage;
   final TextEditingController textEditingController;
+  bool isStart;
+
+  WriteEnglishDiary(
+      {Key? key,
+      this.errorMessage,
+      required this.textEditingController,
+      required this.isStart})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,10 +32,9 @@ class WriteEnglishDiary extends HookConsumerWidget {
 
     // 英語用日記への切り替えのためのステート
     var jpOrEnState = ref.watch(diaryModeProvider);
-    var jpOrEnNotifier = ref.watch(diaryModeProvider.notifier);
 
     var widgetsByMode = <Widget>[];
-    var decorationText;
+    String decorationText;
     var inputIcons = <Widget>[
       IconButton(
           iconSize: 45,
@@ -82,42 +86,9 @@ class WriteEnglishDiary extends HookConsumerWidget {
         decorationText = '英語で日記を書いてください。';
 
         widgetsByMode = <Widget>[
-          Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Expanded(
-              child: Container(
-                child: Text("英語で日記を書く",
-                    style: Typography.dense2018.headline5
-                        ?.apply(fontWeightDelta: 10)),
-              ),
-            ),
-            Container(
-              child: ToggleSwitch(
-                minWidth: 36.0,
-                minHeight: 20.0,
-                initialLabelIndex: jpOrEnState.index,
-                cornerRadius: 20.0,
-                activeFgColor: Colors.white,
-                inactiveBgColor: Colors.grey,
-                inactiveFgColor: Colors.white,
-                totalSwitches: 2,
-                labels: ["日", "英"],
-                activeBgColors: [
-                  [Colors.black45, Colors.black26],
-                  [Colors.black45, Colors.black26]
-                ],
-                onToggle: (index) {
-                  //初期化
-                  studyNotifier.set(studyState.copyWith(
-                      english: "",
-                      japanese: "",
-                      translation: "",
-                      needRetry: false));
-                  this.textEditingController.text = "";
-                  jpOrEnNotifier.set(DiaryMode.Japanese);
-                },
-              ),
-            )
-          ]),
+          Text("英語で日記を書く",
+              style:
+                  Typography.dense2018.headline5?.apply(fontWeightDelta: 10)),
           const SizedBox(
             height: 5,
           ),
@@ -197,6 +168,14 @@ class WriteEnglishDiary extends HookConsumerWidget {
 
     var mainWidgets = <Widget>[
       renderInputView(),
+      const SizedBox(
+        height: 15,
+      ),
+      isStart
+          ? const MyCountdownTimer(
+              seconds: 120,
+            )
+          : Text("残り 02:00:00", style: Typography.dense2018.bodyText2),
       const SizedBox(
         height: 15,
       ),
