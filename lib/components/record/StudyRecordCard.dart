@@ -25,15 +25,16 @@ class StudyRecordCard extends StatelessWidget {
         padding: const EdgeInsets.all(0),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text(questionText,
+          SelectableText(questionText,
               style: Typography.dense2018.subtitle1?.apply(fontWeightDelta: 3)),
-          Text(questionDescription, style: Typography.dense2018.subtitle2),
+          SelectableText(questionDescription,
+              style: Typography.dense2018.subtitle2),
           Container(
               margin: const EdgeInsets.only(top: 15, bottom: 15),
               color: Colors.grey[300],
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: Text(firstEnglish,
+                child: SelectableText(firstEnglish,
                     style: Typography.englishLike2018.bodyText1!
                         .apply(color: Colors.black)),
               )),
@@ -44,7 +45,7 @@ class StudyRecordCard extends StatelessWidget {
               color: Colors.green[100],
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: Text(translation,
+                child: SelectableText(translation,
                     style: Typography.englishLike2018.bodyText1!
                         .apply(color: Colors.black)),
               )),
