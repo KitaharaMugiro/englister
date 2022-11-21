@@ -5,6 +5,7 @@ class StudyRecordCard extends StatelessWidget {
   String firstEnglish = "";
   String translation = "";
   String questionDescription = "";
+  String japanese = "";
 
   StudyRecordCard({
     Key? key,
@@ -12,11 +13,13 @@ class StudyRecordCard extends StatelessWidget {
     String? firstEnglish,
     String? translation,
     String? questionDescription,
+    String? japanese,
   }) : super(key: key) {
     this.questionText = questionText ?? "";
     this.firstEnglish = firstEnglish ?? "";
     this.translation = translation ?? "";
     this.questionDescription = questionDescription ?? "";
+    this.japanese = japanese ?? "";
   }
 
   @override
@@ -27,8 +30,10 @@ class StudyRecordCard extends StatelessWidget {
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           SelectableText(questionText,
               style: Typography.dense2018.subtitle1?.apply(fontWeightDelta: 3)),
-          SelectableText(questionDescription,
-              style: Typography.dense2018.subtitle2),
+          const SizedBox(
+            height: 10,
+          ),
+          SelectableText(japanese, style: Typography.dense2018.subtitle2),
           Container(
               margin: const EdgeInsets.only(top: 15, bottom: 15),
               color: Colors.grey[300],

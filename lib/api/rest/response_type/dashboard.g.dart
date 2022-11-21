@@ -15,6 +15,7 @@ Dashboard _$DashboardFromJson(Map<String, dynamic> json) => Dashboard(
       firstEnglish: json['firstEnglish'] as String?,
       translation: json['translation'] as String?,
       isOpen: json['isOpen'] as bool?,
+      japanese: json['japanese'] as String?,
     );
 
 Map<String, dynamic> _$DashboardToJson(Dashboard instance) => <String, dynamic>{
@@ -26,4 +27,5 @@ Map<String, dynamic> _$DashboardToJson(Dashboard instance) => <String, dynamic>{
       'firstEnglish': instance.firstEnglish,
       'translation': instance.translation,
       'isOpen': instance.isOpen,
+      'japanese': instance.japanese,
     };

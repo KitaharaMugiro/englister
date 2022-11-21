@@ -12,6 +12,7 @@ class Dashboard {
   String? firstEnglish;
   String? translation;
   bool? isOpen;
+  String? japanese;
 
   Dashboard(
       {this.studySessionId,
@@ -21,7 +22,8 @@ class Dashboard {
       this.topicId,
       this.firstEnglish,
       this.translation,
-      this.isOpen});
+      this.isOpen,
+      this.japanese});
 
   factory Dashboard.fromJson(Map<String, dynamic> json) =>
       _$DashboardFromJson(json);
